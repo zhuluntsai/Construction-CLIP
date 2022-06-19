@@ -1,0 +1,689 @@
+{
+  "type": "captions",
+  "annotations": [
+    {
+      "id": 0,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/CIMG0047.JPG",
+      "objects": ""
+    },
+    {
+      "id": 1,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/CIMG0845.JPG",
+      "objects": ""
+    },
+    {
+      "id": 2,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/CIMG0846.JPG",
+      "objects": ""
+    },
+    {
+      "id": 3,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/CIMG0849.JPG",
+      "objects": ""
+    },
+    {
+      "id": 4,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/CIMG0851.JPG",
+      "objects": ""
+    },
+    {
+      "id": 5,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/CIMG0852.JPG",
+      "objects": ""
+    },
+    {
+      "id": 6,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/CIMG0853.JPG",
+      "objects": ""
+    },
+    {
+      "id": 7,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/CIMG0857.JPG",
+      "objects": ""
+    },
+    {
+      "id": 8,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/CIMG0858.JPG",
+      "objects": ""
+    },
+    {
+      "id": 9,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/CIMG0859.JPG",
+      "objects": ""
+    },
+    {
+      "id": 10,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/CIMG2105.JPG",
+      "objects": ""
+    },
+    {
+      "id": 11,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/CIMG2243.JPG",
+      "objects": ""
+    },
+    {
+      "id": 12,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/CIMG2426.JPG",
+      "objects": ""
+    },
+    {
+      "id": 13,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/CIMG2428.JPG",
+      "objects": ""
+    },
+    {
+      "id": 14,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/CIMG2441.JPG",
+      "objects": ""
+    },
+    {
+      "id": 15,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/CIMG2447.JPG",
+      "objects": ""
+    },
+    {
+      "id": 16,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/CIMG2448.JPG",
+      "objects": ""
+    },
+    {
+      "id": 17,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/DSC02439.JPG",
+      "objects": ""
+    },
+    {
+      "id": 18,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/DSC02502.JPG",
+      "objects": ""
+    },
+    {
+      "id": 19,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/DSCN0789.JPG",
+      "objects": ""
+    },
+    {
+      "id": 20,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/DSCN0795.JPG",
+      "objects": ""
+    },
+    {
+      "id": 21,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/DSCN0799.JPG",
+      "objects": ""
+    },
+    {
+      "id": 22,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/IMAG0091.jpg",
+      "objects": ""
+    },
+    {
+      "id": 23,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/IMAG0095.jpg",
+      "objects": ""
+    },
+    {
+      "id": 24,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/IMAG0097.jpg",
+      "objects": ""
+    },
+    {
+      "id": 25,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/IMGP0232.JPG",
+      "objects": ""
+    },
+    {
+      "id": 26,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/IMGP0233.JPG",
+      "objects": ""
+    },
+    {
+      "id": 27,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/IMGP0573.JPG",
+      "objects": ""
+    },
+    {
+      "id": 28,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/IMGP0591.JPG",
+      "objects": ""
+    },
+    {
+      "id": 29,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/IMGP0592.JPG",
+      "objects": ""
+    },
+    {
+      "id": 30,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/IMGP1161.JPG",
+      "objects": ""
+    },
+    {
+      "id": 31,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/IMGP1445.JPG",
+      "objects": ""
+    },
+    {
+      "id": 32,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/IMGP1452.JPG",
+      "objects": ""
+    },
+    {
+      "id": 33,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/IMG_5194.JPG",
+      "objects": ""
+    },
+    {
+      "id": 34,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/P1040391.JPG",
+      "objects": ""
+    },
+    {
+      "id": 35,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/中二路01.jpg",
+      "objects": ""
+    },
+    {
+      "id": 36,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/中二路02.jpg",
+      "objects": ""
+    },
+    {
+      "id": 37,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/中二路05.jpg",
+      "objects": ""
+    },
+    {
+      "id": 38,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/中二路07.jpg",
+      "objects": ""
+    },
+    {
+      "id": 39,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/中二路08.jpg",
+      "objects": ""
+    },
+    {
+      "id": 40,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/中管02.jpg",
+      "objects": ""
+    },
+    {
+      "id": 41,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/中管05.jpg",
+      "objects": ""
+    },
+    {
+      "id": 42,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/先進02.jpg",
+      "objects": ""
+    },
+    {
+      "id": 43,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/先進03.jpg",
+      "objects": ""
+    },
+    {
+      "id": 44,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/先進04.jpg",
+      "objects": ""
+    },
+    {
+      "id": 45,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/台糖01.jpg",
+      "objects": ""
+    },
+    {
+      "id": 46,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/台糖02.jpg",
+      "objects": ""
+    },
+    {
+      "id": 47,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/台糖03.jpg",
+      "objects": ""
+    },
+    {
+      "id": 48,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/台糖04.jpg",
+      "objects": ""
+    },
+    {
+      "id": 49,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/台糖05.jpg",
+      "objects": ""
+    },
+    {
+      "id": 50,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/台糖06.jpg",
+      "objects": ""
+    },
+    {
+      "id": 51,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/司法03.jpg",
+      "objects": ""
+    },
+    {
+      "id": 52,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/司法04.jpg",
+      "objects": ""
+    },
+    {
+      "id": 53,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/大同02.jpg",
+      "objects": ""
+    },
+    {
+      "id": 54,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/大同03.jpg",
+      "objects": ""
+    },
+    {
+      "id": 55,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/大同04.jpg",
+      "objects": ""
+    },
+    {
+      "id": 56,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/崁下01.jpg",
+      "objects": ""
+    },
+    {
+      "id": 57,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/崁下02.jpg",
+      "objects": ""
+    },
+    {
+      "id": 58,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/崁下03.jpg",
+      "objects": ""
+    },
+    {
+      "id": 59,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/崁下04.jpg",
+      "objects": ""
+    },
+    {
+      "id": 60,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/崁下05.jpg",
+      "objects": ""
+    },
+    {
+      "id": 61,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/崁下06.jpg",
+      "objects": ""
+    },
+    {
+      "id": 62,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/斗六01.jpg",
+      "objects": ""
+    },
+    {
+      "id": 63,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/斗六02.jpg",
+      "objects": ""
+    },
+    {
+      "id": 64,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/斗六03.jpg",
+      "objects": ""
+    },
+    {
+      "id": 65,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/斗六05.jpg",
+      "objects": ""
+    },
+    {
+      "id": 66,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/新莊中原A案工地照片110215-3.jpg",
+      "objects": ""
+    },
+    {
+      "id": 67,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/楠高01.jpg",
+      "objects": ""
+    },
+    {
+      "id": 68,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/楠高02.jpg",
+      "objects": ""
+    },
+    {
+      "id": 69,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/楠高03.jpg",
+      "objects": ""
+    },
+    {
+      "id": 70,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/楠高04.jpg",
+      "objects": ""
+    },
+    {
+      "id": 71,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/楠高05.jpg",
+      "objects": ""
+    },
+    {
+      "id": 72,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/精忠02.jpg",
+      "objects": ""
+    },
+    {
+      "id": 73,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/精忠06.jpg",
+      "objects": ""
+    },
+    {
+      "id": 74,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/萬華01.jpg",
+      "objects": ""
+    },
+    {
+      "id": 75,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "",
+      "file_name": "其他/高鐵02.jpg",
+      "objects": ""
+    }
+  ]
+}

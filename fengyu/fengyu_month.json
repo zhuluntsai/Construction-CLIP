@@ -1,0 +1,1895 @@
+{
+  "type": "captions",
+  "annotations": [
+    {
+      "id": 0,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "土石圈圍",
+      "file_name": "fengyu/2021年11月照片/土石圈圍.JPG",
+      "objects": ""
+    },
+    {
+      "id": 1,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "工作區域不可停放非相關車輛",
+      "file_name": "fengyu/2021年11月照片/工作區域不可停放非相關車輛.JPG",
+      "objects": ""
+    },
+    {
+      "id": 2,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "工區內不可以有酒精性飲料",
+      "file_name": "fengyu/2021年11月照片/工區內不可以有酒精性飲料.jpg",
+      "objects": ""
+    },
+    {
+      "id": 3,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "懸吊式施工架未確實固定-1",
+      "file_name": "fengyu/2021年11月照片/懸吊式施工架未確實固定-1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 4,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架水平橫桿被拆除",
+      "file_name": "fengyu/2021年11月照片/施工架水平橫桿被拆除.jpg",
+      "objects": ""
+    },
+    {
+      "id": 5,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架與結構體間防墜網被拆除",
+      "file_name": "fengyu/2021年11月照片/施工架與結構體間防墜網被拆除.jpg",
+      "objects": ""
+    },
+    {
+      "id": 6,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架間距過大要有防墜網-1",
+      "file_name": "fengyu/2021年11月照片/施工架間距過大要有防墜網-1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 7,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架間距過大要有防墜網",
+      "file_name": "fengyu/2021年11月照片/施工架間距過大要有防墜網.jpg",
+      "objects": ""
+    },
+    {
+      "id": 8,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "未戴安全帽",
+      "file_name": "fengyu/2021年11月照片/未戴安全帽.jpg",
+      "objects": ""
+    },
+    {
+      "id": 9,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "樓梯無扶手-3",
+      "file_name": "fengyu/2021年11月照片/樓梯無扶手-3.jpg",
+      "objects": ""
+    },
+    {
+      "id": 10,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "氧氣乙炔之盛裝容器和空容器應分區放置",
+      "file_name": "fengyu/2021年11月照片/氧氣乙炔之盛裝容器和空容器應分區放置.JPG",
+      "objects": ""
+    },
+    {
+      "id": 11,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "無扶手欄杆",
+      "file_name": "fengyu/2021年11月照片/無扶手欄杆.jpg",
+      "objects": ""
+    },
+    {
+      "id": 12,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "物料不可以倚靠在施工架支撐-1",
+      "file_name": "fengyu/2021年11月照片/物料不可以倚靠在施工架支撐-1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 13,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "環境凌亂-00",
+      "file_name": "fengyu/2021年11月照片/環境凌亂-00.jpg",
+      "objects": ""
+    },
+    {
+      "id": 14,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "環境凌亂-1",
+      "file_name": "fengyu/2021年11月照片/環境凌亂-1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 15,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "環境凌亂",
+      "file_name": "fengyu/2021年11月照片/環境凌亂.jpg",
+      "objects": ""
+    },
+    {
+      "id": 16,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "環境凌亂沒有防墜網",
+      "file_name": "fengyu/2021年11月照片/環境凌亂沒有防墜網.jpg",
+      "objects": ""
+    },
+    {
+      "id": 17,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "第一層施工架水平拉桿應復原",
+      "file_name": "fengyu/2021年11月照片/第一層施工架水平拉桿應復原.jpg",
+      "objects": ""
+    },
+    {
+      "id": 18,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "第四階土方降挖後應安裝上下設備至開挖面，供營建系車輛機具人員上下之使用",
+      "file_name": "fengyu/2021年11月照片/第四階土方降挖後應安裝上下設備至開挖面，供營建系車輛機具人員上下之使用.JPG",
+      "objects": ""
+    },
+    {
+      "id": 19,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "鋼瓶應有遮陽裝置",
+      "file_name": "fengyu/2021年11月照片/鋼瓶應有遮陽裝置.jpg",
+      "objects": ""
+    },
+    {
+      "id": 20,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "鋼筋沒有防穿刺",
+      "file_name": "fengyu/2021年11月照片/鋼筋沒有防穿刺.jpg",
+      "objects": ""
+    },
+    {
+      "id": 21,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "鋼筋無防穿刺無扶手欄杆",
+      "file_name": "fengyu/2021年11月照片/鋼筋無防穿刺無扶手欄杆.jpg",
+      "objects": ""
+    },
+    {
+      "id": 22,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "開口圈圍管制",
+      "file_name": "fengyu/2021年11月照片/開口圈圍管制.JPG",
+      "objects": ""
+    },
+    {
+      "id": 23,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "開口欄杆處不可以堆放物料",
+      "file_name": "fengyu/2021年11月照片/開口欄杆處不可以堆放物料.jpg",
+      "objects": ""
+    },
+    {
+      "id": 24,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "防墜網垂度不可過大-2",
+      "file_name": "fengyu/2021年11月照片/防墜網垂度不可過大-2.JPG",
+      "objects": ""
+    },
+    {
+      "id": 25,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "防墜網垂度不可過大",
+      "file_name": "fengyu/2021年11月照片/防墜網垂度不可過大.JPG",
+      "objects": ""
+    },
+    {
+      "id": 26,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "防墜網被拆除",
+      "file_name": "fengyu/2021年11月照片/防墜網被拆除.jpg",
+      "objects": ""
+    },
+    {
+      "id": 27,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "電線應架高-1",
+      "file_name": "fengyu/2021年11月照片/電線應架高-1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 28,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "非泥作施作處防墜網不可拆除-1",
+      "file_name": "fengyu/2021年11月照片/非泥作施作處防墜網不可拆除-1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 29,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "非泥作施作處防墜網不可拆除",
+      "file_name": "fengyu/2021年11月照片/非泥作施作處防墜網不可拆除.jpg",
+      "objects": ""
+    },
+    {
+      "id": 30,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "A字梯超過2m",
+      "file_name": "fengyu/2021年12月照片/A字梯超過2m.jpg",
+      "objects": ""
+    },
+    {
+      "id": 31,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "單點吊料",
+      "file_name": "fengyu/2021年12月照片/單點吊料.jpg",
+      "objects": ""
+    },
+    {
+      "id": 32,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "太空包垃圾應清運不可放置開口2M處內",
+      "file_name": "fengyu/2021年12月照片/太空包垃圾應清運不可放置開口2M處內.jpg",
+      "objects": ""
+    },
+    {
+      "id": 33,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "太空包應清除",
+      "file_name": "fengyu/2021年12月照片/太空包應清除.jpg",
+      "objects": ""
+    },
+    {
+      "id": 34,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "安全帽頤帶未扣-1",
+      "file_name": "fengyu/2021年12月照片/安全帽頤帶未扣-1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 35,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "安全帽頤帶未扣-2",
+      "file_name": "fengyu/2021年12月照片/安全帽頤帶未扣-2.jpg",
+      "objects": ""
+    },
+    {
+      "id": 36,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "工區積水-4",
+      "file_name": "fengyu/2021年12月照片/工區積水-4.jpg",
+      "objects": ""
+    },
+    {
+      "id": 37,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "工區積水",
+      "file_name": "fengyu/2021年12月照片/工區積水.JPG",
+      "objects": ""
+    },
+    {
+      "id": 38,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "工區積水物料未清運",
+      "file_name": "fengyu/2021年12月照片/工區積水物料未清運.jpg",
+      "objects": ""
+    },
+    {
+      "id": 39,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "工區雜亂物料用畢應清除",
+      "file_name": "fengyu/2021年12月照片/工區雜亂物料用畢應清除.jpg",
+      "objects": ""
+    },
+    {
+      "id": 40,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "工區髒亂",
+      "file_name": "fengyu/2021年12月照片/工區髒亂.jpg",
+      "objects": ""
+    },
+    {
+      "id": 41,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "應安裝上下設備至開挖面",
+      "file_name": "fengyu/2021年12月照片/應安裝上下設備至開挖面.JPG",
+      "objects": ""
+    },
+    {
+      "id": 42,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "應有遮陽措施",
+      "file_name": "fengyu/2021年12月照片/應有遮陽措施.jpg",
+      "objects": ""
+    },
+    {
+      "id": 43,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架上不可放置物品",
+      "file_name": "fengyu/2021年12月照片/施工架上不可放置物品.jpg",
+      "objects": ""
+    },
+    {
+      "id": 44,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架下方交叉拉桿及水平橫桿被拆除",
+      "file_name": "fengyu/2021年12月照片/施工架下方交叉拉桿及水平橫桿被拆除.jpg",
+      "objects": ""
+    },
+    {
+      "id": 45,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架下方水平橫桿被拆除",
+      "file_name": "fengyu/2021年12月照片/施工架下方水平橫桿被拆除.jpg",
+      "objects": ""
+    },
+    {
+      "id": 46,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架走道末端開口未予封閉",
+      "file_name": "fengyu/2021年12月照片/施工架走道末端開口未予封閉.png",
+      "objects": ""
+    },
+    {
+      "id": 47,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "未設置護欄等防墜措施",
+      "file_name": "fengyu/2021年12月照片/未設置護欄等防墜措施.JPG",
+      "objects": ""
+    },
+    {
+      "id": 48,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "滅火器未填寫效期",
+      "file_name": "fengyu/2021年12月照片/滅火器未填寫效期.jpg",
+      "objects": ""
+    },
+    {
+      "id": 49,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "物料堆置應距離開口範圍兩米-1",
+      "file_name": "fengyu/2021年12月照片/物料堆置應距離開口範圍兩米-1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 50,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "物料應整堆放並距離地面5至10公分墊高",
+      "file_name": "fengyu/2021年12月照片/物料應整堆放並距離地面5至10公分墊高.jpg",
+      "objects": ""
+    },
+    {
+      "id": 51,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "菸蒂過多應設置菸灰缸",
+      "file_name": "fengyu/2021年12月照片/菸蒂過多應設置菸灰缸.png",
+      "objects": ""
+    },
+    {
+      "id": 52,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "部分未設置安全母索",
+      "file_name": "fengyu/2021年12月照片/部分未設置安全母索.JPG",
+      "objects": ""
+    },
+    {
+      "id": 53,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "鋼瓶不可隨意放置",
+      "file_name": "fengyu/2021年12月照片/鋼瓶不可隨意放置.jpg",
+      "objects": ""
+    },
+    {
+      "id": 54,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "開口周邊垃圾應清運",
+      "file_name": "fengyu/2021年12月照片/開口周邊垃圾應清運.jpg",
+      "objects": ""
+    },
+    {
+      "id": 55,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "防墜網垂度應小於150cm",
+      "file_name": "fengyu/2021年12月照片/防墜網垂度應小於150cm.jpg",
+      "objects": ""
+    },
+    {
+      "id": 56,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "防墜網垂度過大",
+      "file_name": "fengyu/2021年12月照片/防墜網垂度過大.png",
+      "objects": ""
+    },
+    {
+      "id": 57,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "雜物不可倚靠施工架",
+      "file_name": "fengyu/2021年12月照片/雜物不可倚靠施工架.jpg",
+      "objects": ""
+    },
+    {
+      "id": 58,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "雜物應清除",
+      "file_name": "fengyu/2021年12月照片/雜物應清除.png",
+      "objects": ""
+    },
+    {
+      "id": 59,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "電線應架高",
+      "file_name": "fengyu/2021年12月照片/電線應架高.jpg",
+      "objects": ""
+    },
+    {
+      "id": 60,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "不合格合梯-02",
+      "file_name": "fengyu/2022年01月照片/不合格合梯-02.jpg",
+      "objects": ""
+    },
+    {
+      "id": 61,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "不合格合梯",
+      "file_name": "fengyu/2022年01月照片/不合格合梯.jpg",
+      "objects": ""
+    },
+    {
+      "id": 62,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "安全母索繫固之錨錠至少應能承受每人二千三百公斤之拉力雖有設安全母索但錨錠點繫固強度不足使得安全母索產生垂墜處於無作用之狀態-03",
+      "file_name": "fengyu/2022年01月照片/安全母索繫固之錨錠至少應能承受每人二千三百公斤之拉力雖有設安全母索但錨錠點繫固強度不足使得安全母索產生垂墜處於無作用之狀態-03.JPG",
+      "objects": ""
+    },
+    {
+      "id": 63,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "安全通道內有雜物-01",
+      "file_name": "fengyu/2022年01月照片/安全通道內有雜物-01.jpg",
+      "objects": ""
+    },
+    {
+      "id": 64,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架上作業沒有護欄-01",
+      "file_name": "fengyu/2022年01月照片/施工架上作業沒有護欄-01.jpg",
+      "objects": ""
+    },
+    {
+      "id": 65,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架在搭設或拆除時仍應維持在垂直方向以不超過五點五公尺水平方向以不超過七點五公尺為限應使用萬向接頭繫固禁止以鐵線材紮綁-01",
+      "file_name": "fengyu/2022年01月照片/施工架在搭設或拆除時仍應維持在垂直方向以不超過五點五公尺水平方向以不超過七點五公尺為限應使用萬向接頭繫固禁止以鐵線材紮綁-01.JPG",
+      "objects": ""
+    },
+    {
+      "id": 66,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架在搭設或拆除時仍應維持在垂直方向以不超過五點五公尺水平方向以不超過七點五公尺為限應使用萬向接頭繫固禁止以鐵線材紮綁-02",
+      "file_name": "fengyu/2022年01月照片/施工架在搭設或拆除時仍應維持在垂直方向以不超過五點五公尺水平方向以不超過七點五公尺為限應使用萬向接頭繫固禁止以鐵線材紮綁-02.JPG",
+      "objects": ""
+    },
+    {
+      "id": 67,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "模板亂扔開口未覆蓋-01",
+      "file_name": "fengyu/2022年01月照片/模板亂扔開口未覆蓋-01.jpg",
+      "objects": ""
+    },
+    {
+      "id": 68,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "無上下設備-03",
+      "file_name": "fengyu/2022年01月照片/無上下設備-03.jpg",
+      "objects": ""
+    },
+    {
+      "id": 69,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "照明燈具應全面開啟-01",
+      "file_name": "fengyu/2022年01月照片/照明燈具應全面開啟-01.JPG",
+      "objects": ""
+    },
+    {
+      "id": 70,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "營建廢棄物應運離工地-01",
+      "file_name": "fengyu/2022年01月照片/營建廢棄物應運離工地-01.jpg",
+      "objects": ""
+    },
+    {
+      "id": 71,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "物料堆置安全通道影響動線-01",
+      "file_name": "fengyu/2022年01月照片/物料堆置安全通道影響動線-01.jpg",
+      "objects": ""
+    },
+    {
+      "id": 72,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "物料無規劃-01",
+      "file_name": "fengyu/2022年01月照片/物料無規劃-01.JPG",
+      "objects": ""
+    },
+    {
+      "id": 73,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "端子搭線未確實造成移位變成裸線搭接應督導機電承商預留110V-220V插座及箱體上鎖機制並督導其加強自主檢查及作業前檢點-01",
+      "file_name": "fengyu/2022年01月照片/端子搭線未確實造成移位變成裸線搭接應督導機電承商預留110V-220V插座及箱體上鎖機制並督導其加強自主檢查及作業前檢點-01.JPG",
+      "objects": ""
+    },
+    {
+      "id": 74,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "管道間開口-02",
+      "file_name": "fengyu/2022年01月照片/管道間開口-02.jpg",
+      "objects": ""
+    },
+    {
+      "id": 75,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "維持施工架之穩定基礎地面應平整且夯實緊密並襯以適當材質之墊材以防止滑動或不均勻沈陷營造設施45-01",
+      "file_name": "fengyu/2022年01月照片/維持施工架之穩定基礎地面應平整且夯實緊密並襯以適當材質之墊材以防止滑動或不均勻沈陷營造設施45-01.JPG",
+      "objects": ""
+    },
+    {
+      "id": 76,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "維持施工架之穩定基礎地面應平整且夯實緊密並襯以適當材質之墊材以防止滑動或不均勻沈陷營造設施45-02",
+      "file_name": "fengyu/2022年01月照片/維持施工架之穩定基礎地面應平整且夯實緊密並襯以適當材質之墊材以防止滑動或不均勻沈陷營造設施45-02.JPG",
+      "objects": ""
+    },
+    {
+      "id": 77,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "維持施工架之穩定基礎地面應平整且夯實緊密並襯以適當材質之墊材以防止滑動或不均勻沈陷營造設施45-03",
+      "file_name": "fengyu/2022年01月照片/維持施工架之穩定基礎地面應平整且夯實緊密並襯以適當材質之墊材以防止滑動或不均勻沈陷營造設施45-03.JPG",
+      "objects": ""
+    },
+    {
+      "id": 78,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "護欄不可隨意放置-01",
+      "file_name": "fengyu/2022年01月照片/護欄不可隨意放置-01.JPG",
+      "objects": ""
+    },
+    {
+      "id": 79,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "避免漏電而發生感電危害應依下列狀況於各該電動機具設備之連接電路上設置適合其規格具有高敏感度高速型能確實動作之防止感電用漏電斷路器-01",
+      "file_name": "fengyu/2022年01月照片/避免漏電而發生感電危害應依下列狀況於各該電動機具設備之連接電路上設置適合其規格具有高敏感度高速型能確實動作之防止感電用漏電斷路器-01.JPG",
+      "objects": ""
+    },
+    {
+      "id": 80,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "部分臨時配電盤未張貼用電管理之管理人負責人聯絡方式等資訊-02",
+      "file_name": "fengyu/2022年01月照片/部分臨時配電盤未張貼用電管理之管理人負責人聯絡方式等資訊-02.JPG",
+      "objects": ""
+    },
+    {
+      "id": 81,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "部分臨時配電盤未張貼用電管理之管理人負責人聯絡方式等資訊-06",
+      "file_name": "fengyu/2022年01月照片/部分臨時配電盤未張貼用電管理之管理人負責人聯絡方式等資訊-06.JPG",
+      "objects": ""
+    },
+    {
+      "id": 82,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "鋼瓶應有遮陽裝置-01",
+      "file_name": "fengyu/2022年01月照片/鋼瓶應有遮陽裝置-01.JPG",
+      "objects": ""
+    },
+    {
+      "id": 83,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "鋼筋無彎折及鋼筋保護套",
+      "file_name": "fengyu/2022年01月照片/鋼筋無彎折及鋼筋保護套.JPG",
+      "objects": ""
+    },
+    {
+      "id": 84,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "開口未覆蓋-01",
+      "file_name": "fengyu/2022年01月照片/開口未覆蓋-01.jpg",
+      "objects": ""
+    },
+    {
+      "id": 85,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "開口無警告標語-01",
+      "file_name": "fengyu/2022年01月照片/開口無警告標語-01.jpg",
+      "objects": ""
+    },
+    {
+      "id": 86,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "開口處應有護欄-02",
+      "file_name": "fengyu/2022年01月照片/開口處應有護欄-02.JPG",
+      "objects": ""
+    },
+    {
+      "id": 87,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "開口處無覆蓋-01",
+      "file_name": "fengyu/2022年01月照片/開口處無覆蓋-01.jpg",
+      "objects": ""
+    },
+    {
+      "id": 88,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "開口處無護欄-03",
+      "file_name": "fengyu/2022年01月照片/開口處無護欄-03.jpg",
+      "objects": ""
+    },
+    {
+      "id": 89,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "開口部分勞工有遭受墜落危險之虞者應設有適當強度之護欄護蓋安全網等防護設備-03",
+      "file_name": "fengyu/2022年01月照片/開口部分勞工有遭受墜落危險之虞者應設有適當強度之護欄護蓋安全網等防護設備-03.JPG",
+      "objects": ""
+    },
+    {
+      "id": 90,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "不合格合梯",
+      "file_name": "fengyu/2022年02月照片/不合格合梯.jpg",
+      "objects": ""
+    },
+    {
+      "id": 91,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "作業人員未依規定將安全帽頤帶紮緊",
+      "file_name": "fengyu/2022年02月照片/作業人員未依規定將安全帽頤帶紮緊.jpg",
+      "objects": ""
+    },
+    {
+      "id": 92,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "作業路徑應改善",
+      "file_name": "fengyu/2022年02月照片/作業路徑應改善.jpg",
+      "objects": ""
+    },
+    {
+      "id": 93,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "使用不安全的鐵管梯",
+      "file_name": "fengyu/2022年02月照片/使用不安全的鐵管梯.jpg",
+      "objects": ""
+    },
+    {
+      "id": 94,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "單鋼管支撐作為吊料平台的撐座應加水平繫條",
+      "file_name": "fengyu/2022年02月照片/單鋼管支撐作為吊料平台的撐座應加水平繫條.jpg",
+      "objects": ""
+    },
+    {
+      "id": 95,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "安全帽頤帶未紮緊",
+      "file_name": "fengyu/2022年02月照片/安全帽頤帶未紮緊.jpg",
+      "objects": ""
+    },
+    {
+      "id": 96,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "安全梯轉折平台安全護欄未安裝",
+      "file_name": "fengyu/2022年02月照片/安全梯轉折平台安全護欄未安裝.jpg",
+      "objects": ""
+    },
+    {
+      "id": 97,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "室內樓地版積水應引流排放乾淨",
+      "file_name": "fengyu/2022年02月照片/室內樓地版積水應引流排放乾淨.jpg",
+      "objects": ""
+    },
+    {
+      "id": 98,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "室內電梯井旁的管道間安全護欄應恢復",
+      "file_name": "fengyu/2022年02月照片/室內電梯井旁的管道間安全護欄應恢復.jpg",
+      "objects": ""
+    },
+    {
+      "id": 99,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "工區內不可有酒精性飲料-1",
+      "file_name": "fengyu/2022年02月照片/工區內不可有酒精性飲料-1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 100,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "工區內不可有酒精性飲料-2",
+      "file_name": "fengyu/2022年02月照片/工區內不可有酒精性飲料-2.jpg",
+      "objects": ""
+    },
+    {
+      "id": 101,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "工區凌亂-1",
+      "file_name": "fengyu/2022年02月照片/工區凌亂-1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 102,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "應設置模板棧道",
+      "file_name": "fengyu/2022年02月照片/應設置模板棧道.jpg",
+      "objects": ""
+    },
+    {
+      "id": 103,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "應配戴背負式安全帶並勾掛",
+      "file_name": "fengyu/2022年02月照片/應配戴背負式安全帶並勾掛.jpg",
+      "objects": ""
+    },
+    {
+      "id": 104,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "手持式圓鋸機無護蓋",
+      "file_name": "fengyu/2022年02月照片/手持式圓鋸機無護蓋.jpg",
+      "objects": ""
+    },
+    {
+      "id": 105,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架上擺放混凝土輸送鋼管",
+      "file_name": "fengyu/2022年02月照片/施工架上擺放混凝土輸送鋼管.jpg",
+      "objects": ""
+    },
+    {
+      "id": 106,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架踏板堆放混凝土輸送鋼管等材料",
+      "file_name": "fengyu/2022年02月照片/施工架踏板堆放混凝土輸送鋼管等材料.jpg",
+      "objects": ""
+    },
+    {
+      "id": 107,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "木梯作業不符合規定",
+      "file_name": "fengyu/2022年02月照片/木梯作業不符合規定.jpg",
+      "objects": ""
+    },
+    {
+      "id": 108,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "未依規定張掛長條防墜網",
+      "file_name": "fengyu/2022年02月照片/未依規定張掛長條防墜網.jpg",
+      "objects": ""
+    },
+    {
+      "id": 109,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "未配戴安全帽",
+      "file_name": "fengyu/2022年02月照片/未配戴安全帽.JPG",
+      "objects": ""
+    },
+    {
+      "id": 110,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "桌面圓鋸機未裝置安全防護罩",
+      "file_name": "fengyu/2022年02月照片/桌面圓鋸機未裝置安全防護罩.jpg",
+      "objects": ""
+    },
+    {
+      "id": 111,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "樓梯通道範圍佈滿殘料",
+      "file_name": "fengyu/2022年02月照片/樓梯通道範圍佈滿殘料.jpg",
+      "objects": ""
+    },
+    {
+      "id": 112,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "氧氣鋼瓶需固結防止傾倒及遠離油料防止暴炸意外發生",
+      "file_name": "fengyu/2022年02月照片/氧氣鋼瓶需固結防止傾倒及遠離油料防止暴炸意外發生.jpg",
+      "objects": ""
+    },
+    {
+      "id": 113,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "筏基孔未設置覆蓋，應圈圍三角錐及連桿警示-1",
+      "file_name": "fengyu/2022年02月照片/筏基孔未設置覆蓋，應圈圍三角錐及連桿警示-1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 114,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "筏基孔未設置覆蓋，應圈圍三角錐及連桿警示-2",
+      "file_name": "fengyu/2022年02月照片/筏基孔未設置覆蓋，應圈圍三角錐及連桿警示-2.jpg",
+      "objects": ""
+    },
+    {
+      "id": 115,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "臨時廁所需定時清理維持衛生清潔",
+      "file_name": "fengyu/2022年02月照片/臨時廁所需定時清理維持衛生清潔.jpg",
+      "objects": ""
+    },
+    {
+      "id": 116,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "鋼筋少部分無護蓋或彎折",
+      "file_name": "fengyu/2022年02月照片/鋼筋少部分無護蓋或彎折.jpg",
+      "objects": ""
+    },
+    {
+      "id": 117,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "鋼筋彎折機起動開關於戶外使用,必需有防水設施以防止感電意外發生",
+      "file_name": "fengyu/2022年02月照片/鋼筋彎折機起動開關於戶外使用,必需有防水設施以防止感電意外發生.jpg",
+      "objects": ""
+    },
+    {
+      "id": 118,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "鋼筋無護蓋或彎折",
+      "file_name": "fengyu/2022年02月照片/鋼筋無護蓋或彎折.jpg",
+      "objects": ""
+    },
+    {
+      "id": 119,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "高空工作車人員均未配戴安全帶",
+      "file_name": "fengyu/2022年02月照片/高空工作車人員均未配戴安全帶.jpg",
+      "objects": ""
+    },
+    {
+      "id": 120,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "反撥預防裝置",
+      "file_name": "fengyu/2022年03月照片/反撥預防裝置.jpg",
+      "objects": ""
+    },
+    {
+      "id": 121,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "吊掛應採雙點吊掛",
+      "file_name": "fengyu/2022年03月照片/吊掛應採雙點吊掛.jpg",
+      "objects": ""
+    },
+    {
+      "id": 122,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "吊鉤未有防滑舌片",
+      "file_name": "fengyu/2022年03月照片/吊鉤未有防滑舌片.jpg",
+      "objects": ""
+    },
+    {
+      "id": 123,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "外牆三角架植化錨下方未有圈圍管制",
+      "file_name": "fengyu/2022年03月照片/外牆三角架植化錨下方未有圈圍管制.jpg",
+      "objects": ""
+    },
+    {
+      "id": 124,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "安全母索繫固之錨錠至少應能承受每人二千三百公斤之拉力繫固強度不足產生母索垂墜",
+      "file_name": "fengyu/2022年03月照片/安全母索繫固之錨錠至少應能承受每人二千三百公斤之拉力繫固強度不足產生母索垂墜.jpg",
+      "objects": ""
+    },
+    {
+      "id": 125,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "安全網垂墜超過1",
+      "file_name": "fengyu/2022年03月照片/安全網垂墜超過1.5公尺網上雜物應清除.jpg",
+      "objects": ""
+    },
+    {
+      "id": 126,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "安全網破口很多垂度太大凌亂還有雜物掛在上面",
+      "file_name": "fengyu/2022年03月照片/安全網破口很多垂度太大凌亂還有雜物掛在上面.jpg",
+      "objects": ""
+    },
+    {
+      "id": 127,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "對地電壓在一百五十伏特以上移動式或攜帶式電動機具應有高敏感度高速型能確實動作之防止感電用漏電斷路器及開關無防水絕緣措施",
+      "file_name": "fengyu/2022年03月照片/對地電壓在一百五十伏特以上移動式或攜帶式電動機具應有高敏感度高速型能確實動作之防止感電用漏電斷路器及開關無防水絕緣措施.jpg",
+      "objects": ""
+    },
+    {
+      "id": 128,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "局部臨時配電盤鎖頭損壞無上鎖管制",
+      "file_name": "fengyu/2022年03月照片/局部臨時配電盤鎖頭損壞無上鎖管制.jpg",
+      "objects": ""
+    },
+    {
+      "id": 129,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "應使勞工確實使用安全帶安全帽及其他必要之防護具",
+      "file_name": "fengyu/2022年03月照片/應使勞工確實使用安全帶安全帽及其他必要之防護具.jpg",
+      "objects": ""
+    },
+    {
+      "id": 130,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "應於主管及分岐管設置安全器使每一吹管有兩個以上之安全器-1",
+      "file_name": "fengyu/2022年03月照片/應於主管及分岐管設置安全器使每一吹管有兩個以上之安全器-1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 131,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "應於適當位置設置有明顯標誌之緊急制動裝置立即遮斷動力並與制動系統連動能於緊急時快速停止機械之運轉",
+      "file_name": "fengyu/2022年03月照片/應於適當位置設置有明顯標誌之緊急制動裝置立即遮斷動力並與制動系統連動能於緊急時快速停止機械之運轉.jpg",
+      "objects": ""
+    },
+    {
+      "id": 132,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "應禁止酒精性飲料",
+      "file_name": "fengyu/2022年03月照片/應禁止酒精性飲料.jpg",
+      "objects": ""
+    },
+    {
+      "id": 133,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "捲揚機安座結構之穩定度需穩固",
+      "file_name": "fengyu/2022年03月照片/捲揚機安座結構之穩定度需穩固.jpg",
+      "objects": ""
+    },
+    {
+      "id": 134,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架組配不全人員有墜落之虞風險",
+      "file_name": "fengyu/2022年03月照片/施工架組配不全人員有墜落之虞風險.jpg",
+      "objects": ""
+    },
+    {
+      "id": 135,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架間繫過大",
+      "file_name": "fengyu/2022年03月照片/施工架間繫過大.jpg",
+      "objects": ""
+    },
+    {
+      "id": 136,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "有人員墜落之虞人員未使用安全帶",
+      "file_name": "fengyu/2022年03月照片/有人員墜落之虞人員未使用安全帶.jpg",
+      "objects": ""
+    },
+    {
+      "id": 137,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "未提供人員之上下設備",
+      "file_name": "fengyu/2022年03月照片/未提供人員之上下設備.jpg",
+      "objects": ""
+    },
+    {
+      "id": 138,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "未裝設鋸齒接觸預防裝置",
+      "file_name": "fengyu/2022年03月照片/未裝設鋸齒接觸預防裝置.jpg",
+      "objects": ""
+    },
+    {
+      "id": 139,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "模板勞工未配掛安全帶",
+      "file_name": "fengyu/2022年03月照片/模板勞工未配掛安全帶.jpg",
+      "objects": ""
+    },
+    {
+      "id": 140,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "無配戴安全帽",
+      "file_name": "fengyu/2022年03月照片/無配戴安全帽.jpg",
+      "objects": ""
+    },
+    {
+      "id": 141,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "積水約達50cm應抽水外排避免蚊蟲孳生",
+      "file_name": "fengyu/2022年03月照片/積水約達50cm應抽水外排避免蚊蟲孳生.jpg",
+      "objects": ""
+    },
+    {
+      "id": 142,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "組模後周邊開口未即釘製隨手護欄",
+      "file_name": "fengyu/2022年03月照片/組模後周邊開口未即釘製隨手護欄.jpg",
+      "objects": ""
+    },
+    {
+      "id": 143,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "護蓋安全網等防護設備",
+      "file_name": "fengyu/2022年03月照片/護蓋安全網等防護設備.jpg",
+      "objects": ""
+    },
+    {
+      "id": 144,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "鋼筋尖端無保護套",
+      "file_name": "fengyu/2022年03月照片/鋼筋尖端無保護套.jpg",
+      "objects": ""
+    },
+    {
+      "id": 145,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "開口未即釘製隨手護欄",
+      "file_name": "fengyu/2022年03月照片/開口未即釘製隨手護欄.jpg",
+      "objects": ""
+    },
+    {
+      "id": 146,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "開口未設置防墜網",
+      "file_name": "fengyu/2022年03月照片/開口未設置防墜網.jpg",
+      "objects": ""
+    },
+    {
+      "id": 147,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "防墜網已裝載許多木材塊料需進行清除-2",
+      "file_name": "fengyu/2022年03月照片/防墜網已裝載許多木材塊料需進行清除-2.jpg",
+      "objects": ""
+    },
+    {
+      "id": 148,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "防墜網已裝載許多木材塊料需進行清除",
+      "file_name": "fengyu/2022年03月照片/防墜網已裝載許多木材塊料需進行清除.jpg",
+      "objects": ""
+    },
+    {
+      "id": 149,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "高度2公尺以上之處所進行作業勞工有墜落之虞者應以架設施工",
+      "file_name": "fengyu/2022年03月照片/高度2公尺以上之處所進行作業勞工有墜落之虞者應以架設施工.架或其他方法設置工作臺(禁止2M合梯作業).jpg",
+      "objects": ""
+    },
+    {
+      "id": 150,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "A字梯超過2米",
+      "file_name": "fengyu/2022年04月照片/A字梯超過2米.jpg",
+      "objects": ""
+    },
+    {
+      "id": 151,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "吊鉤無防滑舌片",
+      "file_name": "fengyu/2022年04月照片/吊鉤無防滑舌片.JPG",
+      "objects": ""
+    },
+    {
+      "id": 152,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "地面開口應覆蓋覆工鈑",
+      "file_name": "fengyu/2022年04月照片/地面開口應覆蓋覆工鈑.JPG",
+      "objects": ""
+    },
+    {
+      "id": 153,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "垃圾亂丟",
+      "file_name": "fengyu/2022年04月照片/垃圾亂丟.jpg",
+      "objects": ""
+    },
+    {
+      "id": 154,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "安全母索繫固之錨錠至少應能承受每人二千三百公斤之拉力",
+      "file_name": "fengyu/2022年04月照片/安全母索繫固之錨錠至少應能承受每人二千三百公斤之拉力.jpg",
+      "objects": ""
+    },
+    {
+      "id": 155,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "安全網垂墜超過1",
+      "file_name": "fengyu/2022年04月照片/安全網垂墜超過1.5公尺網上雜物應清除.jpg",
+      "objects": ""
+    },
+    {
+      "id": 156,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "局部臨時配電盤鎖頭損壞，無法上鎖管制",
+      "file_name": "fengyu/2022年04月照片/局部臨時配電盤鎖頭損壞，無法上鎖管制.jpg",
+      "objects": ""
+    },
+    {
+      "id": 157,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "工人無佩戴安全帽",
+      "file_name": "fengyu/2022年04月照片/工人無佩戴安全帽.jpg",
+      "objects": ""
+    },
+    {
+      "id": 158,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "工地太空包應運離",
+      "file_name": "fengyu/2022年04月照片/工地太空包應運離.jpg",
+      "objects": ""
+    },
+    {
+      "id": 159,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "應於適當位置設置有明顯標誌之緊急制動裝置",
+      "file_name": "fengyu/2022年04月照片/應於適當位置設置有明顯標誌之緊急制動裝置.jpg",
+      "objects": ""
+    },
+    {
+      "id": 160,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "應設置鋸齒接觸預防裝置 ",
+      "file_name": "fengyu/2022年04月照片/應設置鋸齒接觸預防裝置 .jpg",
+      "objects": ""
+    },
+    {
+      "id": 161,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架上方應扶手先行開口處應封閉避免人員墜落",
+      "file_name": "fengyu/2022年04月照片/施工架上方應扶手先行開口處應封閉避免人員墜落.jpg",
+      "objects": ""
+    },
+    {
+      "id": 162,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架不可用鐵絲纏繞固定",
+      "file_name": "fengyu/2022年04月照片/施工架不可用鐵絲纏繞固定.jpg",
+      "objects": ""
+    },
+    {
+      "id": 163,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架未架設無地坪平整處-1",
+      "file_name": "fengyu/2022年04月照片/施工架未架設無地坪平整處-1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 164,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架無上下設備",
+      "file_name": "fengyu/2022年04月照片/施工架無上下設備.jpg",
+      "objects": ""
+    },
+    {
+      "id": 165,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架無水平拉桿",
+      "file_name": "fengyu/2022年04月照片/施工架無水平拉桿.JPG",
+      "objects": ""
+    },
+    {
+      "id": 166,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架端部應封閉避免人員墜落",
+      "file_name": "fengyu/2022年04月照片/施工架端部應封閉避免人員墜落.jpg",
+      "objects": ""
+    },
+    {
+      "id": 167,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架組立應採扶手先行人員站立無扶手護欄安全帶等",
+      "file_name": "fengyu/2022年04月照片/施工架組立應採扶手先行人員站立無扶手護欄安全帶等.jpg",
+      "objects": ""
+    },
+    {
+      "id": 168,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "施工架開口處應封閉",
+      "file_name": "fengyu/2022年04月照片/施工架開口處應封閉.jpg",
+      "objects": ""
+    },
+    {
+      "id": 169,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "板材鐵釘應立即清除避免穿刺傷",
+      "file_name": "fengyu/2022年04月照片/板材鐵釘應立即清除避免穿刺傷.JPG",
+      "objects": ""
+    },
+    {
+      "id": 170,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "氧氣乙炔鋼瓶應設置逆火防爆裝置另每一吹管應設置2個-1",
+      "file_name": "fengyu/2022年04月照片/氧氣乙炔鋼瓶應設置逆火防爆裝置另每一吹管應設置2個-1.JPG",
+      "objects": ""
+    },
+    {
+      "id": 171,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "氧氣乙炔鋼瓶應設置逆火防爆裝置另每一吹管應設置2個-2",
+      "file_name": "fengyu/2022年04月照片/氧氣乙炔鋼瓶應設置逆火防爆裝置另每一吹管應設置2個-2.JPG",
+      "objects": ""
+    },
+    {
+      "id": 172,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "物料堆置高度超過1米8",
+      "file_name": "fengyu/2022年04月照片/物料堆置高度超過1米8.jpg",
+      "objects": ""
+    },
+    {
+      "id": 173,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "結構體與施工架間隙過大應設置防墜網施工架上雜物應清除",
+      "file_name": "fengyu/2022年04月照片/結構體與施工架間隙過大應設置防墜網施工架上雜物應清除.jpg",
+      "objects": ""
+    },
+    {
+      "id": 174,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "配電盤應有管理人聯絡資訊及注意事項及上鎖",
+      "file_name": "fengyu/2022年04月照片/配電盤應有管理人聯絡資訊及注意事項及上鎖.jpg",
+      "objects": ""
+    },
+    {
+      "id": 175,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "配電盤未上管制",
+      "file_name": "fengyu/2022年04月照片/配電盤未上管制.jpg",
+      "objects": ""
+    },
+    {
+      "id": 176,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "開口應覆蓋並使用黃色警告標語",
+      "file_name": "fengyu/2022年04月照片/開口應覆蓋並使用黃色警告標語.jpg",
+      "objects": ""
+    },
+    {
+      "id": 177,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "開口無防墜措施",
+      "file_name": "fengyu/2022年04月照片/開口無防墜措施.JPG",
+      "objects": ""
+    },
+    {
+      "id": 178,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "防墜網被拆除無上下設備",
+      "file_name": "fengyu/2022年04月照片/防墜網被拆除無上下設備.jpg",
+      "objects": ""
+    },
+    {
+      "id": 179,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "防止感電用漏電斷路器及開關無防水絕緣措施",
+      "file_name": "fengyu/2022年04月照片/防止感電用漏電斷路器及開關無防水絕緣措施.jpg",
+      "objects": ""
+    },
+    {
+      "id": 180,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "上下設備的支柱突出工區外道路",
+      "file_name": "fengyu/2022年05月照片/上下設備的支柱突出工區外道路.jpg",
+      "objects": ""
+    },
+    {
+      "id": 181,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "作業平台間隙太大",
+      "file_name": "fengyu/2022年05月照片/作業平台間隙太大.png",
+      "objects": ""
+    },
+    {
+      "id": 182,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "使用氧乙炔鋼瓶等動火作業應設置滅火器備用",
+      "file_name": "fengyu/2022年05月照片/使用氧乙炔鋼瓶等動火作業應設置滅火器備用.jpg",
+      "objects": ""
+    },
+    {
+      "id": 183,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "切割器的端部依規定需裝配防回火裝置",
+      "file_name": "fengyu/2022年05月照片/切割器的端部依規定需裝配防回火裝置.jpg",
+      "objects": ""
+    },
+    {
+      "id": 184,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "圓盤鋸應設置下列安全裝置",
+      "file_name": "fengyu/2022年05月照片/圓盤鋸應設置下列安全裝置.jpg",
+      "objects": ""
+    },
+    {
+      "id": 185,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "地邊緣高差較大應設警示警告設施",
+      "file_name": "fengyu/2022年05月照片/地邊緣高差較大應設警示警告設施.jpg",
+      "objects": ""
+    },
+    {
+      "id": 186,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "外牆施工架開口斷面應防護",
+      "file_name": "fengyu/2022年05月照片/外牆施工架開口斷面應防護.jpg",
+      "objects": ""
+    },
+    {
+      "id": 187,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "安全母索立柱遭拆除，亦尚無護欄，有墜落危害",
+      "file_name": "fengyu/2022年05月照片/安全母索立柱遭拆除，亦尚無護欄，有墜落危害.jpg",
+      "objects": ""
+    },
+    {
+      "id": 188,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "安全網拉開未回復",
+      "file_name": "fengyu/2022年05月照片/安全網拉開未回復.jpg",
+      "objects": ""
+    },
+    {
+      "id": 189,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "安全護欄未設置",
+      "file_name": "fengyu/2022年05月照片/安全護欄未設置.jpg",
+      "objects": ""
+    },
+    {
+      "id": 190,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "應維持高度九十公分以上之上欄杆、中間欄杆或等效設備（以下簡稱中欄杆）、腳趾板及杆柱等構材；其上欄杆、中欄杆及地盤面與樓板面間之上下開口距離，應不大於五十五公分",
+      "file_name": "fengyu/2022年05月照片/應維持高度九十公分以上之上欄杆、中間欄杆或等效設備（以下簡稱中欄杆）、腳趾板及杆柱等構材；其上欄杆、中欄杆及地盤面與樓板面間之上下開口距離，應不大於五十五公分.jpg",
+      "objects": ""
+    },
+    {
+      "id": 191,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "推開門未上鎖，外人未經管制可入內",
+      "file_name": "fengyu/2022年05月照片/推開門未上鎖，外人未經管制可入內.jpg",
+      "objects": ""
+    },
+    {
+      "id": 192,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "未配戴安全帽",
+      "file_name": "fengyu/2022年05月照片/未配戴安全帽.jpg",
+      "objects": ""
+    },
+    {
+      "id": 193,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "無上下設備、護欄，有墜落危害",
+      "file_name": "fengyu/2022年05月照片/無上下設備、護欄，有墜落危害.jpg",
+      "objects": ""
+    },
+    {
+      "id": 194,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "無護欄或防墜網，周邊RC開口亦無護欄，有墜落危害。",
+      "file_name": "fengyu/2022年05月照片/無護欄或防墜網，周邊RC開口亦無護欄，有墜落危害。.jpg",
+      "objects": ""
+    },
+    {
+      "id": 195,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "現場施工架作業平台未設置安全護欄及上下設施",
+      "file_name": "fengyu/2022年05月照片/現場施工架作業平台未設置安全護欄及上下設施.jpg",
+      "objects": ""
+    },
+    {
+      "id": 196,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "環境髒亂為清潔",
+      "file_name": "fengyu/2022年05月照片/環境髒亂為清潔.jpg",
+      "objects": ""
+    },
+    {
+      "id": 197,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "管架搭接應用8字扣",
+      "file_name": "fengyu/2022年05月照片/管架搭接應用8字扣.jpg",
+      "objects": ""
+    },
+    {
+      "id": 198,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "管線需整理",
+      "file_name": "fengyu/2022年05月照片/管線需整理.jpg",
+      "objects": ""
+    },
+    {
+      "id": 199,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "臨時電盤未上鎖管制",
+      "file_name": "fengyu/2022年05月照片/臨時電盤未上鎖管制.jpg",
+      "objects": ""
+    },
+    {
+      "id": 200,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "臨時電變電箱需有防止感電防護設施",
+      "file_name": "fengyu/2022年05月照片/臨時電變電箱需有防止感電防護設施.jpg",
+      "objects": ""
+    },
+    {
+      "id": 201,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "變壓器應墊高且須設置有效阻隔避免感電",
+      "file_name": "fengyu/2022年05月照片/變壓器應墊高且須設置有效阻隔避免感電.jpg",
+      "objects": ""
+    },
+    {
+      "id": 202,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "配電箱未管制上鎖",
+      "file_name": "fengyu/2022年05月照片/配電箱未管制上鎖.jpg",
+      "objects": ""
+    },
+    {
+      "id": 203,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "酒精性飲料",
+      "file_name": "fengyu/2022年05月照片/酒精性飲料.jpg",
+      "objects": ""
+    },
+    {
+      "id": 204,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "鋼筋應有防護蓋或彎折",
+      "file_name": "fengyu/2022年05月照片/鋼筋應有防護蓋或彎折.jpg",
+      "objects": ""
+    },
+    {
+      "id": 205,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "開口處需設置護欄並維持有效",
+      "file_name": "fengyu/2022年05月照片/開口處需設置護欄並維持有效.jpg",
+      "objects": ""
+    },
+    {
+      "id": 206,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "開口部分，勞工有遭受墜落危險之虞者，應設有適當強度之護欄、護蓋、安全網等防護設備",
+      "file_name": "fengyu/2022年05月照片/開口部分，勞工有遭受墜落危險之虞者，應設有適當強度之護欄、護蓋、安全網等防護設備.jpg",
+      "objects": ""
+    },
+    {
+      "id": 207,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "電線泡水未有架高",
+      "file_name": "fengyu/2022年05月照片/電線泡水未有架高.jpg",
+      "objects": ""
+    },
+    {
+      "id": 208,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "非作業使用時應完全降下並斷電",
+      "file_name": "fengyu/2022年05月照片/非作業使用時應完全降下並斷電.jpg",
+      "objects": ""
+    },
+    {
+      "id": 209,
+      "caption_type": "violation",
+      "violation_type": "",
+      "violation_list": "",
+      "caption": "高空工作車應備有每日使用之檢點表",
+      "file_name": "fengyu/2022年05月照片/高空工作車應備有每日使用之檢點表.jpg",
+      "objects": ""
+    }
+  ]
+}

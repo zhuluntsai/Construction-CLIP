@@ -1,0 +1,955 @@
+{
+  "type": "captions",
+  "annotations": [
+    {
+      "id": 0,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "配管拆內外側交叉下拉拆除未復原",
+      "caption": "配管拆內外側交叉下拉拆除未復原",
+      "file_name": "202106_1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 1,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "泥作拆除內交叉下拉桿達3層",
+      "caption": "泥作拆除內交叉下拉桿達3層",
+      "file_name": "202106_2.jpg",
+      "objects": ""
+    },
+    {
+      "id": 2,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "電梯井未封閉",
+      "caption": "電梯井未封閉",
+      "file_name": "202106_3.jpg",
+      "objects": ""
+    },
+    {
+      "id": 3,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "交叉拉桿不得取代gip鋼管",
+      "caption": "交叉拉桿不得取代gip鋼管",
+      "file_name": "202106_4.jpg",
+      "objects": ""
+    },
+    {
+      "id": 4,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "機械",
+      "violation_list": "堆高機勿停於斜坡",
+      "caption": "堆高機勿停於斜坡",
+      "file_name": "202106_5.jpg",
+      "objects": ""
+    },
+    {
+      "id": 5,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "物料",
+      "violation_list": "物料影響動線",
+      "caption": "物料影響動線",
+      "file_name": "202106_6.jpg",
+      "objects": ""
+    },
+    {
+      "id": 6,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "感電",
+      "violation_list": "裸線對接",
+      "caption": "裸線對接",
+      "file_name": "202106_7.jpg",
+      "objects": ""
+    },
+    {
+      "id": 7,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "防墜網遭拆除",
+      "caption": "防墜網遭拆除",
+      "file_name": "202106_8.jpg",
+      "objects": ""
+    },
+    {
+      "id": 8,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "防墜網遭拆除",
+      "caption": "防墜網遭拆除",
+      "file_name": "202106_9.jpg",
+      "objects": ""
+    },
+    {
+      "id": 9,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "不安全平台",
+      "caption": "不安全平台",
+      "file_name": "202106_10.jpg",
+      "objects": ""
+    },
+    {
+      "id": 10,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "不安全平台",
+      "caption": "不安全平台",
+      "file_name": "202106_11.jpg",
+      "objects": ""
+    },
+    {
+      "id": 11,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "車道口上方應張掛安全網",
+      "caption": "車道口上方應張掛安全網",
+      "file_name": "202106_12.jpg",
+      "objects": ""
+    },
+    {
+      "id": 12,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "感電",
+      "violation_list": "空壓機未設ELCB",
+      "caption": "空壓機未設ELCB",
+      "file_name": "202106_13.jpg",
+      "objects": ""
+    },
+    {
+      "id": 13,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "防護具, 穿刺",
+      "violation_list": "模板支撐固定外鷹架及鋼釘釘於鷹架",
+      "caption": "模板支撐固定外鷹架及鋼釘釘於鷹架",
+      "file_name": "202106_14.jpg",
+      "objects": ""
+    },
+    {
+      "id": 14,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "鋼筋, 穿刺",
+      "violation_list": "鋼筋未折彎",
+      "caption": "鋼筋未折彎",
+      "file_name": "202106_15.jpg",
+      "objects": ""
+    },
+    {
+      "id": 15,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "爆炸",
+      "violation_list": "乙炔鋼瓶肩無釋氣閥",
+      "caption": "乙炔鋼瓶肩無釋氣閥",
+      "file_name": "202106_16.jpg",
+      "objects": ""
+    },
+    {
+      "id": 16,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "感電",
+      "violation_list": "臨時盤無中隔板，下方插座橫骨料未切除",
+      "caption": "臨時盤無中隔板，下方插座橫骨料未切除",
+      "file_name": "202106_17.jpg",
+      "objects": ""
+    },
+    {
+      "id": 17,
+      "report_file_name": "安衛缺失照片202106.docx",
+      "caption_type": "violation",
+      "violation_type": "機械",
+      "violation_list": "砂輪機未設防護罩",
+      "caption": "砂輪機未設防護罩",
+      "file_name": "202106_18.jpg",
+      "objects": ""
+    },
+    {
+      "id": 18,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "爆炸",
+      "violation_list": "鋼瓶未垂直固定",
+      "caption": "鋼瓶未垂直固定",
+      "file_name": "202107_1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 19,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "爆炸",
+      "violation_list": "一樓室內ps版無滅火器及警示",
+      "caption": "一樓室內ps版無滅火器及警示",
+      "file_name": "202107_2.jpg",
+      "objects": ""
+    },
+    {
+      "id": 20,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "防墜網遭破壞",
+      "caption": "防墜網遭破壞",
+      "file_name": "202107_3.jpg",
+      "objects": ""
+    },
+    {
+      "id": 21,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "開口防護遭拆除",
+      "caption": "開口防護遭拆除",
+      "file_name": "202107_4.jpg",
+      "objects": ""
+    },
+    {
+      "id": 22,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "開口防護遭拆除",
+      "caption": "開口防護遭拆除",
+      "file_name": "202107_5.jpg",
+      "objects": ""
+    },
+    {
+      "id": 23,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "感電",
+      "violation_list": "積水未清除",
+      "caption": "積水未清除",
+      "file_name": "202107_6.jpg",
+      "objects": ""
+    },
+    {
+      "id": 24,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "防護具, 穿刺",
+      "violation_list": "鋼釘不得釘於鷹架(左上角)",
+      "caption": "鋼釘不得釘於鷹架(左上角)",
+      "file_name": "202107_7.jpg",
+      "objects": ""
+    },
+    {
+      "id": 25,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "物料",
+      "violation_list": "鋼筋堆於走道",
+      "caption": "鋼筋堆於走道",
+      "file_name": "202107_8.jpg",
+      "objects": ""
+    },
+    {
+      "id": 26,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "鋼筋, 穿刺",
+      "violation_list": "鋼筋保護套脫落",
+      "caption": "鋼筋保護套脫落",
+      "file_name": "202107_9.jpg",
+      "objects": ""
+    },
+    {
+      "id": 27,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "爆炸",
+      "violation_list": "構台區鋼瓶未固定",
+      "caption": "構台區鋼瓶未固定",
+      "file_name": "202107_10.jpg",
+      "objects": ""
+    },
+    {
+      "id": 28,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "防護具",
+      "violation_list": "未配戴安全帽",
+      "caption": "未配戴安全帽",
+      "file_name": "202107_11.jpg",
+      "objects": ""
+    },
+    {
+      "id": 29,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "防護具, 穿刺",
+      "violation_list": "模板鋼釘不得釘於鷹架",
+      "caption": "模板鋼釘不得釘於鷹架",
+      "file_name": "202107_12.jpg",
+      "objects": ""
+    },
+    {
+      "id": 30,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "工作場所",
+      "violation_list": "支撐未置中",
+      "caption": "支撐未置中",
+      "file_name": "202107_13.jpg",
+      "objects": ""
+    },
+    {
+      "id": 31,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "機械",
+      "violation_list": "模板捲揚架不得掛置鷹架",
+      "caption": "模板捲揚架不得掛置鷹架",
+      "file_name": "202107_14.jpg",
+      "objects": ""
+    },
+    {
+      "id": 32,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "電梯井未設護欄",
+      "caption": "電梯井未設護欄",
+      "file_name": "202107_15.jpg",
+      "objects": ""
+    },
+    {
+      "id": 33,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "爆炸",
+      "violation_list": "保麗龍未標示防火",
+      "caption": "保麗龍未標示防火",
+      "file_name": "202107_16.jpg",
+      "objects": ""
+    },
+    {
+      "id": 34,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "開口防護",
+      "caption": "開口防護",
+      "file_name": "202107_17.jpg",
+      "objects": ""
+    },
+    {
+      "id": 35,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "感電",
+      "violation_list": "電盤未架高",
+      "caption": "電盤未架高",
+      "file_name": "202107_18.jpg",
+      "objects": ""
+    },
+    {
+      "id": 36,
+      "report_file_name": "安衛缺失照片202107.docx",
+      "caption_type": "violation",
+      "violation_type": "機械",
+      "violation_list": "切割機無防護罩",
+      "caption": "切割機無防護罩",
+      "file_name": "202107_19.jpg",
+      "objects": ""
+    },
+    {
+      "id": 37,
+      "report_file_name": "安衛缺失照片202108.docx",
+      "caption_type": "violation",
+      "violation_type": "工作場所",
+      "violation_list": "吊籠安全母索應保護防磨擦",
+      "caption": "吊籠安全母索應保護防磨擦",
+      "file_name": "202108_1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 38,
+      "report_file_name": "安衛缺失照片202108.docx",
+      "caption_type": "violation",
+      "violation_type": "感電",
+      "violation_list": "插座橡膠破損裸銅外露",
+      "caption": "插座橡膠破損裸銅外露",
+      "file_name": "202108_2.jpg",
+      "objects": ""
+    },
+    {
+      "id": 39,
+      "report_file_name": "安衛缺失照片202108.docx",
+      "caption_type": "violation",
+      "violation_type": "防護具",
+      "violation_list": "防護具未配戴使用",
+      "caption": "防護具未配戴使用",
+      "file_name": "202108_3.jpg",
+      "objects": ""
+    },
+    {
+      "id": 40,
+      "report_file_name": "安衛缺失照片202108.docx",
+      "caption_type": "violation",
+      "violation_type": "爆炸",
+      "violation_list": "氧乙炔鋼瓶未設逆迴火裝置",
+      "caption": "氧乙炔鋼瓶未設逆迴火裝置",
+      "file_name": "202108_4.jpg",
+      "objects": ""
+    },
+    {
+      "id": 41,
+      "report_file_name": "安衛缺失照片202108.docx",
+      "caption_type": "violation",
+      "violation_type": "感電",
+      "violation_list": "電箱未設接地線",
+      "caption": "電箱未設接地線",
+      "file_name": "202108_5.jpg",
+      "objects": ""
+    },
+    {
+      "id": 42,
+      "report_file_name": "安衛缺失照片202108.docx",
+      "caption_type": "violation",
+      "violation_type": "感電",
+      "violation_list": "延長線變形泡水未架高",
+      "caption": "延長線變形泡水未架高",
+      "file_name": "202108_6.jpg",
+      "objects": ""
+    },
+    {
+      "id": 43,
+      "report_file_name": "安衛缺失照片202108.docx",
+      "caption_type": "violation",
+      "violation_type": "機械",
+      "violation_list": "禁止使用不合格改裝移動式起重機",
+      "caption": "禁止使用不合格改裝移動式起重機",
+      "file_name": "202108_7.jpg",
+      "objects": ""
+    },
+    {
+      "id": 44,
+      "report_file_name": "安衛缺失照片202108.docx",
+      "caption_type": "violation",
+      "violation_type": "感電",
+      "violation_list": "電線泡水未架高",
+      "caption": "電線泡水未架高",
+      "file_name": "202108_8.jpg",
+      "objects": ""
+    },
+    {
+      "id": 45,
+      "report_file_name": "安衛缺失照片202108.docx",
+      "caption_type": "violation",
+      "violation_type": "鋼筋, 穿刺",
+      "violation_list": "鋼筋頭未折彎或防護",
+      "caption": "鋼筋頭未折彎或防護",
+      "file_name": "202108_9.jpg",
+      "objects": ""
+    },
+    {
+      "id": 46,
+      "report_file_name": "安衛缺失照片202108.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "管道間開口未覆蓋",
+      "caption": "管道間開口未覆蓋",
+      "file_name": "202108_10.jpg",
+      "objects": ""
+    },
+    {
+      "id": 47,
+      "report_file_name": "安衛缺失照片202108.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "電梯間未設護欄",
+      "caption": "電梯間未設護欄",
+      "file_name": "202108_11.jpg",
+      "objects": ""
+    },
+    {
+      "id": 48,
+      "report_file_name": "安衛缺失照片202108.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "模板開口未滿舖",
+      "caption": "模板開口未滿舖",
+      "file_name": "202108_12.jpg",
+      "objects": ""
+    },
+    {
+      "id": 49,
+      "report_file_name": "安衛缺失照片202108.docx",
+      "caption_type": "violation",
+      "violation_type": "感電",
+      "violation_list": "模板電線未架高",
+      "caption": "模板電線未架高",
+      "file_name": "202108_13.jpg",
+      "objects": ""
+    },
+    {
+      "id": 50,
+      "report_file_name": "安衛缺失照片202108.docx",
+      "caption_type": "violation",
+      "violation_type": "爆炸",
+      "violation_list": "乙炔鋼瓶無釋氣閥",
+      "caption": "乙炔鋼瓶無釋氣閥",
+      "file_name": "202108_14.jpg",
+      "objects": ""
+    },
+    {
+      "id": 51,
+      "report_file_name": "安衛缺失照片202108.docx",
+      "caption_type": "violation",
+      "violation_type": "感電",
+      "violation_list": "裸銅過長",
+      "caption": "裸銅過長",
+      "file_name": "202108_15.jpg",
+      "objects": ""
+    },
+    {
+      "id": 52,
+      "report_file_name": "安衛缺失照片202104.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "不合格工作平台",
+      "caption": "不合格工作平台",
+      "file_name": "202104_1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 53,
+      "report_file_name": "安衛缺失照片202104.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "上下設備左側腳懸空",
+      "caption": "上下設備左側腳懸空",
+      "file_name": "202104_2.jpg",
+      "objects": ""
+    },
+    {
+      "id": 54,
+      "report_file_name": "安衛缺失照片202104.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "泥作拆除長條安全網未復原",
+      "caption": "泥作拆除長條安全網未復原",
+      "file_name": "202104_3.jpg",
+      "objects": ""
+    },
+    {
+      "id": 55,
+      "report_file_name": "安衛缺失照片202104.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "梯井間未設護欄",
+      "caption": "梯井間未設護欄",
+      "file_name": "202104_4.jpg",
+      "objects": ""
+    },
+    {
+      "id": 56,
+      "report_file_name": "安衛缺失照片202104.docx",
+      "caption_type": "violation",
+      "violation_type": "物料",
+      "violation_list": "土方點井pvc管影響人員動線",
+      "caption": "土方點井pvc管影響人員動線",
+      "file_name": "202104_5.jpg",
+      "objects": ""
+    },
+    {
+      "id": 57,
+      "report_file_name": "安衛缺失照片202104.docx",
+      "caption_type": "violation",
+      "violation_type": "工作場所",
+      "violation_list": "RF鷹架未設壁拉或對撐",
+      "caption": "RF鷹架未設壁拉或對撐",
+      "file_name": "202104_6.jpg",
+      "objects": ""
+    },
+    {
+      "id": 58,
+      "report_file_name": "安衛缺失照片202104.docx",
+      "caption_type": "violation",
+      "violation_type": "感電",
+      "violation_list": "未接漏電斷路器及接地",
+      "caption": "未接漏電斷路器及接地",
+      "file_name": "202104_7.jpg",
+      "objects": ""
+    },
+    {
+      "id": 59,
+      "report_file_name": "安衛缺失照片202104.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "機坑深度大於2M未設護欄或滿鋪",
+      "caption": "機坑深度大於2M未設護欄或滿鋪",
+      "file_name": "202104_8.jpg",
+      "objects": ""
+    },
+    {
+      "id": 60,
+      "report_file_name": "安衛缺失照片202104.docx",
+      "caption_type": "violation",
+      "violation_type": "機械",
+      "violation_list": "模板捲揚機勾掛於施工架上",
+      "caption": "模板捲揚機勾掛於施工架上",
+      "file_name": "202104_9.jpg",
+      "objects": ""
+    },
+    {
+      "id": 61,
+      "report_file_name": "安衛缺失照片202104.docx",
+      "caption_type": "violation",
+      "violation_type": "物料",
+      "violation_list": "1F鋼筋放置高度＞180cm且不平穩週邊未圍設",
+      "caption": "1F鋼筋放置高度＞180cm且不平穩週邊未圍設",
+      "file_name": "202104_10.jpg",
+      "objects": ""
+    },
+    {
+      "id": 62,
+      "report_file_name": "安衛缺失照片202109.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "下拉桿拆除未覆原",
+      "caption": "下拉桿拆除未覆原",
+      "file_name": "202109_1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 63,
+      "report_file_name": "安衛缺失照片202109.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "欄杆遭拆除",
+      "caption": "欄杆遭拆除",
+      "file_name": "202109_2.jpg",
+      "objects": ""
+    },
+    {
+      "id": 64,
+      "report_file_name": "安衛缺失照片202109.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "梯間無護欄",
+      "caption": "梯間無護欄",
+      "file_name": "202109_3.jpg",
+      "objects": ""
+    },
+    {
+      "id": 65,
+      "report_file_name": "安衛缺失照片202109.docx",
+      "caption_type": "violation",
+      "violation_type": "鋼筋, 穿刺",
+      "violation_list": "車道鋼筋未保護拆彎",
+      "caption": "車道鋼筋未保護拆彎",
+      "file_name": "202109_4.jpg",
+      "objects": ""
+    },
+    {
+      "id": 66,
+      "report_file_name": "安衛缺失照片202109.docx",
+      "caption_type": "violation",
+      "violation_type": "工作場所",
+      "violation_list": "鷹架遭撞歪",
+      "caption": "鷹架遭撞歪",
+      "file_name": "202109_5.jpg",
+      "objects": ""
+    },
+    {
+      "id": 67,
+      "report_file_name": "安衛缺失照片202109.docx",
+      "caption_type": "violation",
+      "violation_type": "感電",
+      "violation_list": "臨時電盤未設box",
+      "caption": "臨時電盤未設box",
+      "file_name": "202109_6.jpg",
+      "objects": ""
+    },
+    {
+      "id": 68,
+      "report_file_name": "安衛缺失照片202109.docx",
+      "caption_type": "violation",
+      "violation_type": "物料",
+      "violation_list": "設備不得放置於通道",
+      "caption": "設備不得放置於通道",
+      "file_name": "202109_7.jpg",
+      "objects": ""
+    },
+    {
+      "id": 69,
+      "report_file_name": "安衛缺失照片202109.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "開口傳料後未覆蓋",
+      "caption": "開口傳料後未覆蓋",
+      "file_name": "202109_8.jpg",
+      "objects": ""
+    },
+    {
+      "id": 70,
+      "report_file_name": "安衛缺失照片202109.docx",
+      "caption_type": "violation",
+      "violation_type": "感電",
+      "violation_list": "臨時電盤設備接地未搭接",
+      "caption": "臨時電盤設備接地未搭接",
+      "file_name": "202109_9.jpg",
+      "objects": ""
+    },
+    {
+      "id": 71,
+      "report_file_name": "安衛缺失照片202109.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "梯間未設護欄或滿舖",
+      "caption": "梯間未設護欄或滿舖",
+      "file_name": "202109_10.jpg",
+      "objects": ""
+    },
+    {
+      "id": 72,
+      "report_file_name": "安衛缺失照片202109.docx",
+      "caption_type": "violation",
+      "violation_type": "物料",
+      "violation_list": "板料放置影響動線",
+      "caption": "板料放置影響動線",
+      "file_name": "202109_11.jpg",
+      "objects": ""
+    },
+    {
+      "id": 73,
+      "report_file_name": "安衛缺失照片202109.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "外鷹架2處未提昇",
+      "caption": "外鷹架2處未提昇",
+      "file_name": "202109_12.jpg",
+      "objects": ""
+    },
+    {
+      "id": 74,
+      "report_file_name": "安衛缺失照片202109.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "鷹架獨立腳交叉下拉桿未復原",
+      "caption": "鷹架獨立腳交叉下拉桿未復原",
+      "file_name": "202109_13.jpg",
+      "objects": ""
+    },
+    {
+      "id": 75,
+      "report_file_name": "安衛缺失照片202109.docx",
+      "caption_type": "violation",
+      "violation_type": "機械",
+      "violation_list": "砂輪機未設護罩",
+      "caption": "砂輪機未設護罩",
+      "file_name": "202109_14.jpg",
+      "objects": ""
+    },
+    {
+      "id": 76,
+      "report_file_name": "安衛缺失照片202201.docx",
+      "caption_type": "violation",
+      "violation_type": "工作場所",
+      "violation_list": "下拉桿不得取代Glp鋼管",
+      "caption": "施工架材料完整無變形、損壞與插銷、調整座等配件設置齊全",
+      "file_name": "202201_1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 77,
+      "report_file_name": "安衛缺失照片202201.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "模板拆除內側交叉下拉桿未復原",
+      "caption": "設置交叉拉桿、下拉桿、內爬梯、水平踏板滿鋪、端點等阻斷",
+      "file_name": "202201_2.jpg",
+      "objects": ""
+    },
+    {
+      "id": 78,
+      "report_file_name": "安衛缺失照片202201.docx",
+      "caption_type": "violation",
+      "violation_type": "物料",
+      "violation_list": "防塵網及帆布污染或破損/外架踏板不得放置模板物料",
+      "caption": "施工架上踏板禁止堆置物料",
+      "file_name": "202201_3.jpg",
+      "objects": ""
+    },
+    {
+      "id": 79,
+      "report_file_name": "安衛缺失照片202201.docx",
+      "caption_type": "violation",
+      "violation_type": "防護具, 穿刺",
+      "violation_list": "支撐未使用製式插銷",
+      "caption": "可調鋼管應使用制式固定栓(不得使用#3鋼筋)鋼管不得連接使用",
+      "file_name": "202201_4.jpg",
+      "objects": ""
+    },
+    {
+      "id": 80,
+      "report_file_name": "安衛缺失照片202201.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "不得拆除外側交叉下拉桿",
+      "caption": "設置交叉拉桿、下拉桿、內爬梯、水平踏板滿鋪、端點等阻斷",
+      "file_name": "202201_5.jpg",
+      "objects": ""
+    },
+    {
+      "id": 81,
+      "report_file_name": "安衛缺失照片202201.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "不得拆除外側交叉下拉桿",
+      "caption": "設置交叉拉桿、下拉桿、內爬梯、水平踏板滿鋪、端點等阻斷",
+      "file_name": "202201_6.jpg",
+      "objects": ""
+    },
+    {
+      "id": 82,
+      "report_file_name": "安衛缺失照片202201.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "開口未鋪設防墜網",
+      "caption": "施工架與結構體間間距≧20cm設置長條型安全網",
+      "file_name": "202201_7.jpg",
+      "objects": ""
+    },
+    {
+      "id": 83,
+      "report_file_name": "安衛缺失照片202201.docx",
+      "caption_type": "violation",
+      "violation_type": "工作場所",
+      "violation_list": "壁接桿數量不足",
+      "caption": "依規定設置壁拉桿（以＃3鋼筋設置時，圈數須2圈以上）及斜撐固定良好",
+      "file_name": "202201_8.jpg",
+      "objects": ""
+    },
+    {
+      "id": 84,
+      "report_file_name": "安衛缺失照片202201.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "開口未設護欄",
+      "caption": "開口防護設備",
+      "file_name": "202201_9.jpg",
+      "objects": ""
+    },
+    {
+      "id": 85,
+      "report_file_name": "安衛缺失照片202201.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "開口未設護欄",
+      "caption": "開口防護設備",
+      "file_name": "202201_10.jpg",
+      "objects": ""
+    },
+    {
+      "id": 86,
+      "report_file_name": "安衛缺失照片202201.docx",
+      "caption_type": "violation",
+      "violation_type": "工作場所",
+      "violation_list": "壁拉桿遭拆除",
+      "caption": "依規定設置壁拉桿（以＃3鋼筋設置時，圈數須2圈以上）及斜撐固定良好",
+      "file_name": "202201_11.jpg",
+      "objects": ""
+    },
+    {
+      "id": 87,
+      "report_file_name": "安衛缺失照片202205.docx",
+      "caption_type": "violation",
+      "violation_type": "搬運",
+      "violation_list": "二點吊掛點距離過近",
+      "caption": "禁止使用單點吊掛/吊臂傾斜角≦20度",
+      "file_name": "202205_1.jpg",
+      "objects": ""
+    },
+    {
+      "id": 88,
+      "report_file_name": "安衛缺失照片202205.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "護欄損壞",
+      "caption": "開口防護設備",
+      "file_name": "202205_2.jpg",
+      "objects": ""
+    },
+    {
+      "id": 89,
+      "report_file_name": "安衛缺失照片202205.docx",
+      "caption_type": "violation",
+      "violation_type": "物料",
+      "violation_list": "物料離護欄過近",
+      "caption": "作業場所照明、動線及材料放置/放置物料構造物或平台，應具安全負荷強度,質量重施工材料應沿樑下擺放,不得影響通道動線",
+      "file_name": "202205_3.jpg",
+      "objects": ""
+    },
+    {
+      "id": 90,
+      "report_file_name": "安衛缺失照片202205.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "管道間安全網拆除未復原",
+      "caption": "開口防護設備",
+      "file_name": "202205_4.jpg",
+      "objects": ""
+    },
+    {
+      "id": 91,
+      "report_file_name": "安衛缺失照片202205.docx",
+      "caption_type": "violation",
+      "violation_type": "爆炸",
+      "violation_list": "乙炔鋼瓶瓶肩無釋氣閥",
+      "caption": "鋼瓶儲存區垂直固定及分開放置並設置防爆蓋/瓶肩釋氣閥",
+      "file_name": "202205_5.jpg",
+      "objects": ""
+    },
+    {
+      "id": 92,
+      "report_file_name": "安衛缺失照片202205.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "模版拆除柱外交叉下拉桿未復原",
+      "caption": "設置交叉拉桿、下拉桿、內爬梯、水平踏板滿鋪、端點等阻斷",
+      "file_name": "202205_6.jpg",
+      "objects": ""
+    },
+    {
+      "id": 93,
+      "report_file_name": "安衛缺失照片202205.docx",
+      "caption_type": "violation",
+      "violation_type": "墜落",
+      "violation_list": "應設安全母索",
+      "caption": "鋼構安全防護網、立面網之鋪設",
+      "file_name": "202205_7.jpg",
+      "objects": ""
+    },
+    {
+      "id": 94,
+      "report_file_name": "安衛缺失照片202205.docx",
+      "caption_type": "violation",
+      "violation_type": "工作場所",
+      "violation_list": "泥作鐵梯未使用固定繫桿",
+      "caption": "設置鐵件等繫材扣牢,拉梯防護是否足夠",
+      "file_name": "202205_8.jpg",
+      "objects": ""
+    }
+  ]
+}
