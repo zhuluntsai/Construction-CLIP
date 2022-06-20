@@ -61,8 +61,7 @@ class ClipCocoDataset(Dataset):
         sys.stdout.flush()
         self.prefixes = all_data["clip_embedding"]
         captions_raw = all_data["captions"]
-        self.image_ids = [caption["image_id"] for caption in captions_raw]
-        self.captions = [caption['caption'] for caption in captions_raw]
+        self.captions = [caption['violation_list'] for caption in captions_raw]
         if os.path.isfile(f"{data_path[:-4]}_tokens.pkl"):
             with open(f"{data_path[:-4]}_tokens.pkl", 'rb') as f:
                 self.captions_tokens, self.caption2embedding, self.max_seq_len = pickle.load(f)
@@ -71,7 +70,7 @@ class ClipCocoDataset(Dataset):
             self.caption2embedding = []
             max_seq_len = 0
             for caption in captions_raw:
-                self.captions_tokens.append(torch.tensor(self.tokenizer.encode(caption['caption']), dtype=torch.int64))
+                self.captions_tokens.append(torch.tensor(self.tokenizer.encode(caption['violation_list']), dtype=torch.int64))
                 self.caption2embedding.append(caption["clip_embedding"])
                 max_seq_len = max(max_seq_len, self.captions_tokens[-1].shape[0])
             # self.max_seq_len = max_seq_len
@@ -500,9 +499,12 @@ def predict(image, model, use_beam_search):
     text_index = tokenizer.encode('墜落', add_prefix_space=True)
     vector = model.gpt.transformer.wte.weight[text_index,:]
 
-    clip_model, preprocess = clip.load("ViT-B/32", device=device, jit=False)
     tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 
+    clip_model, preprocess = clip.load("ViT-B/32", device=device, jit=False)
+    model_path = '../CLIP/models/clip_latest.pt'
+    with open(model_path, 'rb') as opened_file: 
+        clip_model.load_state_dict(torch.load(opened_file, map_location="cpu"))
     prefix_length = 10
     pil_image = PIL.Image.fromarray(io.imread(image))
     image = preprocess(pil_image).unsqueeze(0).to(device)
@@ -561,7 +563,9 @@ def main():
     # image = '../fengyu/image/20201008_美超微廠房_22_3.jpeg'
     # image = '../chienkuo/image/202109_1.jpg'
     # image = '../chienkuo/image/202104_4.jpg'
-    image = '../reju/合格/施工架/8a50c688-333f-4ff8-a399-379ecd9cba95.jpg'
+    image = '../reju/不合格/施工架/e0c9f160-6e01-4c92-9584-293ac69f4342.jpg'
+    # image = '../reju/不合格/其他/無交通指揮人員及指揮手-缺.jpg'
+    
     prediction = predict(image, model, use_beam_search=0)
     print(prediction)
 

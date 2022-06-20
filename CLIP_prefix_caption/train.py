@@ -11,7 +11,7 @@ import sys
 import argparse
 import json
 from typing import Tuple, Optional, Union
-
+import numpy as np
 
 class MappingType(Enum):
     MLP = 'mlp'
@@ -57,22 +57,17 @@ class ClipCocoDataset(Dataset):
         sys.stdout.flush()
         self.prefixes = all_data["clip_embedding"]
         captions_raw = all_data["captions"]
-        self.image_ids = [caption["image_id"] for caption in captions_raw]
-        self.captions = [caption['caption'] for caption in captions_raw]
-        if os.path.isfile(f"{data_path[:-4]}_tokens.pkl"):
-            with open(f"{data_path[:-4]}_tokens.pkl", 'rb') as f:
-                self.captions_tokens, self.caption2embedding, self.max_seq_len = pickle.load(f)
-        else:
-            self.captions_tokens = []
-            self.caption2embedding = []
-            max_seq_len = 0
-            for caption in captions_raw:
-                self.captions_tokens.append(torch.tensor(self.tokenizer.encode(caption['caption']), dtype=torch.int64))
-                self.caption2embedding.append(caption["clip_embedding"])
-                max_seq_len = max(max_seq_len, self.captions_tokens[-1].shape[0])
-            # self.max_seq_len = max_seq_len
-            with open(f"{data_path[:-4]}_tokens.pkl", 'wb') as f:
-                pickle.dump([self.captions_tokens, self.caption2embedding, max_seq_len], f)
+        self.captions = [caption['violation_list'] for caption in captions_raw]
+        self.captions_tokens = []
+        self.caption2embedding = []
+        max_seq_len = 0
+        for caption in captions_raw:
+            self.captions_tokens.append(torch.tensor(self.tokenizer.encode(caption['violation_list']), dtype=torch.int64))
+            self.caption2embedding.append(caption["clip_embedding"])
+            max_seq_len = max(max_seq_len, self.captions_tokens[-1].shape[0])
+        # self.max_seq_len = max_seq_len
+        with open(f"{data_path[:-4]}_tokens.pkl", 'wb') as f:
+            pickle.dump([self.captions_tokens, self.caption2embedding, max_seq_len], f)
         all_len = torch.tensor([len(self.captions_tokens[i]) for i in range(len(self))]).float()
         self.max_seq_len = min(int(all_len.mean() + all_len.std() * 10), int(all_len.max()))
 
@@ -229,11 +224,7 @@ class ClipCaptionModel(nn.Module):
         embedding_text = self.gpt.transformer.wte(tokens)
         prefix_projections = self.clip_project(prefix).view(-1, self.prefix_length, self.gpt_embedding_size)
         embedding_cat = torch.cat((prefix_projections, embedding_text), dim=1)
-        print(prefix.shape)
-        print(embedding_text.shape)
-        print(prefix_projections.shape)
-        print(embedding_cat.shape)
-        exit()
+        
         if labels is not None:
             dummy_token = self.get_dummy_token(tokens.shape[0], tokens.device)
             labels = torch.cat((dummy_token, tokens), dim=1)
@@ -315,6 +306,7 @@ def train(dataset: ClipCocoDataset, model: ClipCaptionModel, args,
         print(f">>> Training epoch {epoch}")
         sys.stdout.flush()
         progress = tqdm(total=len(train_dataloader), desc=output_prefix)
+        loss_list = []
         for idx, (tokens, mask, prefix) in enumerate(train_dataloader):
             model.zero_grad()
             tokens, mask, prefix = tokens.to(device), mask.to(device), prefix.to(device, dtype=torch.float32)
@@ -325,7 +317,8 @@ def train(dataset: ClipCocoDataset, model: ClipCaptionModel, args,
             optimizer.step()
             scheduler.step()
             optimizer.zero_grad()
-            progress.set_postfix({"loss": loss.item()})
+            loss_list.append(loss.item())
+            progress.set_postfix({"loss": np.mean(loss_list)})
             progress.update()
             if (idx + 1) % 10000 == 0:
                 torch.save(

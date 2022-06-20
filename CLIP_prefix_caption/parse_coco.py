@@ -7,46 +7,37 @@ import json
 import os
 from tqdm import tqdm
 import argparse
-from transformers import CLIPProcessor, CLIPModel
 
-
-json_path = '../fengyu/0_all.json'
-image_path = '../fengyu/image'
+json_path = '../reju/reju.json'
+image_path = '../'
 
 def main(clip_model_type: str):
     device = torch.device('cuda:0')
     clip_model_name = clip_model_type.replace('/', '_')
     out_path = f"./fengyu/{clip_model_name}_embedding.pkl"
 
-    # clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
-    # preprocess = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
-    clip_model, preprocess = clip.load(clip_model_type, device=device, jit=False)
+    model, preprocess = clip.load(clip_model_type, device=device, jit=False)
+    model_path = '../CLIP/models/clip_latest.pt'
+    with open(model_path, 'rb') as opened_file: 
+        model.load_state_dict(torch.load(opened_file, map_location="cpu"))
+    
     with open(json_path, 'r') as f:
         data = json.load(f)
-    print("%0d captions loaded from json " % len(data['images']))
+    print("%0d captions loaded from json " % len(data['annotations']))
     all_embeddings = []
     all_captions = []
-    for i in tqdm(range(len(data['images']))):
-        d = data['images'][i]
-        a = data['annotations'][i]
-        d['caption'] = a['caption']
-        d['image_id'] = a['image_id']
+    for i in tqdm(range(len(data['annotations']))):
+        annotations = data["annotations"][i]
 
-        # image = io.imread(os.path.join(image_path, d["file_name"]))
-        # image = preprocess(text=a['caption'] , images=Image.fromarray(image), return_tensors="pt", padding=True)#.unsqueeze(0).to(device)
-        # image['pixel_values'] = image['pixel_values'][0].unsqueeze(0)
-        # with torch.no_grad():a
-        #     prefix_hf = clip_model(**image)
-
-        image = io.imread(os.path.join(image_path, d["file_name"]))
+        image = io.imread(os.path.join(image_path, annotations["file_name"]))
         image = preprocess(Image.fromarray(image)).unsqueeze(0).to(device)
         with torch.no_grad():
-            prefix = clip_model.encode_image(image)
+            prefix = model.encode_image(image)
         
-        d["clip_embedding"] = i
+        annotations["clip_embedding"] = i
 
         all_embeddings.append(prefix)
-        all_captions.append(d)
+        all_captions.append(annotations)
         if (i + 1) % 10000 == 0:
             with open(out_path, 'wb') as f:
                 pickle.dump({"clip_embeddings": torch.cat(all_embeddings, dim=0), "captions": all_captions}, f)
