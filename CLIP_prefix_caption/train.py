@@ -1,9 +1,21 @@
+from lib2to3.pgen2 import token
 import torch
 import torch.nn as nn
 from torch.nn import functional as nnf
 from torch.utils.data import Dataset, DataLoader
 from enum import Enum
-from transformers import GPT2Tokenizer, GPT2LMHeadModel, AdamW, get_linear_schedule_with_warmup
+from transformers import (
+    GPT2Tokenizer, 
+    GPT2LMHeadModel, 
+    AdamW, 
+    T5ForConditionalGeneration,
+    AutoModelForSeq2SeqLM,
+    MT5ForConditionalGeneration,
+    AutoTokenizer,
+    DataCollatorForSeq2Seq,
+    AutoConfig,
+    get_linear_schedule_with_warmup,
+)
 from tqdm import tqdm
 import os
 import pickle
@@ -12,6 +24,15 @@ import argparse
 import json
 from typing import Tuple, Optional, Union
 import numpy as np
+import random
+
+seed = 567
+torch.manual_seed(seed)
+torch.cuda.manual_seed(seed)
+np.random.seed(seed)
+random.seed(seed)
+torch.backends.cudnn.enabled=False
+torch.backends.cudnn.deterministic=True
 
 class MappingType(Enum):
     MLP = 'mlp'
@@ -21,10 +42,12 @@ class MappingType(Enum):
 class ClipCocoDataset(Dataset):
 
     def __len__(self) -> int:
-        return len(self.captions_tokens)
+        return len(self.prefixes)
 
     def pad_tokens(self, item: int):
         tokens = self.captions_tokens[item]
+        print('caption: ', self.captions[item])
+        print('caption_token: ', self.captions_tokens[item])
         padding = self.max_seq_len - tokens.shape[0]
         if padding > 0:
             tokens = torch.cat((tokens, torch.zeros(padding, dtype=torch.int64) - 1))
@@ -39,37 +62,35 @@ class ClipCocoDataset(Dataset):
         return tokens, mask
 
     def __getitem__(self, item: int) -> Tuple[torch.Tensor, ...]:
-        tokens, mask = self.pad_tokens(item)
-        prefix = self.prefixes[self.caption2embedding[item]]
-        if self.normalize_prefix:
-            prefix = prefix.float()
-            prefix = prefix / prefix.norm(2, -1)
-        return tokens, mask, prefix
+        tokens = {}
+        for k in self.captions.keys():
+            tokens[k] = self.captions[k][item]
+        tokens['prefix'] = self.prefixes[item].tolist()
+        # print(tokens)
+        return tokens
 
-    def __init__(self, data_path: str,  prefix_length: int, gpt2_type: str = "gpt2",
-                 normalize_prefix=False):
-        self.tokenizer = GPT2Tokenizer.from_pretrained(gpt2_type)
+    def __init__(self, data_path: str,  prefix_length: int, tokenizer, gpt2_type: str = "gpt2"):
+        self.tokenizer = tokenizer
         self.prefix_length = prefix_length
-        self.normalize_prefix = normalize_prefix
         with open(data_path, 'rb') as f:
             all_data = pickle.load(f)
         print("Data size is %0d" % len(all_data["clip_embedding"]))
         sys.stdout.flush()
-        self.prefixes = all_data["clip_embedding"]
-        captions_raw = all_data["captions"]
-        self.captions = [caption['violation_list'] for caption in captions_raw]
-        self.captions_tokens = []
+        self.prefixes = []
+        self.captions = []
         self.caption2embedding = []
-        max_seq_len = 0
-        for caption in captions_raw:
-            self.captions_tokens.append(torch.tensor(self.tokenizer.encode(caption['violation_list']), dtype=torch.int64))
-            self.caption2embedding.append(caption["clip_embedding"])
-            max_seq_len = max(max_seq_len, self.captions_tokens[-1].shape[0])
-        # self.max_seq_len = max_seq_len
-        with open(f"{data_path[:-4]}_tokens.pkl", 'wb') as f:
-            pickle.dump([self.captions_tokens, self.caption2embedding, max_seq_len], f)
-        all_len = torch.tensor([len(self.captions_tokens[i]) for i in range(len(self))]).float()
-        self.max_seq_len = min(int(all_len.mean() + all_len.std() * 10), int(all_len.max()))
+
+        for clip_embedding, caption in zip(all_data["clip_embedding"], all_data["captions"]):
+            if caption['violation_list'] != '':
+                self.captions.append(caption['violation_list'])
+                self.caption2embedding.append(caption["clip_embedding"])
+                self.prefixes.append(clip_embedding)
+
+        # print(self.caption2embedding)
+        # exit()
+        self.captions = self.tokenizer(self.captions, max_length=512, padding='max_length', truncation=True)
+        self.captions['labels'] = self.captions['input_ids']
+        # self.captions['prefix'] = self.prefixes
 
 
 class MLP(nn.Module):
@@ -221,22 +242,37 @@ class ClipCaptionModel(nn.Module):
 
     def forward(self, tokens: torch.Tensor, prefix: torch.Tensor, mask: Optional[torch.Tensor] = None,
                 labels: Optional[torch.Tensor] = None):
-        embedding_text = self.gpt.transformer.wte(tokens)
+        encoder_outputs = self.t5.encoder(input_ids=tokens['input_ids'], attention_mask=tokens['attention_mask'])
+        hidden_states = encoder_outputs[0]
+
         prefix_projections = self.clip_project(prefix).view(-1, self.prefix_length, self.gpt_embedding_size)
-        embedding_cat = torch.cat((prefix_projections, embedding_text), dim=1)
+        encoder_outputs.last_hidden_state = torch.cat((prefix_projections, hidden_states), dim=1)
+        # print(tokens['input_ids'][0])
+        # print(tokens['decoder_input_ids'][0])
+        # print(tokens['labels'][0])
         
-        if labels is not None:
-            dummy_token = self.get_dummy_token(tokens.shape[0], tokens.device)
-            labels = torch.cat((dummy_token, tokens), dim=1)
-        out = self.gpt(inputs_embeds=embedding_cat, labels=labels, attention_mask=mask)
-        return out
+        device = torch.device('cuda:0')
+        if tokens['labels'] is not None:
+            dummy_token = self.get_dummy_token(tokens['labels'].shape[0], device)
+            labels = torch.cat((dummy_token, tokens['labels']), dim=1)
+        decoder_input_ids = self.t5._shift_right(labels)
+        # print(decoder_input_ids[0])
+        output = self.t5(
+            # inputs_embeds=encoder_outputs,
+            encoder_outputs=encoder_outputs,
+            decoder_input_ids=decoder_input_ids,
+        )
+        return output
 
     def __init__(self, prefix_length: int, clip_length: Optional[int] = None, prefix_size: int = 512,
                  num_layers: int = 8, mapping_type: MappingType = MappingType.MLP):
         super(ClipCaptionModel, self).__init__()
         self.prefix_length = prefix_length
-        self.gpt = GPT2LMHeadModel.from_pretrained('gpt2')
-        self.gpt_embedding_size = self.gpt.transformer.wte.weight.shape[1]
+        config = AutoConfig.from_pretrained('google/mt5-small')
+        self.t5 = MT5ForConditionalGeneration.from_pretrained('google/mt5-small', config=config)
+        self.gpt_embedding_size = self.t5.model_dim
+        # self.gpt = GPT2LMHeadModel.from_pretrained('gpt2')
+        # self.gpt_embedding_size = self.gpt.transformer.wte.weight.shape[1]
         if mapping_type == MappingType.MLP:
             self.clip_project = MLP((prefix_size, (self.gpt_embedding_size * prefix_length) // 2,
                                      self.gpt_embedding_size * prefix_length))
@@ -286,64 +322,86 @@ def load_model(config_path: str, epoch_or_latest: Union[str, int] = '_latest'):
     return model, parser
 
 
-def train(dataset: ClipCocoDataset, model: ClipCaptionModel, args,
-          lr: float = 2e-5, warmup_steps: int = 5000, output_dir: str = ".", output_prefix: str = ""):
+def train(dataset: ClipCocoDataset, model: ClipCaptionModel, tokenizer, args,
+          lr: float = 1e-4, warmup_steps: int = 5000, output_dir: str = ".", output_prefix: str = ""):
 
     device = torch.device('cuda:0')
     batch_size = args.bs
     epochs = args.epochs
+    save_every = 10
+
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-    model = model.to(device)
+    model.to(device)
     model.train()
     optimizer = AdamW(model.parameters(), lr=lr)
-    train_dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True, drop_last=True)
+
+    label_pad_token_id = -100 
+    data_collator = DataCollatorForSeq2Seq(
+            tokenizer,
+            model=model.t5,
+            label_pad_token_id=label_pad_token_id,
+            pad_to_multiple_of=None,
+        )
+
+    train_dataloader = DataLoader(dataset, batch_size=batch_size, collate_fn=data_collator, shuffle=True, drop_last=True)
     scheduler = get_linear_schedule_with_warmup(
         optimizer, num_warmup_steps=warmup_steps, num_training_steps=epochs * len(train_dataloader)
     )
+    criterion = torch.nn.CrossEntropyLoss(ignore_index=0)
     # save_config(args)
     for epoch in range(epochs):
         print(f">>> Training epoch {epoch}")
         sys.stdout.flush()
         progress = tqdm(total=len(train_dataloader), desc=output_prefix)
         loss_list = []
-        for idx, (tokens, mask, prefix) in enumerate(train_dataloader):
+        for idx, tokens in enumerate(train_dataloader):
             model.zero_grad()
-            tokens, mask, prefix = tokens.to(device), mask.to(device), prefix.to(device, dtype=torch.float32)
-            outputs = model(tokens, prefix, mask)
+            tokens = tokens.to(device)
+            prefix = tokens.pop('prefix')
+            outputs = model(tokens, prefix)
+
             logits = outputs.logits[:, dataset.prefix_length - 1: -1]
-            loss = nnf.cross_entropy(logits.reshape(-1, logits.shape[-1]), tokens.flatten(), ignore_index=0)
+            # print(outputs.logits.shape)
+            # print(logits.shape)
+            # print(logits.reshape(-1, logits.shape[-1]).shape)
+            # print(tokens['input_ids'].shape)
+            # print(tokens['input_ids'].flatten().shape)
+            loss = criterion(logits.reshape(-1, logits.shape[-1]), tokens['input_ids'].flatten())
+            # print(loss)
+            # exit()
+
             loss.backward()
             optimizer.step()
             scheduler.step()
             optimizer.zero_grad()
             loss_list.append(loss.item())
-            progress.set_postfix({"loss": np.mean(loss_list)})
+            progress.set_postfix({
+                'loss': np.mean(loss_list),
+                'lr': scheduler.optimizer.param_groups[0]['lr'],
+                })
             progress.update()
-            if (idx + 1) % 10000 == 0:
-                torch.save(
-                    model.state_dict(),
-                    os.path.join(output_dir, f"{output_prefix}_latest.pt"),
-                )
+
         progress.close()
-        if epoch % args.save_every == 0 or epoch == epochs - 1:
+        if epoch + 1 % save_every == 0:
+            print('save')
             torch.save(
                 model.state_dict(),
-                os.path.join(output_dir, f"{output_prefix}-{epoch:03d}.pt"),
+                os.path.join(output_dir, f"{output_prefix}_latest.pt"),
             )
     return model
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', default='./fengyu/ViT-B_32_embedding.pkl')
+    parser.add_argument('--data', default='./embedding/ViT-B_32_reju_embedding.pkl')
     parser.add_argument('--out_dir', default='./models')
     parser.add_argument('--prefix', default='coco_prefix', help='prefix for saved filenames')
-    parser.add_argument('--epochs', type=int, default=10)
+    parser.add_argument('--epochs', type=int, default=100)
     parser.add_argument('--save_every', type=int, default=1)
     parser.add_argument('--prefix_length', type=int, default=10)
     parser.add_argument('--prefix_length_clip', type=int, default=10)
-    parser.add_argument('--bs', type=int, default=2)
+    parser.add_argument('--bs', type=int, default=1)
     parser.add_argument('--only_prefix', dest='only_prefix', action='store_true')
     parser.add_argument('--mapping_type', type=str, default='mlp', help='mlp/transformer')
     parser.add_argument('--num_layers', type=int, default=8)
@@ -351,7 +409,9 @@ def main():
     parser.add_argument('--normalize_prefix', dest='normalize_prefix', action='store_true')
     args = parser.parse_args()
     prefix_length = args.prefix_length
-    dataset = ClipCocoDataset(args.data, prefix_length, normalize_prefix=args.normalize_prefix)
+
+    tokenizer = AutoTokenizer.from_pretrained('google/mt5-small', use_fast=True)
+    dataset = ClipCocoDataset(args.data, prefix_length, tokenizer)
     prefix_dim = 640 if args.is_rn else 512
     args.mapping_type = {'mlp': MappingType.MLP, 'transformer': MappingType.Transformer}[args.mapping_type]
     if args.only_prefix:
@@ -363,7 +423,7 @@ def main():
                                   num_layers=args.num_layers, mapping_type=args.mapping_type)
         print("Train both prefix and GPT")
         sys.stdout.flush()
-    train(dataset, model, args, output_dir=args.out_dir, output_prefix=args.prefix)
+    train(dataset, model, tokenizer, args, output_dir=args.out_dir, output_prefix=args.prefix)
 
 
 if __name__ == '__main__':
