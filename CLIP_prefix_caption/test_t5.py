@@ -1,9 +1,21 @@
+from lib2to3.pgen2 import token
 import torch
 import torch.nn as nn
 from torch.nn import functional as nnf
 from torch.utils.data import Dataset, DataLoader
 from enum import Enum
-from transformers import GPT2Tokenizer, GPT2LMHeadModel, AdamW, get_linear_schedule_with_warmup
+from transformers import (
+    GPT2Tokenizer, 
+    GPT2LMHeadModel, 
+    AdamW, 
+    T5ForConditionalGeneration,
+    AutoModelForSeq2SeqLM,
+    MT5ForConditionalGeneration,
+    AutoTokenizer,
+    DataCollatorForSeq2Seq,
+    AutoConfig,
+    get_linear_schedule_with_warmup,
+)
 from tqdm import tqdm
 import os
 import pickle
@@ -12,6 +24,18 @@ import argparse
 import json
 from typing import Tuple, Optional, Union
 import numpy as np
+import random
+import clip
+from PIL import Image
+import skimage.io as io
+
+seed = 567
+torch.manual_seed(seed)
+torch.cuda.manual_seed(seed)
+np.random.seed(seed)
+random.seed(seed)
+torch.backends.cudnn.enabled=False
+torch.backends.cudnn.deterministic=True
 
 class MappingType(Enum):
     MLP = 'mlp'
@@ -21,56 +45,38 @@ class MappingType(Enum):
 class ClipCocoDataset(Dataset):
 
     def __len__(self) -> int:
-        return len(self.captions_tokens)
-
-    def pad_tokens(self, item: int):
-        tokens = self.captions_tokens[item]
-        padding = self.max_seq_len - tokens.shape[0]
-        if padding > 0:
-            tokens = torch.cat((tokens, torch.zeros(padding, dtype=torch.int64) - 1))
-            self.captions_tokens[item] = tokens
-        elif padding < 0:
-            tokens = tokens[:self.max_seq_len]
-            self.captions_tokens[item] = tokens
-        mask = tokens.ge(0)  # mask is zero where we out of sequence
-        tokens[~mask] = 0
-        mask = mask.float()
-        mask = torch.cat((torch.ones(self.prefix_length), mask), dim=0)  # adding prefix mask
-        return tokens, mask
+        return len(self.prefixes)
 
     def __getitem__(self, item: int) -> Tuple[torch.Tensor, ...]:
-        tokens, mask = self.pad_tokens(item)
-        prefix = self.prefixes[self.caption2embedding[item]]
-        if self.normalize_prefix:
-            prefix = prefix.float()
-            prefix = prefix / prefix.norm(2, -1)
-        return tokens, mask, prefix
+        tokens = {}
+        for k in self.captions.keys():
+            tokens[k] = self.captions[k][item]
+        tokens['prefix'] = self.prefixes[item].tolist()
+        # print(tokens)
+        return tokens
 
-    def __init__(self, data_path: str,  prefix_length: int, gpt2_type: str = "gpt2",
-                 normalize_prefix=False):
-        self.tokenizer = GPT2Tokenizer.from_pretrained(gpt2_type)
+    def __init__(self, data_path: str,  prefix_length: int, tokenizer, gpt2_type: str = "gpt2"):
+        self.tokenizer = tokenizer
         self.prefix_length = prefix_length
-        self.normalize_prefix = normalize_prefix
         with open(data_path, 'rb') as f:
             all_data = pickle.load(f)
         print("Data size is %0d" % len(all_data["clip_embedding"]))
         sys.stdout.flush()
-        self.prefixes = all_data["clip_embedding"]
-        captions_raw = all_data["captions"]
-        self.captions = [caption['violation_list'] for caption in captions_raw]
-        self.captions_tokens = []
+        self.prefixes = []
+        self.captions = []
         self.caption2embedding = []
-        max_seq_len = 0
-        for caption in captions_raw:
-            self.captions_tokens.append(torch.tensor(self.tokenizer.encode(caption['violation_list']), dtype=torch.int64))
-            self.caption2embedding.append(caption["clip_embedding"])
-            max_seq_len = max(max_seq_len, self.captions_tokens[-1].shape[0])
-        # self.max_seq_len = max_seq_len
-        with open(f"{data_path[:-4]}_tokens.pkl", 'wb') as f:
-            pickle.dump([self.captions_tokens, self.caption2embedding, max_seq_len], f)
-        all_len = torch.tensor([len(self.captions_tokens[i]) for i in range(len(self))]).float()
-        self.max_seq_len = min(int(all_len.mean() + all_len.std() * 10), int(all_len.max()))
 
+        for clip_embedding, caption in zip(all_data["clip_embedding"], all_data["captions"]):
+            if caption['violation_list'] != '':
+                self.captions.append(caption['violation_list'])
+                self.caption2embedding.append(caption["clip_embedding"])
+                self.prefixes.append(clip_embedding)
+
+        # print(self.caption2embedding)
+        # exit()
+        self.captions = self.tokenizer(self.captions, max_length=32, padding='max_length', truncation=True)
+        self.captions['labels'] = self.captions['input_ids']
+        # self.captions['prefix'] = self.prefixes
 
 class MLP(nn.Module):
 
@@ -84,8 +90,6 @@ class MLP(nn.Module):
             layers.append(nn.Linear(sizes[i], sizes[i + 1], bias=bias))
             if i < len(sizes) - 2:
                 layers.append(act())
-
-        print(layers)
         self.model = nn.Sequential(*layers)
 
 
@@ -221,22 +225,35 @@ class ClipCaptionModel(nn.Module):
 
     def forward(self, tokens: torch.Tensor, prefix: torch.Tensor, mask: Optional[torch.Tensor] = None,
                 labels: Optional[torch.Tensor] = None):
-        embedding_text = self.gpt.transformer.wte(tokens)
+        encoder_outputs = self.t5.encoder(input_ids=tokens['input_ids'], attention_mask=tokens['attention_mask'])
+        hidden_states = encoder_outputs[0]
+
         prefix_projections = self.clip_project(prefix).view(-1, self.prefix_length, self.gpt_embedding_size)
-        embedding_cat = torch.cat((prefix_projections, embedding_text), dim=1)
+        encoder_outputs.last_hidden_state = torch.cat((prefix_projections, hidden_states), dim=1)
+        # print(tokens['input_ids'][0])
+        # print(tokens['decoder_input_ids'][0])
+        # print(tokens['labels'][0])
         
-        if labels is not None:
-            dummy_token = self.get_dummy_token(tokens.shape[0], tokens.device)
-            labels = torch.cat((dummy_token, tokens), dim=1)
-        out = self.gpt(inputs_embeds=embedding_cat, labels=labels, attention_mask=mask)
-        return out
+        device = torch.device('cuda:0')
+        if tokens['labels'] is not None:
+            dummy_token = self.get_dummy_token(tokens['labels'].shape[0], device)
+            labels = torch.cat((dummy_token, tokens['labels']), dim=1)
+        decoder_input_ids = self.t5._shift_right(labels)
+        # print(decoder_input_ids[0])
+        output = self.t5(
+            # inputs_embeds=encoder_outputs,
+            encoder_outputs=encoder_outputs,
+            decoder_input_ids=decoder_input_ids,
+        )
+        return output
 
     def __init__(self, prefix_length: int, clip_length: Optional[int] = None, prefix_size: int = 512,
                  num_layers: int = 8, mapping_type: MappingType = MappingType.MLP):
         super(ClipCaptionModel, self).__init__()
         self.prefix_length = prefix_length
-        self.gpt = GPT2LMHeadModel.from_pretrained('gpt2')
-        self.gpt_embedding_size = self.gpt.transformer.wte.weight.shape[1]
+        config = AutoConfig.from_pretrained('google/mt5-small')
+        self.t5 = MT5ForConditionalGeneration.from_pretrained('google/mt5-small', config=config)
+        self.gpt_embedding_size = self.t5.model_dim
         if mapping_type == MappingType.MLP:
             self.clip_project = MLP((prefix_size, (self.gpt_embedding_size * prefix_length) // 2,
                                      self.gpt_embedding_size * prefix_length))
@@ -286,57 +303,192 @@ def load_model(config_path: str, epoch_or_latest: Union[str, int] = '_latest'):
     return model, parser
 
 
-def train(dataset: ClipCocoDataset, model: ClipCaptionModel, args,
-          lr: float = 2e-5, warmup_steps: int = 5000, output_dir: str = ".", output_prefix: str = ""):
+def generate_beam(
+    model,
+    tokenizer,
+    beam_size: int = 5,
+    prompt=None,
+    embed=None,
+    entry_length=67,
+    temperature=1.0,
+    stop_token: str = ".",
+):
 
-    device = torch.device('cuda:0')
-    batch_size = args.bs
-    epochs = args.epochs
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-    model = model.to(device)
-    model.train()
-    optimizer = AdamW(model.parameters(), lr=lr)
-    train_dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True, drop_last=True)
-    scheduler = get_linear_schedule_with_warmup(
-        optimizer, num_warmup_steps=warmup_steps, num_training_steps=epochs * len(train_dataloader)
-    )
-    # save_config(args)
-    for epoch in range(epochs):
-        print(f">>> Training epoch {epoch}")
-        sys.stdout.flush()
-        progress = tqdm(total=len(train_dataloader), desc=output_prefix)
-        loss_list = []
-        for idx, (tokens, mask, prefix) in enumerate(train_dataloader):
-            model.zero_grad()
-            tokens, mask, prefix = tokens.to(device), mask.to(device), prefix.to(device, dtype=torch.float32)
-            outputs = model(tokens, prefix, mask)
-            logits = outputs.logits[:, dataset.prefix_length - 1: -1]
-            loss = nnf.cross_entropy(logits.reshape(-1, logits.shape[-1]), tokens.flatten(), ignore_index=0)
-            loss.backward()
-            optimizer.step()
-            scheduler.step()
-            optimizer.zero_grad()
-            loss_list.append(loss.item())
-            progress.set_postfix({"loss": np.mean(loss_list)})
-            progress.update()
-            if (idx + 1) % 10000 == 0:
-                torch.save(
-                    model.state_dict(),
-                    os.path.join(output_dir, f"{output_prefix}_latest.pt"),
+    model.eval()
+    stop_token_index = tokenizer.encode(stop_token)[0]
+    tokens = None
+    scores = None
+    device = next(model.parameters()).device
+    seq_lengths = torch.ones(beam_size, device=device)
+    is_stopped = torch.zeros(beam_size, device=device, dtype=torch.bool)
+    with torch.no_grad():
+        if embed is not None:
+            generated = embed
+        else:
+            if tokens is None:
+                tokens = torch.tensor(tokenizer.encode(prompt))
+                tokens = tokens.unsqueeze(0).to(device)
+                generated = model.gpt.transformer.wte(tokens)
+        for i in range(entry_length):
+            outputs = model.gpt(inputs_embeds=generated)
+            logits = outputs.logits
+            logits = logits[:, -1, :] / (temperature if temperature > 0 else 1.0)
+            logits = logits.softmax(-1).log()
+            if scores is None:
+                scores, next_tokens = logits.topk(beam_size, -1)
+                generated = generated.expand(beam_size, *generated.shape[1:])
+                next_tokens, scores = next_tokens.permute(1, 0), scores.squeeze(0)
+                if tokens is None:
+                    tokens = next_tokens
+                else:
+                    tokens = tokens.expand(beam_size, *tokens.shape[1:])
+                    tokens = torch.cat((tokens, next_tokens), dim=1)
+            else:
+                logits[is_stopped] = -float(np.inf)
+                logits[is_stopped, 0] = 0
+                scores_sum = scores[:, None] + logits
+                seq_lengths[~is_stopped] += 1
+                scores_sum_average = scores_sum / seq_lengths[:, None]
+                scores_sum_average, next_tokens = scores_sum_average.view(-1).topk(
+                    beam_size, -1
                 )
-        progress.close()
-        if epoch % args.save_every == 0 or epoch == epochs - 1:
-            torch.save(
-                model.state_dict(),
-                os.path.join(output_dir, f"{output_prefix}-{epoch:03d}.pt"),
+                next_tokens_source = next_tokens // scores_sum.shape[1]
+                seq_lengths = seq_lengths[next_tokens_source]
+                next_tokens = next_tokens % scores_sum.shape[1]
+                next_tokens = next_tokens.unsqueeze(1)
+                tokens = tokens[next_tokens_source]
+                tokens = torch.cat((tokens, next_tokens), dim=1)
+                generated = generated[next_tokens_source]
+                scores = scores_sum_average * seq_lengths
+                is_stopped = is_stopped[next_tokens_source]
+            next_token_embed = model.gpt.transformer.wte(next_tokens.squeeze()).view(
+                generated.shape[0], 1, -1
             )
-    return model
+            generated = torch.cat((generated, next_token_embed), dim=1)
+            is_stopped = is_stopped + next_tokens.eq(stop_token_index).squeeze()
+            if is_stopped.all():
+                break
+    scores = scores / seq_lengths
+    output_list = tokens.cpu().numpy()
+    output_texts = [
+        tokenizer.decode(output[: int(length)])
+        for output, length in zip(output_list, seq_lengths)
+    ]
+    order = scores.argsort(descending=True)
+    output_texts = [output_texts[i] for i in order]
+    return output_texts
+
+
+def generate2(
+    model,
+    tokenizer,
+    tokens=None,
+    prompt=None,
+    embed=None,
+    entry_count=1,
+    entry_length=67,  # maximum number of words
+    top_p=0.8,
+    temperature=1.0,
+    stop_token: str = ".",
+):
+    model.eval()
+    generated_num = 0
+    generated_list = []
+    stop_token_index = tokenizer.encode(stop_token)[0]
+    filter_value = -float("Inf")
+    device = next(model.parameters()).device
+
+    with torch.no_grad():
+
+        for entry_idx in range(entry_count):
+            if embed is not None:
+                generated = embed
+            else:
+                if tokens is None:
+                    tokens = torch.tensor(tokenizer.encode(prompt))
+                    tokens = tokens.unsqueeze(0).to(device)
+                generated = model.gpt.transformer.wte(tokens)
+            
+
+            generated = embed
+
+            # q = ''
+            # q = torch.tensor(tokenizer.encode(q))
+            # q = q.unsqueeze(0).to(device)
+            # q = model.gpt.transformer.wte(q)
+            # generated = torch.cat((embed, q), dim=1)
+            # print(generated.shape)
+
+            for i in range(entry_length):
+
+                outputs = model.gpt(inputs_embeds=generated)
+                logits = outputs.logits
+                logits = logits[:, -1, :] / (temperature if temperature > 0 else 1.0)
+                sorted_logits, sorted_indices = torch.sort(logits, descending=True)
+                cumulative_probs = torch.cumsum(
+                    nnf.softmax(sorted_logits, dim=-1), dim=-1
+                )
+                sorted_indices_to_remove = cumulative_probs > top_p
+                sorted_indices_to_remove[..., 1:] = sorted_indices_to_remove[
+                    ..., :-1
+                ].clone()
+                sorted_indices_to_remove[..., 0] = 0
+
+                indices_to_remove = sorted_indices[sorted_indices_to_remove]
+                logits[:, indices_to_remove] = filter_value
+                next_token = torch.argmax(logits, -1).unsqueeze(0)
+                next_token_embed = model.gpt.transformer.wte(next_token)
+                if tokens is None:
+                    tokens = next_token
+                else:
+                    tokens = torch.cat((tokens, next_token), dim=1)
+                generated = torch.cat((generated, next_token_embed), dim=1)
+                if stop_token_index == next_token.item():
+                    break
+
+            output_list = list(tokens.squeeze().cpu().numpy())
+            output_text = tokenizer.decode(output_list)
+            generated_list.append(output_text)
+
+    return generated_list[0]
+
+def predict(image, model, use_beam_search):
+    device = torch.device('cuda:0')
+
+    prefix_length = 10
+    model.load_state_dict(torch.load('models/coco_prefix_latest.pt'))
+    model.to(device)
+
+    clip_model, preprocess = clip.load("ViT-B/32", device=device, jit=False)
+    model_path = '../CLIP/models/clip_latest.pt'
+    with open(model_path, 'rb') as opened_file: 
+        clip_model.load_state_dict(torch.load(opened_file, map_location="cpu"))
+    pil_image = io.imread(image)
+    image = preprocess(Image.fromarray(pil_image)).unsqueeze(0).to(device)
+    with torch.no_grad():
+        prefix = clip_model.encode_image(image).to(
+            device, dtype=torch.float32
+        )
+        prefix_embed = model.clip_project(prefix).reshape(1, prefix_length, -1)
+
+    print(prefix_embed.shape)
+    model.eval()
+
+    output = model.t5.generate(
+        inputs_embeds=prefix_embed,
+        temperature=1.5,
+        do_sample=True,
+        max_length=50,
+    )
+    tokenizer = AutoTokenizer.from_pretrained('google/mt5-small', use_fast=True)
+    print(output)
+    decode = tokenizer.decode(output[0], skip_special_tokens=True)
+    print(decode)
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', default='./fengyu/ViT-B_32_embedding.pkl')
+    parser.add_argument('--data', default='./embedding/ViT-B_32_reju_embedding.pkl')
     parser.add_argument('--out_dir', default='./models')
     parser.add_argument('--prefix', default='coco_prefix', help='prefix for saved filenames')
     parser.add_argument('--epochs', type=int, default=10)
@@ -351,7 +503,9 @@ def main():
     parser.add_argument('--normalize_prefix', dest='normalize_prefix', action='store_true')
     args = parser.parse_args()
     prefix_length = args.prefix_length
-    dataset = ClipCocoDataset(args.data, prefix_length, normalize_prefix=args.normalize_prefix)
+
+    tokenizer = AutoTokenizer.from_pretrained('google/mt5-small', use_fast=True)
+    dataset = ClipCocoDataset(args.data, prefix_length, tokenizer)
     prefix_dim = 640 if args.is_rn else 512
     args.mapping_type = {'mlp': MappingType.MLP, 'transformer': MappingType.Transformer}[args.mapping_type]
     if args.only_prefix:
@@ -363,7 +517,19 @@ def main():
                                   num_layers=args.num_layers, mapping_type=args.mapping_type)
         print("Train both prefix and GPT")
         sys.stdout.flush()
-    train(dataset, model, args, output_dir=args.out_dir, output_prefix=args.prefix)
+
+    print('predict')
+    # image = '../fengyu/image/20200818_榮莊大武崙集合住宅_3_3.jpeg'
+    # image = '../fengyu/image/20200818_榮莊大武崙集合住宅_17_3.jpeg'
+    # image = '../fengyu/image/20201008_美超微廠房_22_3.jpeg'
+    # image = '../chienkuo/image/202109_1.jpg'
+    # image = '../chienkuo/image/202104_4.jpg'
+    image = '../reju/不合格/施工架/e0c9f160-6e01-4c92-9584-293ac69f4342.jpg'
+    # image = '../reju/不合格/其他/無交通指揮人員及指揮手-缺.jpg'
+    
+    prediction = predict(image, model, use_beam_search=1)
+    print(prediction)
+
 
 
 if __name__ == '__main__':
