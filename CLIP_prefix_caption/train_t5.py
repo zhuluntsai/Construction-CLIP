@@ -1,4 +1,5 @@
 from lib2to3.pgen2 import token
+from tokenizers import Tokenizer
 import torch
 import torch.nn as nn
 from torch.nn import functional as nnf
@@ -235,7 +236,7 @@ class ClipCaptionModel(nn.Module):
         # print(tokens['labels'].shape)
         # print(tokens['labels'][0])
         # print(encoder_outputs.last_hidden_state.shape)
-        
+
         device = torch.device('cuda:0')
         if tokens['labels'] is not None:
             dummy_token = self.get_dummy_token(tokens['labels'].shape[0], device)
@@ -249,6 +250,16 @@ class ClipCaptionModel(nn.Module):
         mask = tokens['input_ids'].ge(0)
         mask = mask.float().to(device)
         mask = torch.cat((torch.ones(mask.shape[0], self.prefix_length).to(device), mask), dim=1)
+        
+        max_length = 32
+        embed_prefix = torch.cat((prefix_projections, hidden_states), dim=1)
+        # print(embed_prefix.shape)
+        # output = self.t5.generate(
+        #     inputs_embeds=embed_prefix,
+        #     do_sample=True,
+        #     max_length=max_length,
+        # )
+        # output = nnf.pad(output, (0, max_length - output.shape[-1]), 'constant', 0)
 
         # print(decoder_input_ids[0])
         output = self.t5(
@@ -323,7 +334,7 @@ def train(dataset: ClipCocoDataset, model: ClipCaptionModel, tokenizer, args,
     device = torch.device('cuda:0')
     batch_size = args.bs
     epochs = args.epochs
-    save_every = 10
+    save_every = 100
 
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -344,6 +355,7 @@ def train(dataset: ClipCocoDataset, model: ClipCaptionModel, tokenizer, args,
         optimizer, num_warmup_steps=warmup_steps, num_training_steps=epochs * len(train_dataloader)
     )
     criterion = torch.nn.CrossEntropyLoss(ignore_index=0)
+    # criterion = torch.nn.MultiLabelSoftMarginLoss()
     # save_config(args)
     for epoch in range(epochs):
         print(f">>> Training epoch {epoch}")
@@ -357,16 +369,23 @@ def train(dataset: ClipCocoDataset, model: ClipCaptionModel, tokenizer, args,
             outputs = model(tokens, prefix)
 
             logits = outputs.logits[:, dataset.prefix_length - 1: -1]
+            loss = criterion(logits.reshape(-1, logits.shape[-1]), tokens['input_ids'].flatten())
+
             # print(outputs.logits.shape)
-            # print(logits.shape)
+            # print(outputs.shape)
             # print(logits.reshape(-1, logits.shape[-1]).shape)
             # print(tokens['input_ids'].shape)
             # print(tokens['input_ids'].flatten().shape)
-            loss = criterion(logits.reshape(-1, logits.shape[-1]), tokens['input_ids'].flatten())
-            # print(loss)
-            # exit()
-
+            # print(outputs.flatten())
+            # print(tokens['input_ids'].flatten())
+            # sum = torch.sum(outputs.flatten()==tokens['input_ids'].flatten())
+            # print(outputs.flatten().shape[0])
+            # print(sum.item())
+            # loss = outputs.flatten().shape[0] - sum.item()
+            # loss = criterion(outputs.flatten().float(), tokens['input_ids'].flatten().float())
+            # loss.requires_grad = True
             loss.backward()
+            # exit()
             optimizer.step()
             scheduler.step()
             optimizer.zero_grad()
@@ -392,11 +411,11 @@ def main():
     parser.add_argument('--data', default='./embedding/ViT-B_32_reju_embedding.pkl')
     parser.add_argument('--out_dir', default='./models')
     parser.add_argument('--prefix', default='coco_prefix', help='prefix for saved filenames')
-    parser.add_argument('--epochs', type=int, default=100)
+    parser.add_argument('--epochs', type=int, default=1000)
     parser.add_argument('--save_every', type=int, default=1)
-    parser.add_argument('--prefix_length', type=int, default=10)
-    parser.add_argument('--prefix_length_clip', type=int, default=10)
-    parser.add_argument('--bs', type=int, default=4)
+    parser.add_argument('--prefix_length', type=int, default=30)
+    parser.add_argument('--prefix_length_clip', type=int, default=30)
+    parser.add_argument('--bs', type=int, default=2)
     parser.add_argument('--only_prefix', dest='only_prefix', action='store_true')
     parser.add_argument('--mapping_type', type=str, default='mlp', help='mlp/transformer')
     parser.add_argument('--num_layers', type=int, default=8)

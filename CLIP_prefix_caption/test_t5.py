@@ -240,10 +240,12 @@ class ClipCaptionModel(nn.Module):
             labels = torch.cat((dummy_token, tokens['labels']), dim=1)
         decoder_input_ids = self.t5._shift_right(labels)
         # print(decoder_input_ids[0])
-        output = self.t5(
-            # inputs_embeds=encoder_outputs,
-            encoder_outputs=encoder_outputs,
-            decoder_input_ids=decoder_input_ids,
+        max_length = 32
+        embed_prefix = torch.cat((prefix_projections, hidden_states), dim=1)
+        output = self.t5.generate(
+            inputs_embeds=embed_prefix,
+            do_sample=True,
+            max_length=max_length,
         )
         return output
 
@@ -460,9 +462,9 @@ def predict(image, model, use_beam_search):
     model.to(device)
 
     clip_model, preprocess = clip.load("ViT-B/32", device=device, jit=False)
-    model_path = '../CLIP/models/clip_latest.pt'
-    with open(model_path, 'rb') as opened_file: 
-        clip_model.load_state_dict(torch.load(opened_file, map_location="cpu"))
+    # model_path = '../CLIP/models/clip_latest.pt'
+    # with open(model_path, 'rb') as opened_file: 
+    #     clip_model.load_state_dict(torch.load(opened_file, map_location="cpu"))
     pil_image = io.imread(image)
     image = preprocess(Image.fromarray(pil_image)).unsqueeze(0).to(device)
     with torch.no_grad():
@@ -476,9 +478,8 @@ def predict(image, model, use_beam_search):
 
     output = model.t5.generate(
         inputs_embeds=prefix_embed,
-        temperature=1.5,
         do_sample=True,
-        max_length=50,
+        max_length=32,
     )
     tokenizer = AutoTokenizer.from_pretrained('google/mt5-small', use_fast=True)
     print(output)
@@ -493,8 +494,8 @@ def main():
     parser.add_argument('--prefix', default='coco_prefix', help='prefix for saved filenames')
     parser.add_argument('--epochs', type=int, default=10)
     parser.add_argument('--save_every', type=int, default=1)
-    parser.add_argument('--prefix_length', type=int, default=10)
-    parser.add_argument('--prefix_length_clip', type=int, default=10)
+    parser.add_argument('--prefix_length', type=int, default=30)
+    parser.add_argument('--prefix_length_clip', type=int, default=30)
     parser.add_argument('--bs', type=int, default=2)
     parser.add_argument('--only_prefix', dest='only_prefix', action='store_true')
     parser.add_argument('--mapping_type', type=str, default='mlp', help='mlp/transformer')
@@ -522,9 +523,9 @@ def main():
     # image = '../fengyu/image/20200818_榮莊大武崙集合住宅_3_3.jpeg'
     # image = '../fengyu/image/20200818_榮莊大武崙集合住宅_17_3.jpeg'
     # image = '../fengyu/image/20201008_美超微廠房_22_3.jpeg'
-    # image = '../chienkuo/image/202109_1.jpg'
-    # image = '../chienkuo/image/202104_4.jpg'
-    image = '../reju/不合格/施工架/e0c9f160-6e01-4c92-9584-293ac69f4342.jpg'
+    # image = '../chienkuo/output_doc/202109_1.jpg'
+    image = '../chienkuo/output_doc/202104_4.jpg'
+    # image = '../reju/不合格/施工架/e0c9f160-6e01-4c92-9584-293ac69f4342.jpg'
     # image = '../reju/不合格/其他/無交通指揮人員及指揮手-缺.jpg'
     
     prediction = predict(image, model, use_beam_search=1)

@@ -90,9 +90,9 @@ def main():
 
     model, preprocess = clip.load("ViT-B/32", device=device)
 
-    model_path = 'models/clip_latest.pt'
-    with open(model_path, 'rb') as opened_file: 
-        model.load_state_dict(torch.load(opened_file, map_location="cpu"))
+    # model_path = 'models/clip_latest.pt'
+    # with open(model_path, 'rb') as opened_file: 
+    #     model.load_state_dict(torch.load(opened_file, map_location="cpu"))
 
     batch_size = 1
     epochs = 10
@@ -147,8 +147,7 @@ def main():
             progress.update()
 
         progress.close()
-
-        if epoch % save_every == 0:
+        if (epoch + 1) % save_every == 0:
             print('save')
             torch.save(
                 model.state_dict(),
