@@ -20,8 +20,8 @@ image_path_list = [
     # '../chienkuo/output_doc/202104_4.jpg', # stair
     # '../chienkuo/output_doc/202107_10.jpg', # gas cylindar
     '../reju/不合格/施工架/e0c9f160-6e01-4c92-9584-293ac69f4342.jpg',
-    '../reju/不合格/安全帽/421cf39f-acc6-4306-8a39-5cdf5a66d61d.jpg',
-    '../reju/不合格/其他/無交通指揮人員及指揮手-缺.jpg',
+    # '../reju/不合格/安全帽/421cf39f-acc6-4306-8a39-5cdf5a66d61d.jpg',
+    # '../reju/不合格/其他/無交通指揮人員及指揮手-缺.jpg',
 ]
 image_list = []
 original_image_list = []
@@ -40,8 +40,8 @@ original_text = ["violation", "status"]
 text = clip.tokenize(original_text).to(device)
 
 with torch.no_grad():
-    image_features = model.encode_image(image).float()
-    text_features = model.encode_text(text).float()
+    # image_features = model.encode_image(image).float()
+    # text_features = model.encode_text(text).float()
     
     logits_per_image, logits_per_text = model(image, text)
     similarity = logits_per_image.softmax(dim=-1).cpu().numpy()
@@ -50,6 +50,9 @@ with torch.no_grad():
     # similarity = text_features.cpu().numpy() @ image_features.cpu().numpy().T
 
 print(similarity)
+
+index = np.argmax(similarity, axis=1)[0]
+print(original_text[index])
 
 font = font_manager.FontProperties(fname="STHeiti-Medium.ttc")
 count = len(original_text)
