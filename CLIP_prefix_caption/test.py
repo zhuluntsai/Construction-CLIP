@@ -1,9 +1,21 @@
+from lib2to3.pgen2 import token
 import torch
 import torch.nn as nn
 from torch.nn import functional as nnf
 from torch.utils.data import Dataset, DataLoader
 from enum import Enum
-from transformers import GPT2Tokenizer, GPT2LMHeadModel, AdamW, get_linear_schedule_with_warmup, GPT2Config
+from transformers import (
+    GPT2Tokenizer, 
+    GPT2LMHeadModel, 
+    AdamW, 
+    T5ForConditionalGeneration,
+    AutoModelForSeq2SeqLM,
+    MT5ForConditionalGeneration,
+    AutoTokenizer,
+    DataCollatorForSeq2Seq,
+    AutoConfig,
+    get_linear_schedule_with_warmup,
+)
 from tqdm import tqdm
 import os
 import pickle
@@ -11,11 +23,19 @@ import sys
 import argparse
 import json
 from typing import Tuple, Optional, Union
-
-import PIL.Image
-import skimage.io as io
-import clip
 import numpy as np
+import random
+import clip
+from PIL import Image
+import skimage.io as io
+
+seed = 567
+torch.manual_seed(seed)
+torch.cuda.manual_seed(seed)
+np.random.seed(seed)
+random.seed(seed)
+torch.backends.cudnn.enabled=False
+torch.backends.cudnn.deterministic=True
 
 class MappingType(Enum):
     MLP = 'mlp'
@@ -31,29 +51,40 @@ class ClipCocoDataset(Dataset):
         tokens = self.captions_tokens[item]
         padding = self.max_seq_len - tokens.shape[0]
         if padding > 0:
-            tokens = torch.cat((tokens, torch.zeros(padding, dtype=torch.int64) - 1))
+            tokens = torch.cat((tokens, torch.zeros(padding, dtype=torch.int64)))
             self.captions_tokens[item] = tokens
         elif padding < 0:
             tokens = tokens[:self.max_seq_len]
             self.captions_tokens[item] = tokens
+
+        attribute = self.attributes_tokens[item]
+        padding = self.attribute_length - attribute.shape[0]
+        if padding > 0:
+            attribute = torch.cat((attribute, torch.zeros(padding, dtype=torch.int64)))
+            self.attributes_tokens[item] = attribute
+        elif padding < 0:
+            attribute = attribute[:self.attribute_length]
+            self.attributes_tokens[item] = attribute
         mask = tokens.ge(0)  # mask is zero where we out of sequence
         tokens[~mask] = 0
         mask = mask.float()
-        mask = torch.cat((torch.ones(self.prefix_length), mask), dim=0)  # adding prefix mask
-        return tokens, mask
+        mask = torch.cat((torch.ones(self.prefix_length + self.attribute_length), mask), dim=0)  # adding prefix mask
+        return tokens, attribute, mask
 
     def __getitem__(self, item: int) -> Tuple[torch.Tensor, ...]:
-        tokens, mask = self.pad_tokens(item)
+        tokens, attribute, mask = self.pad_tokens(item)
+        i = self.caption2embedding[item]
         prefix = self.prefixes[self.caption2embedding[item]]
         if self.normalize_prefix:
             prefix = prefix.float()
             prefix = prefix / prefix.norm(2, -1)
-        return tokens, mask, prefix
+        return tokens, mask, prefix, attribute
 
-    def __init__(self, data_path: str,  prefix_length: int, gpt2_type: str = "gpt2",
+    def __init__(self, data_path: str,  prefix_length: int, attribute_length: int, gpt2_type: str = "gpt2",
                  normalize_prefix=False):
         self.tokenizer = GPT2Tokenizer.from_pretrained(gpt2_type)
         self.prefix_length = prefix_length
+        self.attribute_length = attribute_length
         self.normalize_prefix = normalize_prefix
         with open(data_path, 'rb') as f:
             all_data = pickle.load(f)
@@ -61,21 +92,23 @@ class ClipCocoDataset(Dataset):
         sys.stdout.flush()
         self.prefixes = all_data["clip_embedding"]
         captions_raw = all_data["captions"]
-        self.captions = [caption['violation_list'] for caption in captions_raw]
-        if os.path.isfile(f"{data_path[:-4]}_tokens.pkl"):
-            with open(f"{data_path[:-4]}_tokens.pkl", 'rb') as f:
-                self.captions_tokens, self.caption2embedding, self.max_seq_len = pickle.load(f)
-        else:
-            self.captions_tokens = []
-            self.caption2embedding = []
-            max_seq_len = 0
-            for caption in captions_raw:
-                self.captions_tokens.append(torch.tensor(self.tokenizer.encode(caption['violation_list']), dtype=torch.int64))
+        self.captions = []
+        self.captions_tokens = []
+        self.attributes_tokens = []
+        self.caption2embedding = []
+        max_seq_len = 0
+        for clip_embedding, caption in zip(all_data["clip_embedding"], all_data["captions"]):
+            if caption['violation_list'] != '':
+                self.captions.append(caption['violation_list'])
+                # self.prefixes.append(clip_embedding)
+
+                caption_data = caption['violation_list']
+                attribute = caption['attribute']
+                self.captions_tokens.append(torch.tensor(self.tokenizer.encode(caption_data), dtype=torch.int64))
+                self.attributes_tokens.append(torch.tensor(self.tokenizer.encode(attribute), dtype=torch.int64))
                 self.caption2embedding.append(caption["clip_embedding"])
                 max_seq_len = max(max_seq_len, self.captions_tokens[-1].shape[0])
-            # self.max_seq_len = max_seq_len
-            with open(f"{data_path[:-4]}_tokens.pkl", 'wb') as f:
-                pickle.dump([self.captions_tokens, self.caption2embedding, max_seq_len], f)
+        # self.max_seq_len = max_seq_len
         all_len = torch.tensor([len(self.captions_tokens[i]) for i in range(len(self))]).float()
         self.max_seq_len = min(int(all_len.mean() + all_len.std() * 10), int(all_len.max()))
 
@@ -225,11 +258,14 @@ class ClipCaptionModel(nn.Module):
     def get_dummy_token(self, batch_size: int, device: torch.device) -> torch.Tensor:
         return torch.zeros(batch_size, self.prefix_length, dtype=torch.int64, device=device)
 
-    def forward(self, tokens: torch.Tensor, prefix: torch.Tensor, mask: Optional[torch.Tensor] = None,
+    def forward(self, tokens: torch.Tensor, prefix: torch.Tensor, attribute: torch.Tensor, mask: Optional[torch.Tensor]=None,
                 labels: Optional[torch.Tensor] = None):
-        embedding_text = self.gpt.transformer.wte(tokens)
+        embedding_text = torch.cat((attribute, tokens), dim=1)
+        embedding_text = self.gpt.transformer.wte(embedding_text)
+
         prefix_projections = self.clip_project(prefix).view(-1, self.prefix_length, self.gpt_embedding_size)
         embedding_cat = torch.cat((prefix_projections, embedding_text), dim=1)
+        
         if labels is not None:
             dummy_token = self.get_dummy_token(tokens.shape[0], tokens.device)
             labels = torch.cat((dummy_token, tokens), dim=1)
@@ -289,52 +325,6 @@ def load_model(config_path: str, epoch_or_latest: Union[str, int] = '_latest'):
     else:
         print(f"{model_path} is not exist")
     return model, parser
-
-
-def train(dataset: ClipCocoDataset, model: ClipCaptionModel, args,
-          lr: float = 2e-5, warmup_steps: int = 5000, output_dir: str = ".", output_prefix: str = ""):
-
-    device = torch.device('cuda:0')
-    batch_size = args.bs
-    epochs = args.epochs
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-    model = model.to(device)
-    model.train()
-    optimizer = AdamW(model.parameters(), lr=lr)
-    train_dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True, drop_last=True)
-    scheduler = get_linear_schedule_with_warmup(
-        optimizer, num_warmup_steps=warmup_steps, num_training_steps=epochs * len(train_dataloader)
-    )
-    # save_config(args)
-    for epoch in range(epochs):
-        print(f">>> Training epoch {epoch}")
-        sys.stdout.flush()
-        progress = tqdm(total=len(train_dataloader), desc=output_prefix)
-        for idx, (tokens, mask, prefix) in enumerate(train_dataloader):
-            model.zero_grad()
-            tokens, mask, prefix = tokens.to(device), mask.to(device), prefix.to(device, dtype=torch.float32)
-            outputs = model(tokens, prefix, mask)
-            logits = outputs.logits[:, dataset.prefix_length - 1: -1]
-            loss = nnf.cross_entropy(logits.reshape(-1, logits.shape[-1]), tokens.flatten(), ignore_index=0)
-            loss.backward()
-            optimizer.step()
-            scheduler.step()
-            optimizer.zero_grad()
-            progress.set_postfix({"loss": loss.item()})
-            progress.update()
-            if (idx + 1) % 10000 == 0:
-                torch.save(
-                    model.state_dict(),
-                    os.path.join(output_dir, f"{output_prefix}_latest.pt"),
-                )
-        progress.close()
-        if epoch % args.save_every == 0 or epoch == epochs - 1:
-            torch.save(
-                model.state_dict(),
-                os.path.join(output_dir, f"{output_prefix}-{epoch:03d}.pt"),
-            )
-    return model
 
 
 def generate_beam(
@@ -423,7 +413,7 @@ def generate2(
     entry_length=67,  # maximum number of words
     top_p=0.8,
     temperature=1.0,
-    stop_token: str = ".",
+    stop_token: str = "。",
 ):
     model.eval()
     generated_num = 0
@@ -486,55 +476,67 @@ def generate2(
 
     return generated_list[0]
 
-def predict(image, model, use_beam_search):
+def predict(image, model, prefix_length, use_beam_search):
     device = torch.device('cuda:0')
 
-    prefix_length = 10
-    model.load_state_dict(torch.load('models/coco_prefix-009.pt'))
+    model.load_state_dict(torch.load('models/coco_prefix-0500.pt'))
     model.to(device)
 
-    # embedding = model.gpt.transformer.wte.weight.cpu().detach().numpy()
-
-    tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-    text_index = tokenizer.encode('墜落', add_prefix_space=True)
-    vector = model.gpt.transformer.wte.weight[text_index,:]
-
-    tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+    caption_types = {
+        'status': '現況',
+        'violation': '缺失'
+    }
+    violation_types = ['墜落', '防護具', '穿刺', '搬運', '感電', '爆炸', '工作場所', '物料', '機械']
+    caption_type_token = clip.tokenize(list(caption_types.keys())).to(device)
+    violation_type_token = clip.tokenize(violation_types).to(device)
 
     clip_model, preprocess = clip.load("ViT-B/32", device=device, jit=False)
     model_path = '../CLIP/models/clip_latest.pt'
+    # model_path = '../CLIP/models/clip_latest.pt'
     with open(model_path, 'rb') as opened_file: 
         clip_model.load_state_dict(torch.load(opened_file, map_location="cpu"))
-    prefix_length = 10
-    pil_image = PIL.Image.fromarray(io.imread(image))
-    image = preprocess(pil_image).unsqueeze(0).to(device)
+    pil_image = io.imread(image)
+    image = preprocess(Image.fromarray(pil_image)).unsqueeze(0).to(device)
+    tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
     with torch.no_grad():
         prefix = clip_model.encode_image(image).to(
             device, dtype=torch.float32
         )
+        logits_per_image, _ = clip_model(image, caption_type_token)
+        similarity = logits_per_image.softmax(dim=-1).cpu().numpy()
+        index = np.argmax(similarity, axis=1)[0]
+        caption_type = list(caption_types.values())[index]
+
+        logits_per_image, _ = clip_model(image, violation_type_token)
+        similarity = logits_per_image.softmax(dim=-1).cpu().numpy()
+        index = np.argmax(similarity, axis=1)[0]
+        violation_type = violation_types[index]
+
+        attribute = f'{caption_type} {violation_type} '
+        attribute = f'缺失 {violation_type} '
+        encode_attribute = torch.tensor(tokenizer.encode(attribute), dtype=torch.int64).to(device)
+
         prefix_embed = model.clip_project(prefix).reshape(1, prefix_length, -1)
+        embedding_text = model.gpt.transformer.wte(encode_attribute).unsqueeze(0)
+        print(prefix_embed.shape)
+        print(embedding_text.shape)
+        embedding_cat = torch.cat((prefix_embed, embedding_text), dim=1)
 
-
+    print(attribute)
     model.eval()
-    print(prefix_embed.shape)
-    generate = model.gpt(inputs_embeds=prefix_embed)
-    print(generate['logits'].shape)
-
-    # exit()
     if use_beam_search:
-        return generate_beam(model, tokenizer, embed=prefix_embed)[0]
+        return generate_beam(model, tokenizer, embed=embedding_cat)[0]
     else:
-        return generate2(model, tokenizer, embed=prefix_embed)
+        return generate2(model, tokenizer, embed=embedding_cat)
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', default='./fengyu/ViT-B_32_embedding.pkl')
+    parser.add_argument('--data', default='./embedding/ViT-B_32_reju_embedding.pkl')
     parser.add_argument('--out_dir', default='./models')
     parser.add_argument('--prefix', default='coco_prefix', help='prefix for saved filenames')
-    parser.add_argument('--epochs', type=int, default=10)
-    parser.add_argument('--save_every', type=int, default=1)
-    parser.add_argument('--prefix_length', type=int, default=10)
-    parser.add_argument('--prefix_length_clip', type=int, default=10)
+    parser.add_argument('--prefix_length', type=int, default=20)
+    parser.add_argument('--attribute_length', type=int, default=20)
+    parser.add_argument('--prefix_length_clip', type=int, default=20)
     parser.add_argument('--bs', type=int, default=2)
     parser.add_argument('--only_prefix', dest='only_prefix', action='store_true')
     parser.add_argument('--mapping_type', type=str, default='mlp', help='mlp/transformer')
@@ -543,7 +545,8 @@ def main():
     parser.add_argument('--normalize_prefix', dest='normalize_prefix', action='store_true')
     args = parser.parse_args()
     prefix_length = args.prefix_length
-    dataset = ClipCocoDataset(args.data, prefix_length, normalize_prefix=args.normalize_prefix)
+
+    # dataset = ClipCocoDataset(args.data, prefix_length)
     prefix_dim = 640 if args.is_rn else 512
     args.mapping_type = {'mlp': MappingType.MLP, 'transformer': MappingType.Transformer}[args.mapping_type]
     if args.only_prefix:
@@ -555,7 +558,6 @@ def main():
                                   num_layers=args.num_layers, mapping_type=args.mapping_type)
         print("Train both prefix and GPT")
         sys.stdout.flush()
-    # train(dataset, model, args, output_dir=args.out_dir, output_prefix=args.prefix)
 
     print('predict')
     # image = '../fengyu/image/20200818_榮莊大武崙集合住宅_3_3.jpeg'
@@ -566,7 +568,7 @@ def main():
     image = '../reju/不合格/施工架/e0c9f160-6e01-4c92-9584-293ac69f4342.jpg'
     # image = '../reju/不合格/其他/無交通指揮人員及指揮手-缺.jpg'
     
-    prediction = predict(image, model, use_beam_search=0)
+    prediction = predict(image, model, args.prefix_length, use_beam_search=1)
     print(prediction)
 
 

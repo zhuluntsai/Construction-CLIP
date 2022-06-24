@@ -78,8 +78,8 @@ class ClipCocoDataset(Dataset):
                 self.captions.append(caption['violation_list'])
                 # self.prefixes.append(clip_embedding)
 
-                caption_data = caption['violation_list']
-                attribute = caption['attribute']
+                caption_data = caption['violation_list'] + '。'
+                attribute = caption['attribute'] + '。'
                 self.captions_tokens.append(torch.tensor(self.tokenizer.encode(caption_data), dtype=torch.int64))
                 self.attributes_tokens.append(torch.tensor(self.tokenizer.encode(attribute), dtype=torch.int64))
                 self.caption2embedding.append(caption["clip_embedding"])
@@ -355,7 +355,7 @@ def train(dataset: ClipCocoDataset, model: ClipCaptionModel, args,
         if epoch % args.save_every == 0 or epoch == epochs - 1:
             torch.save(
                 model.state_dict(),
-                os.path.join(output_dir, f"{output_prefix}-{epoch:03d}.pt"),
+                os.path.join(output_dir, f"{output_prefix}-{epoch:04d}.pt"),
             )
     return model
 
@@ -365,11 +365,11 @@ def main():
     parser.add_argument('--data', default='./embedding/ViT-B_32_reju_embedding.pkl')
     parser.add_argument('--out_dir', default='./models')
     parser.add_argument('--prefix', default='coco_prefix', help='prefix for saved filenames')
-    parser.add_argument('--epochs', type=int, default=10)
-    parser.add_argument('--save_every', type=int, default=1)
-    parser.add_argument('--prefix_length', type=int, default=10)
+    parser.add_argument('--epochs', type=int, default=1000)
+    parser.add_argument('--save_every', type=int, default=100)
+    parser.add_argument('--prefix_length', type=int, default=20)
     parser.add_argument('--attribute_length', type=int, default=20)
-    parser.add_argument('--prefix_length_clip', type=int, default=10)
+    parser.add_argument('--prefix_length_clip', type=int, default=20)
     parser.add_argument('--bs', type=int, default=2)
     parser.add_argument('--only_prefix', dest='only_prefix', action='store_true')
     parser.add_argument('--mapping_type', type=str, default='mlp', help='mlp/transformer')

@@ -99,11 +99,11 @@ def main():
     output_dir = 'models'
     output_prefix = 'clip'
 
-    json_path = '../reju/reju.json'
+    json_path = '../all.json'
     image_path = '../'
     lr = 1e-5
     num_warmup_steps = 5000
-    save_every = 10
+    save_every = 1
 
     dataset = ClipPairDataset(preprocess, json_path, image_path, 'violation_type')
     train_dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
