@@ -411,6 +411,8 @@ def count(output_path):
         else:
             count_dict[k] = sum(a[k] != '' for a in all_json['annotations'])
     
+    print('count file: \t\t', output_path)
+    print('total annotation: \t', len(all_json['annotations']))
     print(count_dict)
 
 def add_key(output_path):
@@ -422,14 +424,31 @@ def add_key(output_path):
     with open(output_path, 'w') as outfile:
         json.dump(all_json, outfile, indent = 2, ensure_ascii = False)
 
+
+def combine(path_list):
+    output_path = 'all.json'
+    empty_json = {"type": "captions", "annotations": []}
+
+    for path in path_list:
+
+        all_json = json.load(open(path, 'r'))
+        for a in all_json['annotations']:
+            empty_json['annotations'].append(a)
+
+    print(len(empty_json['annotations']))
+
+    with open(output_path, 'w') as outfile:
+        json.dump(empty_json, outfile, indent = 2, ensure_ascii = False)
+
 def main():
 
     output_path_list = [
         'chienkuo/chienkuo.json',
         'reju/reju.json',
-        'fengyu/fengyu_report.json',
         'fengyu/fengyu_month.json',
         'fengyu/fengyu_other.json',
+        'fengyu/fengyu_report.json',
+        'all.json',
     ]
 
     # convert_report()
@@ -439,9 +458,12 @@ def main():
     # convert_doc()
     # image_name_correction()
 
-    # count(output_path_list[0])
-    for o in output_path_list:
-        add_key(o)
+    count(output_path_list[-1])
+
+    # for o in output_path_list:
+    #     add_key(o)
+
+    # combine(output_path_list)
 
 if __name__ == '__main__':
     main()
