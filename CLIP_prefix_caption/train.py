@@ -362,7 +362,7 @@ def train(dataset: ClipCocoDataset, model: ClipCaptionModel, args,
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', default='./embedding/ViT-B_32_reju_embedding.pkl')
+    parser.add_argument('--data', default='./embedding/ViT-B_32_all_embedding.pkl')
     parser.add_argument('--out_dir', default='./models')
     parser.add_argument('--prefix', default='coco_prefix', help='prefix for saved filenames')
     parser.add_argument('--epochs', type=int, default=1000)

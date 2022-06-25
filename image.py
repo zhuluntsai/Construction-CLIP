@@ -424,6 +424,17 @@ def add_key(output_path):
     with open(output_path, 'w') as outfile:
         json.dump(all_json, outfile, indent = 2, ensure_ascii = False)
 
+def add_path(output_path):
+    all_json = json.load(open(output_path, 'r'))
+    # prefix = 'chienkuo/output_doc/'
+    prefix = 'fengyu/'
+
+    for a in all_json['annotations']:
+        a['file_name'] = prefix + a['file_name'] 
+
+    with open(output_path, 'w') as outfile:
+        json.dump(all_json, outfile, indent = 2, ensure_ascii = False)
+
 
 def combine(path_list):
     output_path = 'all.json'
@@ -447,7 +458,7 @@ def main():
         'reju/reju.json',
         'fengyu/fengyu_month.json',
         'fengyu/fengyu_other.json',
-        'fengyu/fengyu_report.json',
+        # 'fengyu/fengyu_report.json',
         'all.json',
     ]
 
@@ -462,6 +473,7 @@ def main():
 
     # for o in output_path_list:
     #     add_key(o)
+    # add_path(output_path_list[3])
 
     # combine(output_path_list)
 

@@ -9,23 +9,23 @@ from tqdm import tqdm
 import argparse
 import numpy as np
 
-json_path = '../reju/reju.json'
+json_path = '../all.json'
 image_path = '../'
 
 def main(clip_model_type: str):
     device = torch.device('cuda:0')
     clip_model_name = clip_model_type.replace('/', '_')
-    out_path = f"./embedding/{clip_model_name}_reju_embedding.pkl"
+    out_path = f"./embedding/{clip_model_name}_all_embedding.pkl"
 
     model, preprocess = clip.load(clip_model_type, device=device, jit=False)
-    # model_path = '../CLIP/models/clip_latest.pt'
-    # with open(model_path, 'rb') as opened_file: 
-    #     model.load_state_dict(torch.load(opened_file, map_location="cpu"))
+    model_path = '../CLIP/models/clip_latest.pt'
+    with open(model_path, 'rb') as opened_file: 
+        model.load_state_dict(torch.load(opened_file, map_location="cpu"))
     caption_types = {
         'status': '現況',
         'violation': '缺失'
     }
-    violation_types = ['墜落', '防護具', '穿刺', '搬運', '感電', '爆炸', '工作場所', '物料', '機械']
+    violation_types = ['墜落', '防護具', '感電', '工作場所', '物料', '爆炸', '穿刺', '機械', '搬運']
     caption_type_token = clip.tokenize(list(caption_types.keys())).to(device)
     violation_type_token = clip.tokenize(violation_types).to(device)
 

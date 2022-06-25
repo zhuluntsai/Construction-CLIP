@@ -335,7 +335,7 @@ def generate_beam(
     embed=None,
     entry_length=67,
     temperature=1.0,
-    stop_token: str = ".",
+    stop_token: str = "。",
 ):
 
     model.eval()
@@ -476,7 +476,7 @@ def generate2(
 
     return generated_list[0]
 
-def predict(image, model, prefix_length, use_beam_search):
+def predict(image, model, prefix_length, attribute_length, use_beam_search):
     device = torch.device('cuda:0')
 
     model.load_state_dict(torch.load('models/coco_prefix-0500.pt'))
@@ -486,13 +486,12 @@ def predict(image, model, prefix_length, use_beam_search):
         'status': '現況',
         'violation': '缺失'
     }
-    violation_types = ['墜落', '防護具', '穿刺', '搬運', '感電', '爆炸', '工作場所', '物料', '機械']
+    violation_types = ['墜落', '防護具', '感電', '工作場所', '物料', '爆炸', '穿刺', '機械', '搬運']
     caption_type_token = clip.tokenize(list(caption_types.keys())).to(device)
     violation_type_token = clip.tokenize(violation_types).to(device)
 
     clip_model, preprocess = clip.load("ViT-B/32", device=device, jit=False)
     model_path = '../CLIP/models/clip_latest.pt'
-    # model_path = '../CLIP/models/clip_latest.pt'
     with open(model_path, 'rb') as opened_file: 
         clip_model.load_state_dict(torch.load(opened_file, map_location="cpu"))
     pil_image = io.imread(image)
@@ -514,7 +513,9 @@ def predict(image, model, prefix_length, use_beam_search):
 
         attribute = f'{caption_type} {violation_type} '
         attribute = f'缺失 {violation_type} '
-        encode_attribute = torch.tensor(tokenizer.encode(attribute), dtype=torch.int64).to(device)
+        encode_attribute = torch.tensor(tokenizer.encode(attribute), dtype=torch.int64)
+        padding = attribute_length - encode_attribute.shape[0]
+        encode_attribute = torch.cat((encode_attribute, torch.zeros(padding, dtype=torch.int64))).to(device)
 
         prefix_embed = model.clip_project(prefix).reshape(1, prefix_length, -1)
         embedding_text = model.gpt.transformer.wte(encode_attribute).unsqueeze(0)
@@ -531,7 +532,7 @@ def predict(image, model, prefix_length, use_beam_search):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', default='./embedding/ViT-B_32_reju_embedding.pkl')
+    parser.add_argument('--data', default='./embedding/ViT-B_32_all_embedding.pkl')
     parser.add_argument('--out_dir', default='./models')
     parser.add_argument('--prefix', default='coco_prefix', help='prefix for saved filenames')
     parser.add_argument('--prefix_length', type=int, default=20)
@@ -564,14 +565,12 @@ def main():
     # image = '../fengyu/image/20200818_榮莊大武崙集合住宅_17_3.jpeg'
     # image = '../fengyu/image/20201008_美超微廠房_22_3.jpeg'
     # image = '../chienkuo/image/202109_1.jpg'
-    # image = '../chienkuo/image/202104_4.jpg'
-    image = '../reju/不合格/施工架/e0c9f160-6e01-4c92-9584-293ac69f4342.jpg'
+    image = '../chienkuo/output_doc/202104_4.jpg'
+    # image = '../reju/不合格/施工架/e0c9f160-6e01-4c92-9584-293ac69f4342.jpg'
     # image = '../reju/不合格/其他/無交通指揮人員及指揮手-缺.jpg'
     
-    prediction = predict(image, model, args.prefix_length, use_beam_search=1)
+    prediction = predict(image, model, args.prefix_length, args.attribute_length, use_beam_search=1)
     print(prediction)
-
-
 
 if __name__ == '__main__':
     main()
