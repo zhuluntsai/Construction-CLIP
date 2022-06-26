@@ -90,9 +90,9 @@ def main():
 
     model, preprocess = clip.load("ViT-B/32", device=device)
 
-    # model_path = 'models/clip_latest.pt'
-    # with open(model_path, 'rb') as opened_file: 
-    #     model.load_state_dict(torch.load(opened_file, map_location="cpu"))
+    model_path = 'models/clip_latest.pt'
+    with open(model_path, 'rb') as opened_file: 
+        model.load_state_dict(torch.load(opened_file, map_location="cpu"))
 
     batch_size = 1
     epochs = 10
@@ -106,7 +106,7 @@ def main():
     save_every = 1
 
     dataset = ClipPairDataset(preprocess, json_path, image_path, 'violation_type')
-    train_dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+    train_dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=4)
 
     model = model.to(device)
     model.train()

@@ -9,13 +9,13 @@ from tqdm import tqdm
 import argparse
 import numpy as np
 
-json_path = '../all.json'
+json_path = '../fengyu/fengyu_report.json'
 image_path = '../'
 
 def main(clip_model_type: str):
     device = torch.device('cuda:0')
     clip_model_name = clip_model_type.replace('/', '_')
-    out_path = f"./embedding/{clip_model_name}_all_embedding.pkl"
+    out_path = f"./embedding/{clip_model_name}_report_embedding.pkl"
 
     model, preprocess = clip.load(clip_model_type, device=device, jit=False)
     model_path = '../CLIP/models/clip_latest.pt'

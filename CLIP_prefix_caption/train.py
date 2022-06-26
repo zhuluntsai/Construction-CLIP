@@ -73,12 +73,12 @@ class ClipCocoDataset(Dataset):
         self.attributes_tokens = []
         self.caption2embedding = []
         max_seq_len = 0
+        caption_column_name = 'caption'
         for clip_embedding, caption in zip(all_data["clip_embedding"], all_data["captions"]):
-            if caption['violation_list'] != '':
-                self.captions.append(caption['violation_list'])
+            if caption[caption_column_name] != '':
+                self.captions.append(caption[caption_column_name])
                 # self.prefixes.append(clip_embedding)
-
-                caption_data = caption['violation_list'] + '。'
+                caption_data = caption[caption_column_name] + '。'
                 attribute = caption['attribute'] + '。'
                 self.captions_tokens.append(torch.tensor(self.tokenizer.encode(caption_data), dtype=torch.int64))
                 self.attributes_tokens.append(torch.tensor(self.tokenizer.encode(attribute), dtype=torch.int64))
@@ -362,7 +362,7 @@ def train(dataset: ClipCocoDataset, model: ClipCaptionModel, args,
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', default='./embedding/ViT-B_32_all_embedding.pkl')
+    parser.add_argument('--data', default='./embedding/ViT-B_32_report_embedding.pkl')
     parser.add_argument('--out_dir', default='./models')
     parser.add_argument('--prefix', default='coco_prefix', help='prefix for saved filenames')
     parser.add_argument('--epochs', type=int, default=1000)

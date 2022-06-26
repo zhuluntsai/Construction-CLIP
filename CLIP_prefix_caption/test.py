@@ -561,11 +561,11 @@ def main():
         sys.stdout.flush()
 
     print('predict')
-    # image = '../fengyu/image/20200818_榮莊大武崙集合住宅_3_3.jpeg'
-    # image = '../fengyu/image/20200818_榮莊大武崙集合住宅_17_3.jpeg'
-    # image = '../fengyu/image/20201008_美超微廠房_22_3.jpeg'
-    # image = '../chienkuo/image/202109_1.jpg'
-    image = '../chienkuo/output_doc/202104_4.jpg'
+    # image = '../fengyu/report_output/20200818_榮莊大武崙集合住宅_3_3.jpeg'
+    image = '../fengyu/report_output/20200818_榮莊大武崙集合住宅_17_3.jpeg'
+    # image = '../fengyu/report_output/20201008_美超微廠房_22_3.jpeg'
+    # image = '../chienkuo/output_doc/202109_1.jpg'
+    # image = '../chienkuo/output_doc/202104_4.jpg'
     # image = '../reju/不合格/施工架/e0c9f160-6e01-4c92-9584-293ac69f4342.jpg'
     # image = '../reju/不合格/其他/無交通指揮人員及指揮手-缺.jpg'
     
