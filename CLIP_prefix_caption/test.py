@@ -1,4 +1,5 @@
 from lib2to3.pgen2 import token
+from sympy import Q
 import torch
 import torch.nn as nn
 from torch.nn import functional as nnf
@@ -28,6 +29,8 @@ import random
 import clip
 from PIL import Image
 import skimage.io as io
+import matplotlib.pyplot as plt
+from matplotlib import font_manager
 
 seed = 567
 torch.manual_seed(seed)
@@ -36,6 +39,13 @@ np.random.seed(seed)
 random.seed(seed)
 torch.backends.cudnn.enabled=False
 torch.backends.cudnn.deterministic=True
+
+device = torch.device('cuda:0')
+caption_types = { 'status': '現況', 'violation': '缺失' }
+violation_types = ['墜落', '防護具', '感電', '工作場所', '物料', '爆炸', '穿刺', '機械', '搬運']
+caption_type_token = clip.tokenize(list(caption_types.keys())).to(device)
+violation_type_token = clip.tokenize(violation_types).to(device)
+font = font_manager.FontProperties(fname='../STHeiti-Medium.ttc')
 
 class MappingType(Enum):
     MLP = 'mlp'
@@ -333,7 +343,7 @@ def generate_beam(
     beam_size: int = 5,
     prompt=None,
     embed=None,
-    entry_length=67,
+    entry_length=100,
     temperature=1.0,
     stop_token: str = "。",
 ):
@@ -476,59 +486,42 @@ def generate2(
 
     return generated_list[0]
 
-def predict(image, model, prefix_length, attribute_length, use_beam_search):
-    device = torch.device('cuda:0')
-
-    model.load_state_dict(torch.load('models/coco_prefix-0500.pt'))
-    model.to(device)
-
-    caption_types = {
-        'status': '現況',
-        'violation': '缺失'
-    }
-    violation_types = ['墜落', '防護具', '感電', '工作場所', '物料', '爆炸', '穿刺', '機械', '搬運']
-    caption_type_token = clip.tokenize(list(caption_types.keys())).to(device)
-    violation_type_token = clip.tokenize(violation_types).to(device)
-
-    clip_model, preprocess = clip.load("ViT-B/32", device=device, jit=False)
-    model_path = '../CLIP/models/clip_latest.pt'
-    with open(model_path, 'rb') as opened_file: 
-        clip_model.load_state_dict(torch.load(opened_file, map_location="cpu"))
-    pil_image = io.imread(image)
-    image = preprocess(Image.fromarray(pil_image)).unsqueeze(0).to(device)
+def predict(image, model, clip_model, preprocess, prefix_length, attribute_length, use_beam_search):
+    processed_image = preprocess(Image.fromarray(image)).unsqueeze(0).to(device)
     tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
     with torch.no_grad():
-        prefix = clip_model.encode_image(image).to(
+        prefix = clip_model.encode_image(processed_image).to(
             device, dtype=torch.float32
         )
-        logits_per_image, _ = clip_model(image, caption_type_token)
+        logits_per_image, _ = clip_model(processed_image, caption_type_token)
         similarity = logits_per_image.softmax(dim=-1).cpu().numpy()
         index = np.argmax(similarity, axis=1)[0]
         caption_type = list(caption_types.values())[index]
 
-        logits_per_image, _ = clip_model(image, violation_type_token)
+        logits_per_image, _ = clip_model(processed_image, violation_type_token)
         similarity = logits_per_image.softmax(dim=-1).cpu().numpy()
         index = np.argmax(similarity, axis=1)[0]
         violation_type = violation_types[index]
 
         attribute = f'{caption_type} {violation_type} '
-        attribute = f'缺失 {violation_type} '
         encode_attribute = torch.tensor(tokenizer.encode(attribute), dtype=torch.int64)
         padding = attribute_length - encode_attribute.shape[0]
         encode_attribute = torch.cat((encode_attribute, torch.zeros(padding, dtype=torch.int64))).to(device)
 
         prefix_embed = model.clip_project(prefix).reshape(1, prefix_length, -1)
         embedding_text = model.gpt.transformer.wte(encode_attribute).unsqueeze(0)
-        print(prefix_embed.shape)
-        print(embedding_text.shape)
         embedding_cat = torch.cat((prefix_embed, embedding_text), dim=1)
 
-    print(attribute)
     model.eval()
     if use_beam_search:
-        return generate_beam(model, tokenizer, embed=embedding_cat)[0]
+        return generate_beam(model, tokenizer, embed=embedding_cat)[0], attribute
     else:
-        return generate2(model, tokenizer, embed=embedding_cat)
+        return generate2(model, tokenizer, embed=embedding_cat), attribute
+
+def export_plot(img, pred, gt, output_filename):    
+    plt.title(f'pred: {"".join(pred)} \n ground truth: {gt}', fontproperties=font)
+    plt.imshow(img)
+    plt.savefig(output_filename)
 
 def main():
     parser = argparse.ArgumentParser()
@@ -564,13 +557,43 @@ def main():
     # image = '../fengyu/report_output/20200818_榮莊大武崙集合住宅_3_3.jpeg'
     image = '../fengyu/report_output/20200818_榮莊大武崙集合住宅_17_3.jpeg'
     # image = '../fengyu/report_output/20201008_美超微廠房_22_3.jpeg'
+    # image = '../fengyu/report_output/2020818-_宜科標準廠房3F斜撐柱牆_15_2.jpeg'
+    # image = '../fengyu/report_output/20201013_埔基福氣村_10_2.jpeg'
     # image = '../chienkuo/output_doc/202109_1.jpg'
     # image = '../chienkuo/output_doc/202104_4.jpg'
     # image = '../reju/不合格/施工架/e0c9f160-6e01-4c92-9584-293ac69f4342.jpg'
     # image = '../reju/不合格/其他/無交通指揮人員及指揮手-缺.jpg'
+
+    model.load_state_dict(torch.load('models/coco_prefix_attr_0500.pt'))
+    model.to(device)
+
+    clip_model, preprocess = clip.load("ViT-B/32", device=device, jit=False)
+    model_path = '../CLIP/models/clip_latest.pt'
+    with open(model_path, 'rb') as opened_file: 
+        clip_model.load_state_dict(torch.load(opened_file, map_location="cpu"))
+
+    output_log = {'caption': []}
     
-    prediction = predict(image, model, args.prefix_length, args.attribute_length, use_beam_search=1)
-    print(prediction)
+    data = json.load(open('../fengyu/fengyu_report.json'))
+    output_path = 'output'
+    for d in tqdm(data['annotations']):
+        output_filename = os.path.join(output_path, d['file_name'].split('/')[-1])
+        image_path = os.path.join('..', d['file_name'])
+        image = io.imread(image_path)
+        prediction, attribute = predict(image, model, clip_model, preprocess, args.prefix_length, args.attribute_length, use_beam_search=1)
+        export_plot(image, attribute + prediction, d['caption'], output_filename)
+
+        log = {
+            'caption_type': attribute.split(' ')[0],
+            'violation_type': attribute.split(' ')[1],
+            'prediction': prediction,
+            'caption': d['caption'],
+            'file_name': d['file_name'],
+        }
+        output_log['caption'].append(log)
+
+        with open('output_log.json', 'w') as outfile:
+            json.dump(output_log, outfile, indent = 2, ensure_ascii = False)
 
 if __name__ == '__main__':
     main()
