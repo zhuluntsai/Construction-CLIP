@@ -2,6 +2,7 @@ from gc import collect
 from re import A
 import numpy as np
 from regex import P
+from tomlkit import item
 import torch
 from pkg_resources import packaging
 import clip, os, sys, pickle, json
@@ -61,7 +62,7 @@ class ClipPairDataset(Dataset):
         text = clip.tokenize(text)
         return image, text
 
-    def __init__(self, preprocess, json_path: str, image_path: str, key: str):
+    def __init__(self, preprocess, json_path: str, image_path: str, train_ratio: str, key: str, split: str, combination_num:int):
         data = json.load(open(json_path, 'r'))
         self.preprocess = preprocess
         self.image_path = image_path
@@ -72,16 +73,22 @@ class ClipPairDataset(Dataset):
         self.pair = [annotation[key] for annotation in annotations]
 
         c = collections.Counter(self.pair)
-        combination = list(combinations(c.keys(), 2))
+        combination = list(combinations(c.keys(), combination_num))
         self.combination = combination
 
+        train_c = { k: int(v * train_ratio) for k, v in c.items() }
+
         self.dataset_len = c.most_common()[0][1]
-        pair_list = []
+        pair_list = {'train': [], 'test': []}
         for combine in combination:
             pair_dict = { k: [ a for a in annotations if a[key] == k] for k in combine }
-            pair_list.append(pair_dict)
 
-        self.pair_list = pair_list
+            train_pair_dict = { k: v[:train_c[k]] for k, v in pair_dict.items() }
+            test_pair_dict = { k: v[train_c[k]:] for k, v in pair_dict.items() }
+            pair_list['train'].append(train_pair_dict)
+            pair_list['test'].append(test_pair_dict)
+
+        self.pair_list = pair_list[split]
         self.cumulative_sizes = [ max([len(p[d]) for d in p.keys()]) for p in self.pair_list ]
 
 def main():
@@ -90,9 +97,9 @@ def main():
 
     model, preprocess = clip.load("ViT-B/32", device=device)
 
-    model_path = 'models/clip_latest.pt'
-    with open(model_path, 'rb') as opened_file: 
-        model.load_state_dict(torch.load(opened_file, map_location="cpu"))
+    # model_path = 'models/clip_latest.pt'
+    # with open(model_path, 'rb') as opened_file: 
+    #     model.load_state_dict(torch.load(opened_file, map_location="cpu"))
 
     batch_size = 1
     epochs = 10
@@ -104,9 +111,14 @@ def main():
     lr = 1e-5
     num_warmup_steps = 5000
     save_every = 1
+    train_ratio = 0.8
+    combination_num = 9
 
-    dataset = ClipPairDataset(preprocess, json_path, image_path, 'violation_type')
-    train_dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=4)
+    train_dataset = ClipPairDataset(preprocess, json_path, image_path, train_ratio, 'violation_type', 'train', combination_num)
+    test_dataset = ClipPairDataset(preprocess, json_path, image_path, train_ratio, 'violation_type', 'test', combination_num)
+
+    train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
+    test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
 
     model = model.to(device)
     model.train()
@@ -122,6 +134,8 @@ def main():
         sys.stdout.flush()
         progress = tqdm(total=len(train_dataloader), desc=output_prefix)
         loss_list = []
+        accuracy_list = []
+        model.train()
         for idx, (image, text) in enumerate(train_dataloader):
             model.zero_grad()
             image, text = image.to(device).squeeze(0), text.to(device).squeeze(0)
@@ -138,20 +152,44 @@ def main():
             scheduler.step()
             optimizer.zero_grad()
 
+            accuracy = sum(torch.argmax(logits_per_image, dim=1) == label) / len(label)
+
             loss_list.append(loss.item())
+            accuracy_list.append(accuracy.item())
             tf_logger.add_scalar('loss', loss.item(), idx)
             progress.set_postfix({
                 'loss': np.mean(loss_list),
+                'acc': np.mean(accuracy_list),
                 'lr': scheduler.optimizer.param_groups[0]['lr'],
                 })
             progress.update()
 
+        progress = tqdm(total=len(test_dataloader), desc=output_prefix)
+        loss_list = []
+        accuracy_list = []
+        model.eval()
+        with torch.no_grad():
+            for idx, (image, text) in enumerate(test_dataloader):
+                image, text = image.to(device).squeeze(0), text.to(device).squeeze(0)
+                
+                logits_per_image, logits_per_text = model(image, text)
+                label = torch.arange(logits_per_image.shape[0]).to(device)
+
+                accuracy = sum(torch.argmax(logits_per_image, dim=1) == label) / len(label)
+
+                accuracy_list.append(accuracy.item())
+                progress.set_postfix({
+                    'acc': np.mean(accuracy_list),
+                    })
+                progress.update()
+        
         progress.close()
+
         if (epoch + 1) % save_every == 0:
             print('save')
             torch.save(
                 model.state_dict(),
-                os.path.join(output_dir, f"{output_prefix}_latest.pt"),
+                os.path.join(output_dir, f"{output_prefix}_comb{combination_num}_{epoch}.pt"),
             )
 
 
