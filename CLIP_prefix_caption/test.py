@@ -1,5 +1,7 @@
 from lib2to3.pgen2 import token
 from sympy import Q
+from tokenizers import Tokenizer
+import tokenizers
 import torch
 import torch.nn as nn
 from torch.nn import functional as nnf
@@ -92,7 +94,7 @@ class ClipCocoDataset(Dataset):
 
     def __init__(self, data_path: str,  prefix_length: int, attribute_length: int, gpt2_type: str = "gpt2",
                  normalize_prefix=False):
-        self.tokenizer = GPT2Tokenizer.from_pretrained(gpt2_type)
+        self.tokenizer = AutoTokenizer.from_pretrained(gpt2_type)
         self.prefix_length = prefix_length
         self.attribute_length = attribute_length
         self.normalize_prefix = normalize_prefix
@@ -283,10 +285,10 @@ class ClipCaptionModel(nn.Module):
         return out
 
     def __init__(self, prefix_length: int, clip_length: Optional[int] = None, prefix_size: int = 512,
-                 num_layers: int = 8, mapping_type: MappingType = MappingType.MLP):
+                 num_layers: int = 8, mapping_type: MappingType = MappingType.MLP, gpt2_type: str = ''):
         super(ClipCaptionModel, self).__init__()
         self.prefix_length = prefix_length
-        self.gpt = GPT2LMHeadModel.from_pretrained('gpt2')
+        self.gpt = GPT2LMHeadModel.from_pretrained(gpt2_type)
         self.gpt_embedding_size = self.gpt.transformer.wte.weight.shape[1]
         if mapping_type == MappingType.MLP:
             self.clip_project = MLP((prefix_size, (self.gpt_embedding_size * prefix_length) // 2,
@@ -340,16 +342,16 @@ def load_model(config_path: str, epoch_or_latest: Union[str, int] = '_latest'):
 def generate_beam(
     model,
     tokenizer,
-    beam_size: int = 5,
+    beam_size: int = 3,
     prompt=None,
     embed=None,
     entry_length=100,
-    temperature=1.0,
-    stop_token: str = "。",
+    temperature=0.5,
+    stop_token: int = 102,
 ):
 
     model.eval()
-    stop_token_index = tokenizer.encode(stop_token)[0]
+    stop_token_index = stop_token
     tokens = None
     scores = None
     device = next(model.parameters()).device
@@ -423,12 +425,12 @@ def generate2(
     entry_length=67,  # maximum number of words
     top_p=0.8,
     temperature=1.0,
-    stop_token: str = "。",
+    stop_token: int = 102,
 ):
     model.eval()
     generated_num = 0
     generated_list = []
-    stop_token_index = tokenizer.encode(stop_token)[0]
+    stop_token_index = stop_token
     filter_value = -float("Inf")
     device = next(model.parameters()).device
 
@@ -486,24 +488,25 @@ def generate2(
 
     return generated_list[0]
 
-def predict(image, model, clip_model, preprocess, prefix_length, attribute_length, use_beam_search):
+def predict(image, model, clip_model, preprocess, prefix_length, attribute_length, use_beam_search, tokenizer, attribute=''):
     processed_image = preprocess(Image.fromarray(image)).unsqueeze(0).to(device)
-    tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+    # tokenizer = AutoTokenizer.from_pretrained('ckiplab/gpt2-base-chinese')
     with torch.no_grad():
-        prefix = clip_model.encode_image(processed_image).to(
-            device, dtype=torch.float32
-        )
-        logits_per_image, _ = clip_model(processed_image, caption_type_token)
-        similarity = logits_per_image.softmax(dim=-1).cpu().numpy()
-        index = np.argmax(similarity, axis=1)[0]
-        caption_type = list(caption_types.values())[index]
+        prefix = clip_model.encode_image(processed_image).to(device, dtype=torch.float32)
 
-        logits_per_image, _ = clip_model(processed_image, violation_type_token)
-        similarity = logits_per_image.softmax(dim=-1).cpu().numpy()
-        index = np.argmax(similarity, axis=1)[0]
-        violation_type = violation_types[index]
+        if attribute == '':
+            logits_per_image, _ = clip_model(processed_image, caption_type_token)
+            similarity = logits_per_image.softmax(dim=-1).cpu().numpy()
+            index = np.argmax(similarity, axis=1)[0]
+            caption_type = list(caption_types.values())[index]
 
-        attribute = f'{caption_type} {violation_type} '
+            logits_per_image, _ = clip_model(processed_image, violation_type_token)
+            similarity = logits_per_image.softmax(dim=-1).cpu().numpy()
+            index = np.argmax(similarity, axis=1)[0]
+            violation_type = violation_types[index]
+
+            attribute = f'{caption_type} {violation_type} '
+        
         encode_attribute = torch.tensor(tokenizer.encode(attribute), dtype=torch.int64)
         padding = attribute_length - encode_attribute.shape[0]
         encode_attribute = torch.cat((encode_attribute, torch.zeros(padding, dtype=torch.int64))).to(device)
@@ -511,6 +514,13 @@ def predict(image, model, clip_model, preprocess, prefix_length, attribute_lengt
         prefix_embed = model.clip_project(prefix).reshape(1, prefix_length, -1)
         embedding_text = model.gpt.transformer.wte(encode_attribute).unsqueeze(0)
         embedding_cat = torch.cat((prefix_embed, embedding_text), dim=1)
+
+    # stop_token_index = tokenizer.encode('[SEP]')[0]
+    # print(stop_token_index)
+
+    # stop = tokenizer.sep_token
+    # print(stop)
+    # exit()
 
     model.eval()
     if use_beam_search:
@@ -525,7 +535,7 @@ def export_plot(img, pred, gt, output_filename):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', default='./embedding/ViT-B_32_all_embedding.pkl')
+    parser.add_argument('--data', default='./embedding/ViT-B_32_test_embedding.pkl')
     parser.add_argument('--out_dir', default='./models')
     parser.add_argument('--prefix', default='coco_prefix', help='prefix for saved filenames')
     parser.add_argument('--prefix_length', type=int, default=20)
@@ -537,10 +547,10 @@ def main():
     parser.add_argument('--num_layers', type=int, default=8)
     parser.add_argument('--is_rn', dest='is_rn', action='store_true')
     parser.add_argument('--normalize_prefix', dest='normalize_prefix', action='store_true')
+    parser.add_argument('--tokenizer', type=str, default='ckiplab/gpt2-base-chinese', help='ckiplab/gpt2-base-chinese / gpt2')
     args = parser.parse_args()
     prefix_length = args.prefix_length
 
-    # dataset = ClipCocoDataset(args.data, prefix_length)
     prefix_dim = 640 if args.is_rn else 512
     args.mapping_type = {'mlp': MappingType.MLP, 'transformer': MappingType.Transformer}[args.mapping_type]
     if args.only_prefix:
@@ -549,7 +559,7 @@ def main():
         print("Train only prefix")
     else:
         model = ClipCaptionModel(prefix_length, clip_length=args.prefix_length_clip, prefix_size=prefix_dim,
-                                  num_layers=args.num_layers, mapping_type=args.mapping_type)
+                                  num_layers=args.num_layers, mapping_type=args.mapping_type, gpt2_type=args.tokenizer)
         print("Train both prefix and GPT")
         sys.stdout.flush()
 
@@ -564,24 +574,30 @@ def main():
     # image = '../reju/不合格/施工架/e0c9f160-6e01-4c92-9584-293ac69f4342.jpg'
     # image = '../reju/不合格/其他/無交通指揮人員及指揮手-缺.jpg'
 
-    model.load_state_dict(torch.load('models/coco_prefix_attr_0500.pt'))
+    suffix = 'ct'
+    model.load_state_dict(torch.load(f'models/coco_prefix_{suffix}-0399.pt'))
     model.to(device)
 
     clip_model, preprocess = clip.load("ViT-B/32", device=device, jit=False)
-    model_path = '../CLIP/models/clip_latest.pt'
+    model_path = '../CLIP/models/clip_comb2_0_comb9_6_cap2_5.pt'
     with open(model_path, 'rb') as opened_file: 
         clip_model.load_state_dict(torch.load(opened_file, map_location="cpu"))
 
     output_log = {'caption': []}
     
-    data = json.load(open('../fengyu/fengyu_report.json'))
-    output_path = 'output'
+    data = json.load(open('../test.json'))
+    output_path = f'output/{suffix}'
+    tokenizer = AutoTokenizer.from_pretrained(args.tokenizer) 
     for d in tqdm(data['annotations']):
         output_filename = os.path.join(output_path, d['file_name'].split('/')[-1])
         image_path = os.path.join('..', d['file_name'])
         image = io.imread(image_path)
-        prediction, attribute = predict(image, model, clip_model, preprocess, args.prefix_length, args.attribute_length, use_beam_search=1)
-        export_plot(image, attribute + prediction, d['caption'], output_filename)
+        gt_attribute = f"{caption_types[d['caption_type']]} {d['violation_type']} "
+        attribute = ''
+        prediction, attribute = predict(image, model, clip_model, preprocess, args.prefix_length, args.attribute_length, 1, tokenizer, attribute)
+        if d['caption'] is '':
+            d['caption'] = d['violation_list']
+        export_plot(image, attribute + prediction, gt_attribute + d['caption'], output_filename)
 
         log = {
             'caption_type': attribute.split(' ')[0],
@@ -592,7 +608,7 @@ def main():
         }
         output_log['caption'].append(log)
 
-        with open('output_log.json', 'w') as outfile:
+        with open(f'output_{suffix}.json', 'w') as outfile:
             json.dump(output_log, outfile, indent = 2, ensure_ascii = False)
 
 if __name__ == '__main__':
