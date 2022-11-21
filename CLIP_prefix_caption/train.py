@@ -3,7 +3,7 @@ import torch.nn as nn
 from torch.nn import functional as nnf
 from torch.utils.data import Dataset, DataLoader
 from enum import Enum
-from transformers import GPT2Tokenizer, GPT2LMHeadModel, AdamW, get_linear_schedule_with_warmup, AutoTokenizer, AutoModelForCausalLM
+from transformers import GPT2Tokenizer, GPT2LMHeadModel, AdamW, get_linear_schedule_with_warmup, AutoTokenizer, AutoModelForCausalLM, BloomTokenizerFast, BloomForCausalLM
 from tqdm import tqdm
 import os
 import pickle
@@ -65,6 +65,7 @@ class ClipCocoDataset(Dataset):
     def __init__(self, data_path: str,  prefix_length: int, attribute_length: int, gpt2_type: str = '',
                  normalize_prefix=False):
         self.tokenizer = AutoTokenizer.from_pretrained(gpt2_type)
+        # self.tokenizer = BloomTokenizerFast.from_pretrained("bigscience/bloom-560m")
         self.prefix_length = prefix_length
         self.attribute_length = attribute_length
         self.normalize_prefix = normalize_prefix
@@ -90,10 +91,10 @@ class ClipCocoDataset(Dataset):
             caption_data = caption[caption_column_name] # + '。'
             attribute = caption['attribute'] # + '。'
 
-            print(caption_data)
-            print(self.tokenizer.encode(caption_data))
-            print(self.tokenizer.decode(self.tokenizer.encode(caption_data)))
-            exit()
+            # print(caption_data)
+            # print(self.tokenizer.encode(caption_data))
+            # print(self.tokenizer.decode(self.tokenizer.encode(caption_data)))
+            # exit()
             
             self.captions_tokens.append(torch.tensor(self.tokenizer.encode(caption_data), dtype=torch.int64))
             self.attributes_tokens.append(torch.tensor(self.tokenizer.encode(attribute), dtype=torch.int64))
@@ -255,28 +256,29 @@ class ClipCaptionModel(nn.Module):
     def forward(self, tokens: torch.Tensor, prefix: torch.Tensor, attribute: torch.Tensor, mask: Optional[torch.Tensor]=None,
                 labels: Optional[torch.Tensor] = None):
         embedding_text = torch.cat((attribute, tokens), dim=1)
-        embedding_text = self.gpt.transformer.wte(embedding_text)
+        embedding_text = self.model.transformer.wte(embedding_text)
+        # embedding_text = self.model.transformer.word_embeddings(embedding_text)
 
-        prefix_projections = self.clip_project(prefix).view(-1, self.prefix_length, self.gpt_embedding_size)
+        prefix_projections = self.clip_project(prefix).view(-1, self.prefix_length, self.model_embedding_size)
         embedding_cat = torch.cat((prefix_projections, embedding_text), dim=1)
         
         if labels is not None:
             dummy_token = self.get_dummy_token(tokens.shape[0], tokens.device)
             labels = torch.cat((dummy_token, tokens), dim=1)
-        out = self.gpt(inputs_embeds=embedding_cat, labels=labels, attention_mask=mask)
+        out = self.model(inputs_embeds=embedding_cat, labels=labels, attention_mask=mask)
         return out
 
     def __init__(self, prefix_length: int, clip_length: Optional[int] = None, prefix_size: int = 512,
                  num_layers: int = 8, mapping_type: MappingType = MappingType.MLP, gpt2_type: str = ''):
         super(ClipCaptionModel, self).__init__()
         self.prefix_length = prefix_length
-        self.gpt = GPT2LMHeadModel.from_pretrained(gpt2_type)
-        self.gpt_embedding_size = self.gpt.transformer.wte.weight.shape[1]
+        self.model = GPT2LMHeadModel.from_pretrained(gpt2_type)
+        self.model_embedding_size = self.model.transformer.wte.weight.shape[1]
         if mapping_type == MappingType.MLP:
-            self.clip_project = MLP((prefix_size, (self.gpt_embedding_size * prefix_length) // 2,
-                                     self.gpt_embedding_size * prefix_length))
+            self.clip_project = MLP((prefix_size, (self.model_embedding_size * prefix_length) // 2,
+                                     self.model_embedding_size * prefix_length))
         else:
-            self.clip_project = TransformerMapper(prefix_size, self.gpt_embedding_size, prefix_length,
+            self.clip_project = TransformerMapper(prefix_size, self.model_embedding_size, prefix_length,
                                                                      clip_length, num_layers)
 
 
@@ -390,7 +392,7 @@ def main():
     parser.add_argument('--prefix_length', type=int, default=20)
     parser.add_argument('--attribute_length', type=int, default=20)
     parser.add_argument('--prefix_length_clip', type=int, default=20)
-    parser.add_argument('--bs', type=int, default=2)
+    parser.add_argument('--bs', type=int, default=1)
     parser.add_argument('--only_prefix', dest='only_prefix', action='store_true')
     parser.add_argument('--mapping_type', type=str, default='mlp', help='mlp/transformer')
     parser.add_argument('--num_layers', type=int, default=8)
