@@ -33,6 +33,7 @@ from PIL import Image
 import skimage.io as io
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
+import plotly.express as px
 
 seed = 567
 torch.manual_seed(seed)
@@ -338,6 +339,16 @@ def load_model(config_path: str, epoch_or_latest: Union[str, int] = '_latest'):
         print(f"{model_path} is not exist")
     return model, parser
 
+def attention_map(attention_list):
+    for i, attention in enumerate(attention_list):
+        while len(attention) < len(attention_list[-1]):
+            attention = np.append(attention, 1)
+        attention_list[i] = attention
+
+    attention_list = np.array(attention_list)
+    fig = px.imshow(attention_list)
+    fig.show()
+
 
 def generate_beam(
     model,
@@ -357,6 +368,7 @@ def generate_beam(
     device = next(model.parameters()).device
     seq_lengths = torch.ones(beam_size, device=device)
     is_stopped = torch.zeros(beam_size, device=device, dtype=torch.bool)
+    attention_list = []
     with torch.no_grad():
         if embed is not None:
             generated = embed
@@ -366,7 +378,17 @@ def generate_beam(
                 tokens = tokens.unsqueeze(0).to(device)
                 generated = model.gpt.transformer.wte(tokens)
         for i in range(entry_length):
-            outputs = model.gpt(inputs_embeds=generated)
+            outputs = model.gpt(inputs_embeds=generated, output_attentions=True)
+
+            attention_list.append(outputs.attentions[-1][:, -1, -1, :][0].cpu().detach().numpy())
+            print(outputs.attentions[-1][:, -1, -1, :].shape)
+            print(outputs.attentions[-1][0, -1, -1, :])
+            try:
+                print(outputs.attentions[-1][1, -1, -1, :])
+                print(outputs.attentions[-1][2, -1, -1, :])
+            except:
+                pass
+
             logits = outputs.logits
             logits = logits[:, -1, :] / (temperature if temperature > 0 else 1.0)
             logits = logits.softmax(-1).log()
@@ -412,6 +434,9 @@ def generate_beam(
     ]
     order = scores.argsort(descending=True)
     output_texts = [output_texts[i] for i in order]
+
+    attention_map(attention_list)
+    
     return output_texts
 
 
@@ -492,6 +517,7 @@ def predict(image, model, clip_model, preprocess, prefix_length, attribute_lengt
     processed_image = preprocess(Image.fromarray(image)).unsqueeze(0).to(device)
     # tokenizer = AutoTokenizer.from_pretrained('ckiplab/gpt2-base-chinese')
     with torch.no_grad():
+        # print(clip_model)
         prefix = clip_model.encode_image(processed_image).to(device, dtype=torch.float32)
 
         if attribute == '':
@@ -515,12 +541,6 @@ def predict(image, model, clip_model, preprocess, prefix_length, attribute_lengt
         embedding_text = model.gpt.transformer.wte(encode_attribute).unsqueeze(0)
         embedding_cat = torch.cat((prefix_embed, embedding_text), dim=1)
 
-    # stop_token_index = tokenizer.encode('[SEP]')[0]
-    # print(stop_token_index)
-
-    # stop = tokenizer.sep_token
-    # print(stop)
-    # exit()
 
     model.eval()
     if use_beam_search:
@@ -582,19 +602,23 @@ def main():
     model_path = '../CLIP/models/clip_comb2_0_comb9_6_cap2_5.pt'
     with open(model_path, 'rb') as opened_file: 
         clip_model.load_state_dict(torch.load(opened_file, map_location="cpu"))
-
     output_log = {'caption': []}
     
     data = json.load(open('../test.json'))
     output_path = f'output/{suffix}'
     tokenizer = AutoTokenizer.from_pretrained(args.tokenizer) 
     for d in tqdm(data['annotations']):
+        d = data['annotations'][9]
         output_filename = os.path.join(output_path, d['file_name'].split('/')[-1])
         image_path = os.path.join('..', d['file_name'])
         image = io.imread(image_path)
         gt_attribute = f"{caption_types[d['caption_type']]} {d['violation_type']} "
         attribute = ''
+        # print(clip_model)
+        # print(model)
+        # exit()
         prediction, attribute = predict(image, model, clip_model, preprocess, args.prefix_length, args.attribute_length, 1, tokenizer, attribute)
+
         if d['caption'] is '':
             d['caption'] = d['violation_list']
         export_plot(image, attribute + prediction, gt_attribute + d['caption'], output_filename)
@@ -610,6 +634,9 @@ def main():
 
         with open(f'output_{suffix}.json', 'w') as outfile:
             json.dump(output_log, outfile, indent = 2, ensure_ascii = False)
+
+        print(log)
+        break
 
 if __name__ == '__main__':
     main()
