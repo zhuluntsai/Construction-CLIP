@@ -24,8 +24,6 @@ from torch.utils.tensorboard import SummaryWriter
 
 # https://tensorboard.dev/experiment/tNb8P9H2RnOzHNOAEYnayw/
 
-model_name = 'clip'
-tf_logger = SummaryWriter(log_dir=f'log/{model_name}')
 
 seed = 567
 torch.manual_seed(seed)
@@ -78,7 +76,7 @@ class ClipPairDataset(Dataset):
 
         train_c = { k: int(v * train_ratio) for k, v in c.items() }
 
-        self.dataset_len = c.most_common()[0][1]
+        # self.dataset_len = c.most_common()[0][1]
         pair_list = {'train': [], 'test': []}
         for combine in combination:
             pair_dict = { k: [ a for a in annotations if a[key] == k] for k in combine }
@@ -89,20 +87,38 @@ class ClipPairDataset(Dataset):
             pair_list['test'].append(test_pair_dict)
 
         self.pair_list = pair_list[split]
-        self.cumulative_sizes = [ max([len(p[d]) for d in p.keys()]) for p in self.pair_list ]
+        # self.cumulative_sizes = [ min([len(p[d]) for d in p.keys()]) for p in self.pair_list ]
+        self.cumulative_sizes = [ 50 for p in self.pair_list ]
 
+        # pair_dict = { k: [ a for a in annotations if a[key] == k] for k in train_c.keys() }
+        # pair_dict = { k: v[train_c[k]:] for k, v in pair_dict.items() }
+        # pair_list = [v for value in pair_dict.values() for v in value]
+
+        # empty_json = {"type": "captions", "annotations": pair_list}
+        # with open('../test.json', 'w') as outfile:
+        #     json.dump(empty_json, outfile, indent = 2, ensure_ascii = False)
+        
 def main():
     print("Torch version:", torch.__version__)
     device = torch.device('cuda:0')
 
     model, preprocess = clip.load("ViT-B/32", device=device)
 
-    # model_path = 'models/clip_latest.pt'
-    # with open(model_path, 'rb') as opened_file: 
-    #     model.load_state_dict(torch.load(opened_file, map_location="cpu"))
+    model_prefix = ''
+    model_prefix = 'balance_comb2_699'
+    model_path = f'models/clip_{model_prefix}.pt'
+    with open(model_path, 'rb') as opened_file: 
+        model.load_state_dict(torch.load(opened_file, map_location="cpu"))
+    # model_path = f'models/clip_comb2_0_comb9_6.pt'
 
+    # step = 3490
+    # step = 41670
+    step = 0
+    test_step = 0
+    combination_num = 9
+    key = 'violation_type' # caption_type violation_type
     batch_size = 1
-    epochs = 10
+    epochs = 1000
     output_dir = 'models'
     output_prefix = 'clip'
 
@@ -110,12 +126,14 @@ def main():
     image_path = '../'
     lr = 1e-5
     num_warmup_steps = 5000
-    save_every = 1
+    save_every = 100
     train_ratio = 0.8
-    combination_num = 9
 
-    train_dataset = ClipPairDataset(preprocess, json_path, image_path, train_ratio, 'violation_type', 'train', combination_num)
-    test_dataset = ClipPairDataset(preprocess, json_path, image_path, train_ratio, 'violation_type', 'test', combination_num)
+    model_name = f'{model_prefix}_comb{combination_num}'
+    tf_logger = SummaryWriter(log_dir=f'log/{model_name}')
+
+    train_dataset = ClipPairDataset(preprocess, json_path, image_path, train_ratio, key, 'train', combination_num)
+    test_dataset = ClipPairDataset(preprocess, json_path, image_path, train_ratio, key, 'test', combination_num)
 
     train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
     test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
@@ -156,7 +174,10 @@ def main():
 
             loss_list.append(loss.item())
             accuracy_list.append(accuracy.item())
-            tf_logger.add_scalar('loss', loss.item(), idx)
+            tf_logger.add_scalar('training loss', loss.item(), step)
+            tf_logger.add_scalar('training accuracy', accuracy.item(), step)
+            tf_logger.add_scalar('learning rate', scheduler.optimizer.param_groups[0]['lr'], step)
+            step += 1
             progress.set_postfix({
                 'loss': np.mean(loss_list),
                 'acc': np.mean(accuracy_list),
@@ -177,6 +198,8 @@ def main():
 
                 accuracy = sum(torch.argmax(logits_per_image, dim=1) == label) / len(label)
 
+                tf_logger.add_scalar('testing accuracy', accuracy.item(), test_step)
+                test_step += 1
                 accuracy_list.append(accuracy.item())
                 progress.set_postfix({
                     'acc': np.mean(accuracy_list),
@@ -189,7 +212,8 @@ def main():
             print('save')
             torch.save(
                 model.state_dict(),
-                os.path.join(output_dir, f"{output_prefix}_comb{combination_num}_{epoch}.pt"),
+                # os.path.join(output_dir, f"{output_prefix}_{model_prefix}_cap{combination_num}_{epoch}.pt"),
+                os.path.join(output_dir, f"{output_prefix}_{model_prefix}_comb{combination_num}_{epoch}.pt"),
             )
 
 
