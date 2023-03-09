@@ -5,7 +5,7 @@ import json
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from PIL import Image
 from flask import Flask, jsonify, request
-from CLIP import clip
+import clip
 from transformers import GPT2LMHeadModel, AutoTokenizer
 from typing import Tuple, Optional, Union
 import torch.nn as nn
@@ -39,7 +39,7 @@ def get_caption_model(model_path):
 
     model = ClipCaptionModel(prefix_length, clip_length=prefix_length_clip, prefix_size=prefix_dim,
                                   num_layers=8, gpt2_type=gpt2_type)
-    model.load_state_dict(torch.load(model_path))
+    model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
     model.to(device)
 
     tokenizer = AutoTokenizer.from_pretrained(gpt2_type)
@@ -105,7 +105,7 @@ def image_caption(image, caption_type, violation_type):
     embedding_text = caption_model.gpt.transformer.wte(encode_attribute).unsqueeze(0)
     embedding_cat = torch.cat((prefix_embed, embedding_text), dim=1)
 
-    return generate_beam(caption_model, tokenizer, embed=embedding_cat)[0]
+    return generate_beam(caption_model, tokenizer, embed=embedding_cat)
 
 class MLP(nn.Module):
 
@@ -222,9 +222,11 @@ def generate_beam(
         for output, length in zip(output_list, seq_lengths)
     ]
     order = scores.argsort(descending=True)
-    output_texts = [output_texts[i] for i in order]
+    output_text = [output_texts[i] for i in order][0]
 
-    return output_texts
+    output_text.replace('CLS', '').replace('SEP', '').replace(' ', '')
+
+    return output_text
 
 @application.route('/predict', methods=['POST'])
 def predict():
