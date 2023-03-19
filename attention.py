@@ -5,6 +5,7 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 from captum.attr import visualization
+from IPython.core.display import HTML
 
 start_layer =  -1
 start_layer_text =  -1
@@ -122,14 +123,31 @@ def show_heatmap_on_text(text, text_encoding, R_text):
   R_text = R_text[CLS_idx, 1:CLS_idx]
   text_scores = R_text / R_text.sum()
   text_scores = text_scores.flatten()
-  print('score: ', text_scores)
-  text_tokens=_tokenizer.encode(text)
-  text_tokens_decoded=[_tokenizer.decode([a]) for a in text_tokens]
-  print('text: ', text)
-  print('encode: ', text_tokens)
-  print('decode: ', text_tokens_decoded)
-  vis_data_records = [visualization.VisualizationDataRecord(text_scores,0,0,0,0,0,text_tokens_decoded,1)]
-  visualization.visualize_text(vis_data_records)
+
+  text_list = [t for t in text]
+  text_tokens=[_tokenizer.encode(t) for t in text_list]
+
+  score = []
+  score_list = []
+  i = 0
+  for s in text_scores:
+    score.append(s)
+
+    if len(score) == len(text_tokens[i]):
+      score_list.append(sum(score).item())
+      score = []
+      i += 1
+
+  # print('encode: ', len(text_tokens), text_tokens)
+  # print('score: ', len(text_scores), text_scores)
+  # print('score list: ', len(score_list), score_list)
+  # print('text: ', len(text_list), text_list)
+
+  vis_data_records = [visualization.VisualizationDataRecord(score_list,0,0,0,0,0,text,1)]
+  
+  html = visualization.visualize_text(vis_data_records).data
+  with open('test.html', 'w') as f:
+    f.write(html)
 
 img_path = 'fengyu/2022年02月照片/筏基孔未設置覆蓋，應圈圍三角錐及連桿警示-2.jpg'
 img = preprocess(Image.open(img_path)).unsqueeze(0).to(device)
