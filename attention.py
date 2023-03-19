@@ -1,5 +1,5 @@
 import torch
-import CLIP.clip as clip
+import TransformerMMExplainability.CLIP.clip as clip
 from PIL import Image
 import numpy as np
 import cv2
@@ -97,8 +97,8 @@ def show_image_relevance(image_relevance, image, orig_image):
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model, preprocess = clip.load("ViT-B/32", device=device, jit=False)
 
-# model_path = '../CLIP/models/clip_comb2_0_comb9_6_cap2_5.pt'
-model_path = '../CLIP/models/clip__comb9_999.pt'
+# model_path = 'CLIP/models/clip_comb2_0_comb9_6_cap2_5.pt'
+model_path = 'CLIP/models/clip__comb9_999.pt'
 with open(model_path, 'rb') as opened_file: 
     model.load_state_dict(torch.load(opened_file, map_location="cpu"))
 
@@ -131,7 +131,7 @@ def show_heatmap_on_text(text, text_encoding, R_text):
   vis_data_records = [visualization.VisualizationDataRecord(text_scores,0,0,0,0,0,text_tokens_decoded,1)]
   visualization.visualize_text(vis_data_records)
 
-img_path = '../fengyu/2022年02月照片/筏基孔未設置覆蓋，應圈圍三角錐及連桿警示-2.jpg'
+img_path = 'fengyu/2022年02月照片/筏基孔未設置覆蓋，應圈圍三角錐及連桿警示-2.jpg'
 img = preprocess(Image.open(img_path)).unsqueeze(0).to(device)
 # texts = ["缺失 現況"]
 texts = ["開口未設安全護欄"]
