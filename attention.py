@@ -5,7 +5,8 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 from captum.attr import visualization
-from IPython.core.display import HTML
+import warnings
+warnings.simplefilter("ignore", UserWarning)
 
 start_layer =  -1
 start_layer_text =  -1
@@ -24,10 +25,10 @@ def interpret(image, texts, model, device, start_layer=start_layer, start_layer_
 
     image_attn_blocks = list(dict(model.visual.transformer.resblocks.named_children()).values())
 
-    if start_layer == -1: 
-      # calculate index of last layer 
-      start_layer = len(image_attn_blocks) - 1
-    
+    if start_layer == -1:
+        # calculate index of last layer
+        start_layer = len(image_attn_blocks) - 1
+
     num_tokens = image_attn_blocks[0].attn_probs.shape[-1]
     R = torch.eye(num_tokens, num_tokens, dtype=image_attn_blocks[0].attn_probs.dtype).to(device)
     R = R.unsqueeze(0).expand(batch_size, num_tokens, num_tokens)
@@ -44,19 +45,20 @@ def interpret(image, texts, model, device, start_layer=start_layer, start_layer_
         R = R + torch.bmm(cam, R)
     image_relevance = R[:, 0, 1:]
 
-    
+
     text_attn_blocks = list(dict(model.transformer.resblocks.named_children()).values())
 
-    if start_layer_text == -1: 
-      # calculate index of last layer 
-      start_layer_text = len(text_attn_blocks) - 1
+    if start_layer_text == -1:
+        # calculate index of last layer
+        start_layer_text = len(text_attn_blocks) - 1
 
     num_tokens = text_attn_blocks[0].attn_probs.shape[-1]
     R_text = torch.eye(num_tokens, num_tokens, dtype=text_attn_blocks[0].attn_probs.dtype).to(device)
     R_text = R_text.unsqueeze(0).expand(batch_size, num_tokens, num_tokens)
+    
     for i, blk in enumerate(text_attn_blocks):
         if i < start_layer_text:
-          continue
+            continue
         grad = torch.autograd.grad(one_hot, [blk.attn_probs], retain_graph=True)[0].detach()
         cam = blk.attn_probs.detach()
         cam = cam.reshape(-1, cam.shape[-1], cam.shape[-1])
@@ -65,8 +67,9 @@ def interpret(image, texts, model, device, start_layer=start_layer, start_layer_
         cam = cam.reshape(batch_size, -1, cam.shape[-1], cam.shape[-1])
         cam = cam.clamp(min=0).mean(dim=1)
         R_text = R_text + torch.bmm(cam, R_text)
+    
     text_relevance = R_text
-   
+
     return text_relevance, image_relevance
 
 def show_image_relevance(image_relevance, image, orig_image):
@@ -95,14 +98,6 @@ def show_image_relevance(image_relevance, image, orig_image):
     axs[1].imshow(vis);
     axs[1].axis('off');
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
-model, preprocess = clip.load("ViT-B/32", device=device, jit=False)
-
-# model_path = 'CLIP/models/clip_comb2_0_comb9_6_cap2_5.pt'
-model_path = 'CLIP/models/clip__comb9_999.pt'
-with open(model_path, 'rb') as opened_file: 
-    model.load_state_dict(torch.load(opened_file, map_location="cpu"))
-
 class color:
    PURPLE = '\033[95m'
    CYAN = '\033[96m'
@@ -115,63 +110,59 @@ class color:
    UNDERLINE = '\033[4m'
    END = '\033[0m'
 
-from CLIP.clip.simple_tokenizer import SimpleTokenizer as _Tokenizer
-_tokenizer = _Tokenizer()
-
 def show_heatmap_on_text(text, text_encoding, R_text):
-  CLS_idx = text_encoding.argmax(dim=-1)
-  R_text = R_text[CLS_idx, 1:CLS_idx]
-  text_scores = R_text / R_text.sum()
-  text_scores = text_scores.flatten()
+    _tokenizer = clip.simple_tokenizer.SimpleTokenizer()
+    CLS_idx = text_encoding.argmax(dim=-1)
+    R_text = R_text[CLS_idx, 1:CLS_idx]
+    text_scores = R_text / R_text.sum()
+    text_scores = text_scores.flatten()
 
-  text_list = [t for t in text]
-  text_tokens=[_tokenizer.encode(t) for t in text_list]
+    text_list = [t for t in text]
+    text_tokens=[_tokenizer.encode(t) for t in text_list]
 
-  score = []
-  score_list = []
-  i = 0
-  for s in text_scores:
-    score.append(s)
+    score = []
+    score_list = []
+    i = 0
+    for s in text_scores:
+        score.append(s)
 
-    if len(score) == len(text_tokens[i]):
-      score_list.append(sum(score).item())
-      score = []
-      i += 1
+        if len(score) == len(text_tokens[i]):
+            score_list.append(sum(score).item())
+            score = []
+            i += 1
 
-  # print('encode: ', len(text_tokens), text_tokens)
-  # print('score: ', len(text_scores), text_scores)
-  # print('score list: ', len(score_list), score_list)
-  # print('text: ', len(text_list), text_list)
+    # print('encode: ', len(text_tokens), text_tokens)
+    # print('score: ', len(text_scores), text_scores)
+    # print('score list: ', len(score_list), score_list)
+    # print('text: ', len(text_list), text_list)
 
-  vis_data_records = [visualization.VisualizationDataRecord(score_list,0,0,0,0,0,text,1)]
-  
-  html = visualization.visualize_text(vis_data_records).data
-  with open('test.html', 'w') as f:
-    f.write(html)
+    vis_data_records = [visualization.VisualizationDataRecord(score_list,0,0,0,0,0,text,1)]
 
-img_path = 'fengyu/2022年02月照片/筏基孔未設置覆蓋，應圈圍三角錐及連桿警示-2.jpg'
-img = preprocess(Image.open(img_path)).unsqueeze(0).to(device)
-# texts = ["缺失 現況"]
-texts = ["開口未設安全護欄"]
-text = clip.tokenize(texts).to(device)
+    html = visualization.visualize_text(vis_data_records).data
+    with open('test.html', 'w') as f:
+        f.write(html)
 
-R_text, R_image = interpret(model=model, image=img, texts=text, device=device)
-batch_size = text.shape[0]
-for i in range(batch_size):
-  show_heatmap_on_text(texts[i], text[i], R_text[i])
-  show_image_relevance(R_image[i], img, orig_image=Image.open(img_path))
-  plt.savefig('test1.png')
 
-# img_path = "CLIP/glasses.png"
-# img = preprocess(Image.open(img_path)).unsqueeze(0).to(device)
-# texts = ["a man with eyeglasses"]
-# text = clip.tokenize(texts).to(device)
+def main():
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    model, preprocess = clip.load("ViT-B/32", device=device, jit=False)
 
-# R_text, R_image = interpret(model=model, image=img, texts=text, device=device)
-# batch_size = text.shape[0]
-# for i in range(batch_size):
-#   show_heatmap_on_text(texts[i], text[i], R_text[i])
-#   show_image_relevance(R_image[i], img, orig_image=Image.open(img_path))
-#   plt.savefig('test2.png')
-  
+    # model_path = 'CLIP/models/clip_comb2_0_comb9_6_cap2_5.pt'
+    model_path = 'CLIP/models/clip__comb9_999.pt'
+    model.load_state_dict(torch.load(model_path, map_location="cpu"))
 
+    img_path = 'fengyu/2022年02月照片/筏基孔未設置覆蓋，應圈圍三角錐及連桿警示-2.jpg'
+    img = preprocess(Image.open(img_path)).unsqueeze(0).to(device)
+    # texts = ["缺失 現況"]
+    texts = ["開口未設安全護欄"]
+    text = clip.tokenize(texts).to(device)
+
+    R_text, R_image = interpret(model=model, image=img, texts=text, device=device)
+    batch_size = text.shape[0]
+    for i in range(batch_size):
+        show_heatmap_on_text(texts[i], text[i], R_text[i])
+        show_image_relevance(R_image[i], img, orig_image=Image.open(img_path))
+        plt.savefig('test1.png')
+
+if __name__ == '__main__':
+    main()
