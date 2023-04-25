@@ -142,6 +142,13 @@ def show_heatmap_on_text(text, text_encoding, R_text):
     with open('test.html', 'w') as f:
         f.write(html)
 
+def get_clip_attention_model(model_path, device):
+    print('get clip attention model')
+    model, preprocess = clip.load("ViT-B/32", device=device, jit=False)
+    with open(model_path, 'rb') as opened_file: 
+        model.load_state_dict(torch.load(opened_file, map_location="cpu"))
+    
+    return model, preprocess
 
 def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
